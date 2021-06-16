@@ -90,16 +90,19 @@ namespace DailyBuildFriend
             // 
             // columnHeader1
             // 
+            this.columnHeader1.Name = "columnHeader1";
             this.columnHeader1.Text = "タスク";
             this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
+            this.columnHeader2.Name = "columnHeader2";
             this.columnHeader2.Text = "最終更新日";
             this.columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
+            this.columnHeader3.Name = "columnHeader3";
             this.columnHeader3.Text = "フォルダ";
             // 
             // contextMenuStrip1
