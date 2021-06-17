@@ -1,5 +1,5 @@
 ﻿using DailyBuildFriend.Model;
-using DailyBuildFriendWindowForm.Controller;
+using DailyBuildFriend.Controller;
 using System;
 using System.Windows.Forms;
 

@@ -1,7 +1,7 @@
 ﻿using DailyBuildFriend.Model;
 using System.Collections.Generic;
 
-namespace DailyBuildFriendWindowForm.Data
+namespace DailyBuildFriend.Data
 {
     internal class DailyBuildContext
     {
