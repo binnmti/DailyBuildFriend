@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Controller\TaskController.cs" />
     <Compile Include="Data\DailyBuildContext.cs" />
-    <Compile Include="INeedTask.cs" />
     <Compile Include="TaskForm.cs">
       <SubType>Form</SubType>
     </Compile>

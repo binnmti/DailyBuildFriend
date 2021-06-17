@@ -10,10 +10,5 @@ namespace DailyBuildFriend.Model
         public static bool Validation(string name)
             => !Regex.IsMatch(name, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+");
     }
-
-    public record Class(string Str)
-    {
-        internal int Int { get; init; }
-    }
 }
 

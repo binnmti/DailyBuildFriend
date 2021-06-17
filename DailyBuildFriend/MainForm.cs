@@ -19,10 +19,7 @@ namespace DailyBuildFriend
         {
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
             var form = new TaskForm(Tasks[index]);
-            if(form.ShowDialog() == DialogResult.OK)
-            {
-                Tasks[index] = form.Task;
-            }
+            if (form.ShowDialog() == DialogResult.OK) Tasks[index] = form.Task;
         }
     }
 }
