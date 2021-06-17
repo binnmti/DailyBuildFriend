@@ -1,18 +1,18 @@
 ﻿using DailyBuildFriend.Model;
+using DailyBuildFriendWindowForm.Controller;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace DailyBuildFriend
 {
     public partial class TaskForm : Form
     {
-        private readonly List<Task> Task = new List<Task>();
+        internal TaskController TaskController { get; set; }
 
-        public TaskForm(List<Task> task)
+        public TaskForm(Task task)
         {
-            Task = task;
             InitializeComponent();
+            TaskNameTextBox.Text = task.TaskName;
         }
 
         private void PropertyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -23,6 +23,11 @@ namespace DailyBuildFriend
         private void 追加ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            TaskController.SetTaskName(TaskNameTextBox.Text);
         }
     }
 }

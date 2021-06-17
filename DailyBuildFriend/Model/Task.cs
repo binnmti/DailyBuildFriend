@@ -6,13 +6,15 @@ namespace DailyBuildFriend.Model
     public class Task
     {
         public string TaskName { get; set; }
-        public FileName FileName { get; set; }
+        public string FileName { get; set; }
         public string ProjectPath { get; set; }
         public bool Checked { get; set; }
         public DateTime Update { get; set; }
         public bool Timer { get; set; }
         public bool Interval { get; set; }
-        public DateTime TimeOut { get; set; }
+        public bool Report { get; set; }
+        public bool TimeOut { get; set; }
+        public int TimeOutTime { get; set; }
         public DateTime WorstTime { get; set; }
         public BuildType BuildType { get; set; }
         public string LocalRevision { get; set; }

@@ -35,7 +35,7 @@ namespace DailyBuildFriend
             this.ファイルFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.TaskListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,14 +52,14 @@ namespace DailyBuildFriend
             this.ファイルFToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1314, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1314, 36);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // ファイルFToolStripMenuItem
             // 
             this.ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
-            this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(98, 29);
+            this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(98, 32);
             this.ファイルFToolStripMenuItem.Text = "ファイル(&F)";
             // 
             // contextMenuStrip1
@@ -77,23 +77,23 @@ namespace DailyBuildFriend
             this.PropertyToolStripMenuItem.Text = "プロパティ(&P)";
             this.PropertyToolStripMenuItem.Click += new System.EventHandler(this.PropertyToolStripMenuItem_Click);
             // 
-            // listView1
+            // TaskListView
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.TaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            this.listView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 33);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1314, 257);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.TaskListView.ContextMenuStrip = this.contextMenuStrip1;
+            this.TaskListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TaskListView.GridLines = true;
+            this.TaskListView.HideSelection = false;
+            this.TaskListView.Location = new System.Drawing.Point(0, 36);
+            this.TaskListView.MultiSelect = false;
+            this.TaskListView.Name = "TaskListView";
+            this.TaskListView.Size = new System.Drawing.Size(1314, 257);
+            this.TaskListView.TabIndex = 2;
+            this.TaskListView.UseCompatibleStateImageBehavior = false;
+            this.TaskListView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
@@ -125,7 +125,7 @@ namespace DailyBuildFriend
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1314, 450);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.TaskListView);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -145,7 +145,7 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ToolStripMenuItem ファイルFToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem PropertyToolStripMenuItem;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView TaskListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
