@@ -7,7 +7,7 @@ namespace DailyBuildFriend
 {
     public partial class TaskForm : Form
     {
-        private TaskController TaskController { get; set; }
+        private TaskController TaskController { get; set; } = new TaskController();
         internal Task Task => TaskController.Task;
 
         public TaskForm(Task task)
@@ -21,16 +21,6 @@ namespace DailyBuildFriend
             ReportCheckBox.Checked = task.Report;
             TimeoutCheckBox.Checked = task.TimeOut;
             TimeoutNumericUpDown.Value = task.TimeOutTime;
-        }
-
-        private void PropertyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void 追加ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void TaskNameTextBoxTextChanged(object sender, EventArgs e)

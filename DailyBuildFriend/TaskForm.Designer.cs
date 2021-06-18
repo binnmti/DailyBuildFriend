@@ -263,7 +263,6 @@ namespace DailyBuildFriend
             this.追加ToolStripMenuItem.Name = "追加ToolStripMenuItem";
             this.追加ToolStripMenuItem.Size = new System.Drawing.Size(172, 34);
             this.追加ToolStripMenuItem.Text = "追加(&A)";
-            this.追加ToolStripMenuItem.Click += new System.EventHandler(this.追加ToolStripMenuItem_Click);
             // 
             // label4
             // 
