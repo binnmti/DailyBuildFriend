@@ -2,12 +2,13 @@
 using DailyBuildFriend.Controller;
 using System;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace DailyBuildFriend
 {
     public partial class TaskForm : Form
     {
-        private TaskController TaskController { get; set; } = new TaskController();
+        private DailyBuildController TaskController { get; set; } = new DailyBuildController();
         internal Task Task => TaskController.Task;
 
         public TaskForm(Task task)
@@ -72,6 +73,53 @@ namespace DailyBuildFriend
                 return;
             }
             Close();
+        }
+
+        private void GitCloneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddCommand(CommandType.CloneGit);
+        }
+
+        private void CommandListView_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddCommand(CommandType type)
+        {
+            AddCommand(new Command() { CommandType = type });
+        }
+
+        private void AddCommand(Command command)
+        {
+            var form = new CommandForm(command);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                TaskController.AddCommand(form.Command);
+            }
+        }
+
+        private void EditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CommandListView.SelectedItems.Count == 0) return;
+
+            var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
+            var command = TaskController.GetCommand(index);
+            AddCommand(command);
+
+        }
+
+        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CommandListView.SelectedItems.Count == 0) return;
+
+            var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
+            TaskController.RemoveCommand(index);
+        }
+
+        private void RunToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
