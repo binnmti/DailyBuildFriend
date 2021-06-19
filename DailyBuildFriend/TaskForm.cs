@@ -62,7 +62,6 @@ namespace DailyBuildFriend
             AddCommand(new Command() { CommandType = type });
         }
 
-
         private void TaskNameTextBoxTextChanged(object sender, EventArgs e)
         {
             Task.TaskName = TaskNameTextBox.Text;
@@ -103,7 +102,6 @@ namespace DailyBuildFriend
             Task.TimeOutTime = (int)TimeoutNumericUpDown.Value;
         }
 
-
         private void OKButton_Click(object sender, EventArgs e)
         {
             var error = Validation(Task);
@@ -114,7 +112,6 @@ namespace DailyBuildFriend
             }
             Close();
         }
-
 
         private void CommandListView_DoubleClick(object sender, EventArgs e)
         {
@@ -133,10 +130,9 @@ namespace DailyBuildFriend
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (var item in CommandListView.SelectedItems.Cast<ListViewItem>())
-            {
-                Task.Commands.RemoveAt(item.Index);
-            }
+            CommandListView.SelectedItems.Cast<ListViewItem>()
+                .ToList()
+                .ForEach(x => Task.Commands.RemoveAt(x.Index));
         }
 
         private void RunToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,6 +143,21 @@ namespace DailyBuildFriend
         private void GitCloneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddCommandType(CommandType.CloneGit);
+        }
+
+        private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VsBuildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

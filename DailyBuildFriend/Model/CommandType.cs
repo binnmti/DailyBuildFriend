@@ -3,10 +3,10 @@
     public enum CommandType
     {
         CloneGit,
+        PullGit,
         VisualStudioBuild,
         VisualStudioTest,
 
-        UpdateGit,
         RunBat,
         CopyFile,
         SendMail,

@@ -31,13 +31,15 @@ namespace DailyBuildFriend
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommandForm));
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.CommandTextBox = new System.Windows.Forms.TextBox();
+            this.Param1TextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Param2TextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.OKButton = new System.Windows.Forms.Button();
+            this.DoCancelButton = new System.Windows.Forms.Button();
+            this.Param1Label = new System.Windows.Forms.Label();
+            this.Param2Label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -49,21 +51,21 @@ namespace DailyBuildFriend
             this.label1.TabIndex = 0;
             this.label1.Text = "コマンド";
             // 
-            // textBox1
+            // CommandTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 35);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(585, 25);
-            this.textBox1.TabIndex = 1;
+            this.CommandTextBox.Location = new System.Drawing.Point(13, 35);
+            this.CommandTextBox.Name = "CommandTextBox";
+            this.CommandTextBox.ReadOnly = true;
+            this.CommandTextBox.Size = new System.Drawing.Size(585, 25);
+            this.CommandTextBox.TabIndex = 1;
             // 
-            // textBox2
+            // Param1TextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(13, 115);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(585, 25);
-            this.textBox2.TabIndex = 3;
+            this.Param1TextBox.Location = new System.Drawing.Point(13, 115);
+            this.Param1TextBox.Name = "Param1TextBox";
+            this.Param1TextBox.Size = new System.Drawing.Size(585, 25);
+            this.Param1TextBox.TabIndex = 3;
+            this.Param1TextBox.TextChanged += new System.EventHandler(this.Param1TextBox_TextChanged);
             // 
             // label2
             // 
@@ -74,53 +76,78 @@ namespace DailyBuildFriend
             this.label2.TabIndex = 2;
             this.label2.Text = "パラメータ1";
             // 
-            // textBox3
+            // Param2TextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(12, 197);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(585, 25);
-            this.textBox3.TabIndex = 5;
+            this.Param2TextBox.Location = new System.Drawing.Point(13, 220);
+            this.Param2TextBox.Name = "Param2TextBox";
+            this.Param2TextBox.Size = new System.Drawing.Size(585, 25);
+            this.Param2TextBox.TabIndex = 5;
+            this.Param2TextBox.TextChanged += new System.EventHandler(this.Param2TextBox_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 175);
+            this.label3.Location = new System.Drawing.Point(13, 198);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(83, 18);
             this.label3.TabIndex = 4;
             this.label3.Text = "パラメータ2";
             // 
-            // button1
+            // OKButton
             // 
-            this.button1.Location = new System.Drawing.Point(429, 276);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OKButton.Location = new System.Drawing.Point(439, 341);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(75, 23);
+            this.OKButton.TabIndex = 6;
+            this.OKButton.Text = "OK";
+            this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
-            // button2
+            // DoCancelButton
             // 
-            this.button2.Location = new System.Drawing.Point(522, 276);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "キャンセル";
-            this.button2.UseVisualStyleBackColor = true;
+            this.DoCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.DoCancelButton.Location = new System.Drawing.Point(532, 341);
+            this.DoCancelButton.Name = "DoCancelButton";
+            this.DoCancelButton.Size = new System.Drawing.Size(75, 23);
+            this.DoCancelButton.TabIndex = 7;
+            this.DoCancelButton.Text = "キャンセル";
+            this.DoCancelButton.UseVisualStyleBackColor = true;
+            // 
+            // Param1Label
+            // 
+            this.Param1Label.AutoSize = true;
+            this.Param1Label.Location = new System.Drawing.Point(13, 157);
+            this.Param1Label.Name = "Param1Label";
+            this.Param1Label.Size = new System.Drawing.Size(52, 18);
+            this.Param1Label.TabIndex = 8;
+            this.Param1Label.Text = "label4";
+            // 
+            // Param2Label
+            // 
+            this.Param2Label.AutoSize = true;
+            this.Param2Label.Location = new System.Drawing.Point(13, 262);
+            this.Param2Label.Name = "Param2Label";
+            this.Param2Label.Size = new System.Drawing.Size(52, 18);
+            this.Param2Label.TabIndex = 9;
+            this.Param2Label.Text = "label5";
             // 
             // CommandForm
             // 
+            this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(641, 333);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox3);
+            this.CancelButton = this.DoCancelButton;
+            this.ClientSize = new System.Drawing.Size(641, 376);
+            this.Controls.Add(this.Param2Label);
+            this.Controls.Add(this.Param1Label);
+            this.Controls.Add(this.DoCancelButton);
+            this.Controls.Add(this.OKButton);
+            this.Controls.Add(this.Param2TextBox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.Param1TextBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.CommandTextBox);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CommandForm";
@@ -133,12 +160,14 @@ namespace DailyBuildFriend
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox CommandTextBox;
+        private System.Windows.Forms.TextBox Param1TextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox Param2TextBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.Button DoCancelButton;
+        private System.Windows.Forms.Label Param1Label;
+        private System.Windows.Forms.Label Param2Label;
     }
 }
