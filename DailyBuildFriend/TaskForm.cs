@@ -3,13 +3,14 @@ using DailyBuildFriend.Controller;
 using System;
 using System.Windows.Forms;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace DailyBuildFriend
 {
     public partial class TaskForm : Form
     {
-        private DailyBuildController TaskController { get; set; } = new DailyBuildController();
-        internal Task Task => TaskController.Task;
+        private Task Task = new Task();
 
         public TaskForm(Task task)
         {
@@ -24,49 +25,88 @@ namespace DailyBuildFriend
             TimeoutNumericUpDown.Value = task.TimeOutTime;
         }
 
+        private ListViewItem ToListViewItem(Command command)
+        {
+            var item = new ListViewItem(command.Name);
+            item.SubItems.Add(command.Param1);
+            return item;
+        }
+
+        private string Validation(Task task)
+        {
+            if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
+            if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
+            return "";
+        }
+
+        private void AddCommand(Command command)
+        {
+            var form = new CommandForm(command);
+            if (form.ShowDialog() != DialogResult.OK) return;
+
+            Task.Commands.Add(command);
+            CommandListView.Items.Add(ToListViewItem(command));
+        }
+
+        private void EditCommand(int index, Command command)
+        {
+            var form = new CommandForm(command);
+            if (form.ShowDialog() != DialogResult.OK) return;
+
+            Task.Commands[index] = command;
+            CommandListView.Items[index] = ToListViewItem(command);
+        }
+
+        private void AddCommandType(CommandType type)
+        {
+            AddCommand(new Command() { CommandType = type });
+        }
+
+
         private void TaskNameTextBoxTextChanged(object sender, EventArgs e)
         {
-            TaskController.SetTaskName(TaskNameTextBox.Text);
+            Task.TaskName = TaskNameTextBox.Text;
         }
 
         private void FileNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            TaskController.SetFileName(FileNameTextBox.Text);
+            Task.FileName = FileNameTextBox.Text;
         }
 
         private void ProjectFolderTextBox_TextChanged(object sender, EventArgs e)
         {
-            TaskController.SetProjectPath(ProjectFolderTextBox.Text);
+            Task.ProjectPath = ProjectFolderTextBox.Text;
         }
 
         private void TimerCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            TaskController.SetTimer(TimerCheckBox.Checked);
+            Task.Timer = TimerCheckBox.Checked;
         }
 
         private void IntervalCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            TaskController.SetInterval(IntervalCheckBox.Checked);
+            Task.Interval = IntervalCheckBox.Checked;
         }
 
         private void ReportCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            TaskController.SetReport(ReportCheckBox.Checked);
+            Task.Report = ReportCheckBox.Checked;
         }
 
         private void TimeoutCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            TaskController.SetTimeOut(TimeoutCheckBox.Checked);
+            Task.TimeOut = TimeoutCheckBox.Checked;
         }
 
         private void TimeoutNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            TaskController.SetTimeOutTime((int)TimeoutNumericUpDown.Value);
+            Task.TimeOutTime = (int)TimeoutNumericUpDown.Value;
         }
+
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            var error = TaskController.Validation();
+            var error = Validation(Task);
             if(!string.IsNullOrEmpty(error))
             {
                 MessageBox.Show(error);
@@ -75,28 +115,10 @@ namespace DailyBuildFriend
             Close();
         }
 
-        private void GitCloneToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddCommand(CommandType.CloneGit);
-        }
 
         private void CommandListView_DoubleClick(object sender, EventArgs e)
         {
 
-        }
-
-        private void AddCommand(CommandType type)
-        {
-            AddCommand(new Command() { CommandType = type });
-        }
-
-        private void AddCommand(Command command)
-        {
-            var form = new CommandForm(command);
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                TaskController.AddCommand(form.Command);
-            }
         }
 
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,22 +126,27 @@ namespace DailyBuildFriend
             if (CommandListView.SelectedItems.Count == 0) return;
 
             var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var command = TaskController.GetCommand(index);
-            AddCommand(command);
+            var command = Task.Commands[index];
 
+            EditCommand(index, command);
         }
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CommandListView.SelectedItems.Count == 0) return;
-
-            var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            TaskController.RemoveCommand(index);
+            foreach (var item in CommandListView.SelectedItems.Cast<ListViewItem>())
+            {
+                Task.Commands.RemoveAt(item.Index);
+            }
         }
 
         private void RunToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void GitCloneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddCommandType(CommandType.CloneGit);
         }
     }
 }

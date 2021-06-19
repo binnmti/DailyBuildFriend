@@ -46,18 +46,18 @@ namespace DailyBuildFriend
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label4 = new System.Windows.Forms.Label();
-            this.TimeoutNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.TimeoutCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReportCheckBox = new System.Windows.Forms.CheckBox();
-            this.IntervalCheckBox = new System.Windows.Forms.CheckBox();
-            this.TimerCheckBox = new System.Windows.Forms.CheckBox();
-            this.FileNameTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.ProjectFolderTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.TaskNameTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.TaskNameTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ProjectFolderTextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.FileNameTextBox = new System.Windows.Forms.TextBox();
+            this.TimerCheckBox = new System.Windows.Forms.CheckBox();
+            this.IntervalCheckBox = new System.Windows.Forms.CheckBox();
+            this.ReportCheckBox = new System.Windows.Forms.CheckBox();
+            this.TimeoutCheckBox = new System.Windows.Forms.CheckBox();
+            this.TimeoutNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.CommandListViewContextMenuStrip.SuspendLayout();
@@ -194,51 +194,59 @@ namespace DailyBuildFriend
             this.RunToolStripMenuItem.Text = "起動(&R)";
             this.RunToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
-            // label4
+            // label1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(710, 163);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(26, 18);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "分";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 63);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 18);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "タスク名";
             // 
-            // TimeoutNumericUpDown
+            // TaskNameTextBox
             // 
-            this.TimeoutNumericUpDown.Location = new System.Drawing.Point(630, 159);
-            this.TimeoutNumericUpDown.Name = "TimeoutNumericUpDown";
-            this.TimeoutNumericUpDown.Size = new System.Drawing.Size(74, 25);
-            this.TimeoutNumericUpDown.TabIndex = 22;
+            this.TaskNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TaskNameTextBox.Location = new System.Drawing.Point(195, 56);
+            this.TaskNameTextBox.Name = "TaskNameTextBox";
+            this.TaskNameTextBox.Size = new System.Drawing.Size(657, 25);
+            this.TaskNameTextBox.TabIndex = 13;
             // 
-            // TimeoutCheckBox
+            // label2
             // 
-            this.TimeoutCheckBox.AutoSize = true;
-            this.TimeoutCheckBox.Location = new System.Drawing.Point(509, 159);
-            this.TimeoutCheckBox.Name = "TimeoutCheckBox";
-            this.TimeoutCheckBox.Size = new System.Drawing.Size(114, 22);
-            this.TimeoutCheckBox.TabIndex = 21;
-            this.TimeoutCheckBox.Text = "タイムアウト";
-            this.TimeoutCheckBox.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 121);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(138, 18);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "プロジェクトフォルダ";
             // 
-            // ReportCheckBox
+            // ProjectFolderTextBox
             // 
-            this.ReportCheckBox.AutoSize = true;
-            this.ReportCheckBox.Location = new System.Drawing.Point(412, 159);
-            this.ReportCheckBox.Name = "ReportCheckBox";
-            this.ReportCheckBox.Size = new System.Drawing.Size(91, 22);
-            this.ReportCheckBox.TabIndex = 20;
-            this.ReportCheckBox.Text = "レポート";
-            this.ReportCheckBox.UseVisualStyleBackColor = true;
+            this.ProjectFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProjectFolderTextBox.Location = new System.Drawing.Point(195, 118);
+            this.ProjectFolderTextBox.Name = "ProjectFolderTextBox";
+            this.ProjectFolderTextBox.Size = new System.Drawing.Size(657, 25);
+            this.ProjectFolderTextBox.TabIndex = 15;
             // 
-            // IntervalCheckBox
+            // label3
             // 
-            this.IntervalCheckBox.AutoSize = true;
-            this.IntervalCheckBox.Location = new System.Drawing.Point(289, 159);
-            this.IntervalCheckBox.Name = "IntervalCheckBox";
-            this.IntervalCheckBox.Size = new System.Drawing.Size(117, 22);
-            this.IntervalCheckBox.TabIndex = 19;
-            this.IntervalCheckBox.Text = "インターバル";
-            this.IntervalCheckBox.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 90);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(177, 18);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "ファイル名(日本語不可)";
+            // 
+            // FileNameTextBox
+            // 
+            this.FileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FileNameTextBox.Location = new System.Drawing.Point(195, 87);
+            this.FileNameTextBox.Name = "FileNameTextBox";
+            this.FileNameTextBox.Size = new System.Drawing.Size(657, 25);
+            this.FileNameTextBox.TabIndex = 17;
             // 
             // TimerCheckBox
             // 
@@ -250,59 +258,51 @@ namespace DailyBuildFriend
             this.TimerCheckBox.Text = "タイマー";
             this.TimerCheckBox.UseVisualStyleBackColor = true;
             // 
-            // FileNameTextBox
+            // IntervalCheckBox
             // 
-            this.FileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FileNameTextBox.Location = new System.Drawing.Point(195, 87);
-            this.FileNameTextBox.Name = "FileNameTextBox";
-            this.FileNameTextBox.Size = new System.Drawing.Size(657, 25);
-            this.FileNameTextBox.TabIndex = 17;
+            this.IntervalCheckBox.AutoSize = true;
+            this.IntervalCheckBox.Location = new System.Drawing.Point(289, 159);
+            this.IntervalCheckBox.Name = "IntervalCheckBox";
+            this.IntervalCheckBox.Size = new System.Drawing.Size(117, 22);
+            this.IntervalCheckBox.TabIndex = 19;
+            this.IntervalCheckBox.Text = "インターバル";
+            this.IntervalCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // ReportCheckBox
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 90);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(177, 18);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "ファイル名(日本語不可)";
+            this.ReportCheckBox.AutoSize = true;
+            this.ReportCheckBox.Location = new System.Drawing.Point(412, 159);
+            this.ReportCheckBox.Name = "ReportCheckBox";
+            this.ReportCheckBox.Size = new System.Drawing.Size(91, 22);
+            this.ReportCheckBox.TabIndex = 20;
+            this.ReportCheckBox.Text = "レポート";
+            this.ReportCheckBox.UseVisualStyleBackColor = true;
             // 
-            // ProjectFolderTextBox
+            // TimeoutCheckBox
             // 
-            this.ProjectFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProjectFolderTextBox.Location = new System.Drawing.Point(195, 118);
-            this.ProjectFolderTextBox.Name = "ProjectFolderTextBox";
-            this.ProjectFolderTextBox.Size = new System.Drawing.Size(657, 25);
-            this.ProjectFolderTextBox.TabIndex = 15;
+            this.TimeoutCheckBox.AutoSize = true;
+            this.TimeoutCheckBox.Location = new System.Drawing.Point(509, 159);
+            this.TimeoutCheckBox.Name = "TimeoutCheckBox";
+            this.TimeoutCheckBox.Size = new System.Drawing.Size(114, 22);
+            this.TimeoutCheckBox.TabIndex = 21;
+            this.TimeoutCheckBox.Text = "タイムアウト";
+            this.TimeoutCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // TimeoutNumericUpDown
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 121);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(138, 18);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "プロジェクトフォルダ";
+            this.TimeoutNumericUpDown.Location = new System.Drawing.Point(630, 159);
+            this.TimeoutNumericUpDown.Name = "TimeoutNumericUpDown";
+            this.TimeoutNumericUpDown.Size = new System.Drawing.Size(74, 25);
+            this.TimeoutNumericUpDown.TabIndex = 22;
             // 
-            // TaskNameTextBox
+            // label4
             // 
-            this.TaskNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TaskNameTextBox.Location = new System.Drawing.Point(195, 56);
-            this.TaskNameTextBox.Name = "TaskNameTextBox";
-            this.TaskNameTextBox.Size = new System.Drawing.Size(657, 25);
-            this.TaskNameTextBox.TabIndex = 13;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 63);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 18);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "タスク名";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(710, 163);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(26, 18);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "分";
             // 
             // TaskForm
             // 
@@ -354,18 +354,18 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RunToolStripMenuItem;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown TimeoutNumericUpDown;
-        private System.Windows.Forms.CheckBox TimeoutCheckBox;
-        private System.Windows.Forms.CheckBox ReportCheckBox;
-        private System.Windows.Forms.CheckBox IntervalCheckBox;
-        private System.Windows.Forms.CheckBox TimerCheckBox;
-        private System.Windows.Forms.TextBox FileNameTextBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox ProjectFolderTextBox;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TaskNameTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox TaskNameTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox ProjectFolderTextBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox FileNameTextBox;
+        private System.Windows.Forms.CheckBox TimerCheckBox;
+        private System.Windows.Forms.CheckBox IntervalCheckBox;
+        private System.Windows.Forms.CheckBox ReportCheckBox;
+        private System.Windows.Forms.CheckBox TimeoutCheckBox;
+        private System.Windows.Forms.NumericUpDown TimeoutNumericUpDown;
+        private System.Windows.Forms.Label label4;
     }
 }
 

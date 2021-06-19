@@ -16,18 +16,30 @@ namespace DailyBuildFriend
             InitializeComponent();
         }
 
+        private ListViewItem ToListViewItem(Task task)
+        {
+            var item = new ListViewItem(task.TaskName);
+            item.SubItems.Add(task.FileName);
+
+            return item;
+        }
+
         private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new TaskForm(new Task());
-            if (form.ShowDialog() == DialogResult.OK) DailyBuildController.AddTask(form.Task);
+            var task = new Task();
+            var form = new TaskForm(task);
+            if (form.ShowDialog() != DialogResult.OK) return;
+
+            DailyBuildController.AddTask(task);
+            TaskListView.Items.Add(ToListViewItem(task));
         }
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (TaskListView.SelectedItems.Count == 0) return;
-
-            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            DailyBuildController.RemoveTask(index);
+            foreach(var item in TaskListView.SelectedItems.Cast<ListViewItem>())
+            {
+                DailyBuildController.RemoveTask(item.Index);
+            }
         }
 
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -35,8 +47,12 @@ namespace DailyBuildFriend
             if (TaskListView.SelectedItems.Count == 0) return;
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var form = new TaskForm(DailyBuildController.GetTask(index));
-            if (form.ShowDialog() == DialogResult.OK) DailyBuildController.EditTask(index, form.Task);
+            var task = DailyBuildController.GetTask(index);
+            var form = new TaskForm(task);
+            if (form.ShowDialog() != DialogResult.OK) return;
+
+            DailyBuildController.EditTask(index, task);
+            TaskListView.Items[index] = ToListViewItem(task);
         }
 
         private void AddToolStripMenuItem_Click(object sender, MouseEventArgs e)
