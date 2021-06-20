@@ -54,6 +54,7 @@
     <Compile Include="CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controller\TaskController.cs" />
     <Compile Include="Controller\CommandController.cs" />
     <Compile Include="Controller\DailyBuildController.cs" />
     <Compile Include="Data\DailyBuildContext.cs" />

@@ -40,6 +40,9 @@ namespace DailyBuildFriend
             this.CommandListViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.追加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gitクローンCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gitプルPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vSビルドBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vSテストTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,9 +64,6 @@ namespace DailyBuildFriend
             this.TimeoutCheckBox = new System.Windows.Forms.CheckBox();
             this.TimeoutNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.gitプルPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vSビルドBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vSテストTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.CommandListViewContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -99,7 +99,6 @@ namespace DailyBuildFriend
             this.OKButton.TabIndex = 0;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // CommandListView
             // 
@@ -139,7 +138,7 @@ namespace DailyBuildFriend
             this.DeleteToolStripMenuItem,
             this.RunToolStripMenuItem});
             this.CommandListViewContextMenuStrip.Name = "CommandListViewContextMenuStrip";
-            this.CommandListViewContextMenuStrip.Size = new System.Drawing.Size(241, 165);
+            this.CommandListViewContextMenuStrip.Size = new System.Drawing.Size(144, 132);
             // 
             // 追加ToolStripMenuItem
             // 
@@ -149,36 +148,56 @@ namespace DailyBuildFriend
             this.vSビルドBToolStripMenuItem,
             this.vSテストTToolStripMenuItem});
             this.追加ToolStripMenuItem.Name = "追加ToolStripMenuItem";
-            this.追加ToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.追加ToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
             this.追加ToolStripMenuItem.Text = "追加(&A)";
             // 
             // gitクローンCToolStripMenuItem
             // 
             this.gitクローンCToolStripMenuItem.Name = "gitクローンCToolStripMenuItem";
-            this.gitクローンCToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.gitクローンCToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.gitクローンCToolStripMenuItem.Text = "Gitクローン(&C)";
             this.gitクローンCToolStripMenuItem.Click += new System.EventHandler(this.GitCloneToolStripMenuItem_Click);
+            // 
+            // gitプルPToolStripMenuItem
+            // 
+            this.gitプルPToolStripMenuItem.Name = "gitプルPToolStripMenuItem";
+            this.gitプルPToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
+            this.gitプルPToolStripMenuItem.Text = "Gitプル(&P)";
+            this.gitプルPToolStripMenuItem.Click += new System.EventHandler(this.GitPullToolStripMenuItem_Click);
+            // 
+            // vSビルドBToolStripMenuItem
+            // 
+            this.vSビルドBToolStripMenuItem.Name = "vSビルドBToolStripMenuItem";
+            this.vSビルドBToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
+            this.vSビルドBToolStripMenuItem.Text = "VSビルド(&B)";
+            this.vSビルドBToolStripMenuItem.Click += new System.EventHandler(this.VsBuildToolStripMenuItem_Click);
+            // 
+            // vSテストTToolStripMenuItem
+            // 
+            this.vSテストTToolStripMenuItem.Name = "vSテストTToolStripMenuItem";
+            this.vSテストTToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
+            this.vSテストTToolStripMenuItem.Text = "VSテスト(T)";
+            this.vSテストTToolStripMenuItem.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
             this.EditToolStripMenuItem.Text = "編集(&E)";
             this.EditToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
             this.DeleteToolStripMenuItem.Text = "削除(&D)";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // RunToolStripMenuItem
             // 
             this.RunToolStripMenuItem.Name = "RunToolStripMenuItem";
-            this.RunToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.RunToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
             this.RunToolStripMenuItem.Text = "起動(&R)";
-            this.RunToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -205,28 +224,28 @@ namespace DailyBuildFriend
             // GitCloneToolStripMenuItem
             // 
             this.GitCloneToolStripMenuItem.Name = "GitCloneToolStripMenuItem";
-            this.GitCloneToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.GitCloneToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.GitCloneToolStripMenuItem.Text = "Gitクローン(&C)";
             this.GitCloneToolStripMenuItem.Click += new System.EventHandler(this.GitCloneToolStripMenuItem_Click);
             // 
             // GitPullToolStripMenuItem
             // 
             this.GitPullToolStripMenuItem.Name = "GitPullToolStripMenuItem";
-            this.GitPullToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.GitPullToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.GitPullToolStripMenuItem.Text = "Gitプル(&P)";
             this.GitPullToolStripMenuItem.Click += new System.EventHandler(this.GitPullToolStripMenuItem_Click);
             // 
             // VsBuildToolStripMenuItem
             // 
             this.VsBuildToolStripMenuItem.Name = "VsBuildToolStripMenuItem";
-            this.VsBuildToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.VsBuildToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.VsBuildToolStripMenuItem.Text = "VSビルド(&B)";
             this.VsBuildToolStripMenuItem.Click += new System.EventHandler(this.VsBuildToolStripMenuItem_Click);
             // 
             // VsTestToolStripMenuItem
             // 
             this.VsTestToolStripMenuItem.Name = "VsTestToolStripMenuItem";
-            this.VsTestToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.VsTestToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
             this.VsTestToolStripMenuItem.Text = "VSテスト(&T)";
             this.VsTestToolStripMenuItem.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
             // 
@@ -247,6 +266,7 @@ namespace DailyBuildFriend
             this.TaskNameTextBox.Name = "TaskNameTextBox";
             this.TaskNameTextBox.Size = new System.Drawing.Size(657, 25);
             this.TaskNameTextBox.TabIndex = 13;
+            this.TaskNameTextBox.TextChanged += new System.EventHandler(this.TaskNameTextBoxTextChanged);
             // 
             // label2
             // 
@@ -265,6 +285,7 @@ namespace DailyBuildFriend
             this.ProjectFolderTextBox.Name = "ProjectFolderTextBox";
             this.ProjectFolderTextBox.Size = new System.Drawing.Size(657, 25);
             this.ProjectFolderTextBox.TabIndex = 15;
+            this.ProjectFolderTextBox.TextChanged += new System.EventHandler(this.ProjectFolderTextBox_TextChanged);
             // 
             // label3
             // 
@@ -283,6 +304,7 @@ namespace DailyBuildFriend
             this.FileNameTextBox.Name = "FileNameTextBox";
             this.FileNameTextBox.Size = new System.Drawing.Size(657, 25);
             this.FileNameTextBox.TabIndex = 17;
+            this.FileNameTextBox.TextChanged += new System.EventHandler(this.FileNameTextBox_TextChanged);
             // 
             // TimerCheckBox
             // 
@@ -293,6 +315,7 @@ namespace DailyBuildFriend
             this.TimerCheckBox.TabIndex = 18;
             this.TimerCheckBox.Text = "タイマー";
             this.TimerCheckBox.UseVisualStyleBackColor = true;
+            this.TimerCheckBox.CheckedChanged += new System.EventHandler(this.TimerCheckBox_CheckedChanged);
             // 
             // IntervalCheckBox
             // 
@@ -303,6 +326,7 @@ namespace DailyBuildFriend
             this.IntervalCheckBox.TabIndex = 19;
             this.IntervalCheckBox.Text = "インターバル";
             this.IntervalCheckBox.UseVisualStyleBackColor = true;
+            this.IntervalCheckBox.CheckedChanged += new System.EventHandler(this.IntervalCheckBox_CheckedChanged);
             // 
             // ReportCheckBox
             // 
@@ -313,6 +337,7 @@ namespace DailyBuildFriend
             this.ReportCheckBox.TabIndex = 20;
             this.ReportCheckBox.Text = "レポート";
             this.ReportCheckBox.UseVisualStyleBackColor = true;
+            this.ReportCheckBox.CheckedChanged += new System.EventHandler(this.ReportCheckBox_CheckedChanged);
             // 
             // TimeoutCheckBox
             // 
@@ -323,6 +348,7 @@ namespace DailyBuildFriend
             this.TimeoutCheckBox.TabIndex = 21;
             this.TimeoutCheckBox.Text = "タイムアウト";
             this.TimeoutCheckBox.UseVisualStyleBackColor = true;
+            this.TimeoutCheckBox.CheckedChanged += new System.EventHandler(this.TimeoutCheckBox_CheckedChanged);
             // 
             // TimeoutNumericUpDown
             // 
@@ -330,6 +356,7 @@ namespace DailyBuildFriend
             this.TimeoutNumericUpDown.Name = "TimeoutNumericUpDown";
             this.TimeoutNumericUpDown.Size = new System.Drawing.Size(74, 25);
             this.TimeoutNumericUpDown.TabIndex = 22;
+            this.TimeoutNumericUpDown.ValueChanged += new System.EventHandler(this.TimeoutNumericUpDown_ValueChanged);
             // 
             // label4
             // 
@@ -339,27 +366,6 @@ namespace DailyBuildFriend
             this.label4.Size = new System.Drawing.Size(26, 18);
             this.label4.TabIndex = 23;
             this.label4.Text = "分";
-            // 
-            // gitプルPToolStripMenuItem
-            // 
-            this.gitプルPToolStripMenuItem.Name = "gitプルPToolStripMenuItem";
-            this.gitプルPToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.gitプルPToolStripMenuItem.Text = "Gitプル(&P)";
-            this.gitプルPToolStripMenuItem.Click += new System.EventHandler(this.GitPullToolStripMenuItem_Click);
-            // 
-            // vSビルドBToolStripMenuItem
-            // 
-            this.vSビルドBToolStripMenuItem.Name = "vSビルドBToolStripMenuItem";
-            this.vSビルドBToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.vSビルドBToolStripMenuItem.Text = "VSビルド(&B)";
-            this.vSビルドBToolStripMenuItem.Click += new System.EventHandler(this.VsBuildToolStripMenuItem_Click);
-            // 
-            // vSテストTToolStripMenuItem
-            // 
-            this.vSテストTToolStripMenuItem.Name = "vSテストTToolStripMenuItem";
-            this.vSテストTToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.vSテストTToolStripMenuItem.Text = "VSテスト(T)";
-            this.vSテストTToolStripMenuItem.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
             // 
             // TaskForm
             // 
@@ -385,6 +391,7 @@ namespace DailyBuildFriend
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "TaskForm";
             this.Text = "タスク";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.CommandListViewContextMenuStrip.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
