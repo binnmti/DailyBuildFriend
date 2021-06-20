@@ -10,15 +10,14 @@ namespace DailyBuildFriend
         public CommandForm(Command command)
         {
             InitializeComponent();
-            var viewCommand = CommandController.GetViewCommand(command.CommandType);
 
             Command = command;
-            Command.Name = viewCommand.Name;
-            CommandTextBox.Text = viewCommand.Name;
-            Param1Label.Text = viewCommand.Param1Description;
-            Param2Label.Text = viewCommand.Param2Description;
-            Param1TextBox.Text = string.IsNullOrEmpty(command.Param1) ? viewCommand.Param1Default : command.Param1;
-            Param2TextBox.Text = string.IsNullOrEmpty(command.Param2) ? viewCommand.Param2Default : command.Param2;
+            Command.Name = CommandController.GetName(command.CommandType);
+            CommandTextBox.Text = Command.Name;
+            Param1Label.Text = CommandController.GetParam1Description(command.CommandType);
+            Param2Label.Text = CommandController.GetParam2Description(command.CommandType);
+            Param1TextBox.Text = CommandController.GetParam1Default(command.CommandType, command.Param1);
+            Param2TextBox.Text = CommandController.GetParam1Default(command.CommandType, command.Param2);
         }
 
         private void Param1TextBox_TextChanged(object sender, System.EventArgs e)
