@@ -6,7 +6,7 @@ namespace DailyBuildFriend
 {
     public partial class CommandForm : Form
     {
-        private Command Command = new Command();
+        private readonly Command Command = new Command();
         public CommandForm(Command command)
         {
             InitializeComponent();
@@ -30,9 +30,14 @@ namespace DailyBuildFriend
             Command.Param2 = Param2TextBox.Text;
         }
 
-        private void OKButton_Click(object sender, System.EventArgs e)
+        private void CommandForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Close();
+            if (DialogResult != DialogResult.OK) return;
+            var error = CommandController.Validation(Command);
+            if (string.IsNullOrEmpty(error)) return;
+
+            MessageBox.Show(error);
+            e.Cancel = true;
         }
     }
 }

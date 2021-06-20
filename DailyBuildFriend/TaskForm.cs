@@ -147,17 +147,17 @@ namespace DailyBuildFriend
 
         private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            AddCommandType(CommandType.PullGit);
         }
 
         private void VsBuildToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            AddCommandType(CommandType.VisualStudioBuild);
         }
 
         private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            AddCommandType(CommandType.VisualStudioTest);
         }
     }
 }

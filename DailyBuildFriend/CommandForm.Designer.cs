@@ -102,7 +102,6 @@ namespace DailyBuildFriend
             this.OKButton.TabIndex = 6;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // DoCancelButton
             // 
@@ -117,7 +116,7 @@ namespace DailyBuildFriend
             // Param1Label
             // 
             this.Param1Label.AutoSize = true;
-            this.Param1Label.Location = new System.Drawing.Point(13, 143);
+            this.Param1Label.Location = new System.Drawing.Point(21, 153);
             this.Param1Label.Name = "Param1Label";
             this.Param1Label.Size = new System.Drawing.Size(52, 18);
             this.Param1Label.TabIndex = 8;
@@ -126,7 +125,7 @@ namespace DailyBuildFriend
             // Param2Label
             // 
             this.Param2Label.AutoSize = true;
-            this.Param2Label.Location = new System.Drawing.Point(13, 248);
+            this.Param2Label.Location = new System.Drawing.Point(21, 258);
             this.Param2Label.Name = "Param2Label";
             this.Param2Label.Size = new System.Drawing.Size(52, 18);
             this.Param2Label.TabIndex = 9;
@@ -152,6 +151,7 @@ namespace DailyBuildFriend
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CommandForm";
             this.Text = "コマンド";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CommandForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
