@@ -39,26 +39,46 @@ namespace DailyBuildFriend
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TaskListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button1 = new System.Windows.Forms.Button();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.閉じるCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.名前を付けて保存AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルFToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1314, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1567, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // ファイルFToolStripMenuItem
             // 
+            this.ファイルFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenToolStripMenuItem,
+            this.閉じるCToolStripMenuItem,
+            this.SaveToolStripMenuItem,
+            this.名前を付けて保存AToolStripMenuItem});
             this.ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
             this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(98, 29);
             this.ファイルFToolStripMenuItem.Text = "ファイル(&F)";
@@ -96,18 +116,27 @@ namespace DailyBuildFriend
             // 
             // TaskListView
             // 
+            this.TaskListView.AllowDrop = true;
+            this.TaskListView.CheckBoxes = true;
             this.TaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9,
+            this.columnHeader10});
             this.TaskListView.ContextMenuStrip = this.TaskListViewContextMenuStrip;
-            this.TaskListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TaskListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TaskListView.FullRowSelect = true;
             this.TaskListView.GridLines = true;
             this.TaskListView.HideSelection = false;
             this.TaskListView.Location = new System.Drawing.Point(0, 33);
             this.TaskListView.MultiSelect = false;
             this.TaskListView.Name = "TaskListView";
-            this.TaskListView.Size = new System.Drawing.Size(1314, 154);
+            this.TaskListView.Size = new System.Drawing.Size(1567, 162);
             this.TaskListView.TabIndex = 2;
             this.TaskListView.UseCompatibleStateImageBehavior = false;
             this.TaskListView.View = System.Windows.Forms.View.Details;
@@ -117,32 +146,106 @@ namespace DailyBuildFriend
             this.columnHeader1.Text = "タスク名";
             this.columnHeader1.Width = 100;
             // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "更新日";
-            this.columnHeader2.Width = 100;
-            // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "パス";
-            this.columnHeader3.Width = 200;
+            this.columnHeader3.Text = "プロジェクトパス";
+            this.columnHeader3.Width = 400;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1122, 193);
+            this.button1.Location = new System.Drawing.Point(1375, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(180, 79);
             this.button1.TabIndex = 3;
             this.button1.Text = "実行";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "タイマー";
+            this.columnHeader4.Width = 66;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "インターバル";
+            this.columnHeader5.Width = 95;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "レポート";
+            this.columnHeader6.Width = 69;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "タイムアウト";
+            this.columnHeader7.Width = 92;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "ワースト";
+            this.columnHeader8.Width = 68;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "ローカル";
+            this.columnHeader9.Width = 68;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "サーバー";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 195);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1567, 100);
+            this.panel1.TabIndex = 4;
+            // 
+            // OpenToolStripMenuItem
+            // 
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
+            this.OpenToolStripMenuItem.Text = "開く(&O)";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // 閉じるCToolStripMenuItem
+            // 
+            this.閉じるCToolStripMenuItem.Name = "閉じるCToolStripMenuItem";
+            this.閉じるCToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
+            this.閉じるCToolStripMenuItem.Text = "閉じる(C)";
+            // 
+            // SaveToolStripMenuItem
+            // 
+            this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
+            this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
+            this.SaveToolStripMenuItem.Text = "保存(&S)";
+            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // 名前を付けて保存AToolStripMenuItem
+            // 
+            this.名前を付けて保存AToolStripMenuItem.Name = "名前を付けて保存AToolStripMenuItem";
+            this.名前を付けて保存AToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
+            this.名前を付けて保存AToolStripMenuItem.Text = "名前を付けて保存する(&A)";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1314, 284);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(1567, 295);
             this.Controls.Add(this.TaskListView);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -151,6 +254,7 @@ namespace DailyBuildFriend
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.TaskListViewContextMenuStrip.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,11 +268,24 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
         private System.Windows.Forms.ListView TaskListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem AddToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 閉じるCToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 名前を付けて保存AToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

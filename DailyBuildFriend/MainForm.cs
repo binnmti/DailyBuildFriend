@@ -8,6 +8,8 @@ namespace DailyBuildFriend
 {
     public partial class MainForm : Form
     {
+        private string _fileName = "";
+
         private DailyBuildController DailyBuildController { get; set; } = new DailyBuildController();
 
         public MainForm()
@@ -18,8 +20,11 @@ namespace DailyBuildFriend
         private ListViewItem ToListViewItem(Task task)
         {
             var item = new ListViewItem(task.TaskName);
-            item.SubItems.Add(task.FileName);
-
+            item.SubItems.Add(task.ProjectPath);
+            item.SubItems.Add(TaskController.GetTimer(task.Timer));
+            item.SubItems.Add(TaskController.GetInterval(task.Interval));
+            item.SubItems.Add(TaskController.GetReport(task.Report));
+            item.SubItems.Add(TaskController.GetTimeOut(task.TimeOut, task.TimeOutTime));
             return item;
         }
 
@@ -57,6 +62,47 @@ namespace DailyBuildFriend
         private void AddToolStripMenuItem_Click(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void SaveFile(string fileName, bool bCheck)
+        {
+            DailyBuildController.Save(fileName);
+            _fileName = fileName;
+        }
+        private void LoadFile(string fileName)
+        {
+            DailyBuildController.Load(fileName);
+            DailyBuildController.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
+            _fileName = fileName;
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_fileName))
+            {
+                saveFileDialog1.ShowDialog();
+            }
+            else
+            {
+                SaveFile(_fileName, false);
+            }
+        }
+
+        private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveFile(saveFileDialog1.FileName, false);
+        }
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.InitialDirectory = Application.ExecutablePath;
+            openFileDialog1.ShowDialog();
+
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LoadFile(openFileDialog1.FileName);
         }
     }
 }

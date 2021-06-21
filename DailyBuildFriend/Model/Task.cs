@@ -16,7 +16,6 @@ namespace DailyBuildFriend.Model
         public bool TimeOut { get; set; }
         public int TimeOutTime { get; set; }
         public DateTime WorstTime { get; set; }
-        public BuildType BuildType { get; set; }
         public string LocalRevision { get; set; } = "";
         public string ServerRevision { get; set; } = "";
         public List<Command> Commands { get; set; } = new List<Command>();
