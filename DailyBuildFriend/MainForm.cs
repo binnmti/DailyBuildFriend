@@ -11,6 +11,7 @@ namespace DailyBuildFriend
     public partial class MainForm : Form
     {
         private string _fileName = "";
+        private string _jsonString = "";
 
         private DailyBuildController DailyBuildController { get; set; } = new DailyBuildController();
 
@@ -31,6 +32,14 @@ namespace DailyBuildFriend
             return item;
         }
 
+        private string GetTitle()
+        {
+            var title = $"デイリービルドフレンズ";
+            if (!string.IsNullOrEmpty(_fileName)) title += $" - {Path.GetFileName(_fileName)}";
+            if (_jsonString != DailyBuildController.GetJson()) title += "*";
+            return title;
+        }
+
         private void AddTask(Task task)
         {
             var form = new TaskForm(task);
@@ -38,6 +47,7 @@ namespace DailyBuildFriend
 
             DailyBuildController.AddTask(task);
             TaskListView.Items.Add(ToListViewItem(task));
+            Text = GetTitle();
         }
 
         private void EditTask(int index, Task task)
@@ -47,6 +57,7 @@ namespace DailyBuildFriend
 
             DailyBuildController.EditTask(index, task);
             TaskListView.Items[index] = ToListViewItem(task);
+            Text = GetTitle();
         }
 
 
@@ -82,14 +93,17 @@ namespace DailyBuildFriend
         {
             DailyBuildController.Save(fileName);
             _fileName = fileName;
-            Text = $"デイリービルドフレンズ - {Path.GetFileName(_fileName)}";
+            _jsonString = DailyBuildController.GetJson();
+            Text = GetTitle();
         }
+
         private void LoadFile(string fileName)
         {
             DailyBuildController.Load(fileName);
             DailyBuildController.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             _fileName = fileName;
-            Text = $"デイリービルドフレンズ - {Path.GetFileName(_fileName)}";
+            _jsonString = DailyBuildController.GetJson();
+            Text = GetTitle();
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)

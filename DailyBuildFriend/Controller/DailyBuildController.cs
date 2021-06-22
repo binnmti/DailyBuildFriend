@@ -19,9 +19,11 @@ namespace DailyBuildFriend.Controller
         internal void ClearTask() => DailyBuildContext.Tasks.Clear();
         internal void EditTask(int index, Task task) => DailyBuildContext.Tasks[index] = task;
 
+        internal string GetJson() => JsonSerializer.Serialize(DailyBuildContext.Tasks);
+
         internal void Save(string fileName)
         {
-            var jsonString = JsonSerializer.Serialize(DailyBuildContext.Tasks);
+            var jsonString = JsonSerializer.Serialize(DailyBuildContext.Tasks, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(fileName, jsonString);
         }
         internal void Load(string fileName)
