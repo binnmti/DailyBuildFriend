@@ -22,6 +22,9 @@ namespace DailyBuildFriend
             ReportCheckBox.Checked = task.Report;
             TimeoutCheckBox.Checked = task.TimeOut;
             TimeoutNumericUpDown.Value = task.TimeOutTime;
+            CommandListView.BeginUpdate();
+            task.Commands.ForEach(x => CommandListView.Items.Add(ToListViewItem(x)));
+            CommandListView.EndUpdate();
             Task = task;
         }
 
@@ -29,11 +32,13 @@ namespace DailyBuildFriend
         {
             var item = new ListViewItem(command.Name);
             item.SubItems.Add(command.Param1);
+            item.Checked = command.Checked;
             return item;
         }
 
         private void AddCommand(Command command)
         {
+            command.Checked = true;
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
@@ -102,19 +107,21 @@ namespace DailyBuildFriend
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CommandListView.SelectedItems.Cast<ListViewItem>()
-                .ToList()
-                .ForEach(x => Task.Commands.RemoveAt(x.Index));
+            foreach(var item in CommandListView.SelectedItems.Cast<ListViewItem>())
+            {
+                Task.Commands.RemoveAt(item.Index);
+                CommandListView.Items.Remove(item);
+            }
         }
 
         private void GitCloneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddCommand(new Command() { CommandType = CommandType.CloneGit });
+            AddCommand(new Command() { CommandType = CommandType.CloneGit, Param2 = Task.ProjectPath });
         }
 
         private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddCommand(new Command() { CommandType = CommandType.PullGit });
+            AddCommand(new Command() { CommandType = CommandType.PullGit, Param1 = Task.ProjectPath });
         }
 
         private void VsBuildToolStripMenuItem_Click(object sender, EventArgs e)

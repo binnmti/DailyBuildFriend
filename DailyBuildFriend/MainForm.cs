@@ -27,6 +27,7 @@ namespace DailyBuildFriend
             item.SubItems.Add(TaskController.GetInterval(task.Interval));
             item.SubItems.Add(TaskController.GetReport(task.Report));
             item.SubItems.Add(TaskController.GetTimeOut(task.TimeOut, task.TimeOutTime));
+            item.Checked = true;
             return item;
         }
 
@@ -112,7 +113,6 @@ namespace DailyBuildFriend
         {
             openFileDialog1.InitialDirectory = Application.ExecutablePath;
             openFileDialog1.ShowDialog();
-
         }
 
         private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
@@ -186,7 +186,5 @@ namespace DailyBuildFriend
             saveFileDialog1.FileName = Path.GetFileName(_fileName);
             saveFileDialog1.ShowDialog();
         }
-
-
     }
 }
