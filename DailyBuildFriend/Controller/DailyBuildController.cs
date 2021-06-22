@@ -26,7 +26,7 @@ namespace DailyBuildFriend.Controller
         internal void Load(string fileName)
         {
             var jsonString = File.ReadAllText(fileName);
-            DailyBuildContext.Tasks = JsonSerializer.Deserialize<List<Task>>(jsonString);
+            DailyBuildContext.Tasks = JsonSerializer.Deserialize<List<Task>>(jsonString) ?? new List<Task>();
         }
     }
 }
