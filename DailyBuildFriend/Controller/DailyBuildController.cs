@@ -16,6 +16,7 @@ namespace DailyBuildFriend.Controller
         internal void AddTask(Task task) => DailyBuildContext.Tasks.Add(task);
         internal Task GetTask(int index) => DailyBuildContext.Tasks.ElementAtOrDefault(index);
         internal void RemoveTask(int index) => DailyBuildContext.Tasks.RemoveAt(index);
+        internal void ClearTask() => DailyBuildContext.Tasks.Clear();
         internal void EditTask(int index, Task task) => DailyBuildContext.Tasks[index] = task;
 
         internal void Save(string fileName)

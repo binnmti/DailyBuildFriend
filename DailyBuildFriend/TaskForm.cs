@@ -17,7 +17,7 @@ namespace DailyBuildFriend
             TaskNameTextBox.Text = task.TaskName;
             FileNameTextBox.Text = task.FileName;
             ProjectFolderTextBox.Text = task.ProjectPath;
-            TimeoutCheckBox.Checked = task.TimeOut;
+            TimerCheckBox.Checked = task.Timer;
             IntervalCheckBox.Checked = task.Interval;
             ReportCheckBox.Checked = task.Report;
             TimeoutCheckBox.Checked = task.TimeOut;

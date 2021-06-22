@@ -50,9 +50,9 @@ namespace DailyBuildFriend
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.閉じるCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.名前を付けて保存AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NameSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
@@ -76,9 +76,9 @@ namespace DailyBuildFriend
             // 
             this.ファイルFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenToolStripMenuItem,
-            this.閉じるCToolStripMenuItem,
+            this.CloseToolStripMenuItem,
             this.SaveToolStripMenuItem,
-            this.名前を付けて保存AToolStripMenuItem});
+            this.NameSaveToolStripMenuItem});
             this.ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
             this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(98, 29);
             this.ファイルFToolStripMenuItem.Text = "ファイル(&F)";
@@ -91,26 +91,29 @@ namespace DailyBuildFriend
             this.EditToolStripMenuItem,
             this.DeleteToolStripMenuItem});
             this.TaskListViewContextMenuStrip.Name = "contextMenuStrip1";
-            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(144, 100);
+            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(206, 100);
             // 
             // AddToolStripMenuItem
             // 
             this.AddToolStripMenuItem.Name = "AddToolStripMenuItem";
-            this.AddToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
+            this.AddToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.AddToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
             this.AddToolStripMenuItem.Text = "追加(&A)";
             this.AddToolStripMenuItem.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
+            this.EditToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
             this.EditToolStripMenuItem.Text = "編集(&E)";
             this.EditToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
+            this.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
             this.DeleteToolStripMenuItem.Text = "削除(&D)";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
@@ -140,6 +143,11 @@ namespace DailyBuildFriend
             this.TaskListView.TabIndex = 2;
             this.TaskListView.UseCompatibleStateImageBehavior = false;
             this.TaskListView.View = System.Windows.Forms.View.Details;
+            this.TaskListView.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.TaskListView_ItemCheck);
+            this.TaskListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TaskListView_DragDrop);
+            this.TaskListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TaskListView_DragEnter);
+            this.TaskListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TaskListView_MouseDoubleClick);
+            this.TaskListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TaskListView_MouseDown);
             // 
             // columnHeader1
             // 
@@ -206,15 +214,18 @@ namespace DailyBuildFriend
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.OpenToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
             this.OpenToolStripMenuItem.Text = "開く(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
-            // 閉じるCToolStripMenuItem
+            // CloseToolStripMenuItem
             // 
-            this.閉じるCToolStripMenuItem.Name = "閉じるCToolStripMenuItem";
-            this.閉じるCToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
-            this.閉じるCToolStripMenuItem.Text = "閉じる(C)";
+            this.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem";
+            this.CloseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.CloseToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
+            this.CloseToolStripMenuItem.Text = "閉じる(C)";
+            this.CloseToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
@@ -224,19 +235,24 @@ namespace DailyBuildFriend
             this.SaveToolStripMenuItem.Text = "保存(&S)";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
-            // 名前を付けて保存AToolStripMenuItem
+            // NameSaveToolStripMenuItem
             // 
-            this.名前を付けて保存AToolStripMenuItem.Name = "名前を付けて保存AToolStripMenuItem";
-            this.名前を付けて保存AToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
-            this.名前を付けて保存AToolStripMenuItem.Text = "名前を付けて保存する(&A)";
+            this.NameSaveToolStripMenuItem.Name = "NameSaveToolStripMenuItem";
+            this.NameSaveToolStripMenuItem.Size = new System.Drawing.Size(296, 34);
+            this.NameSaveToolStripMenuItem.Text = "名前を付けて保存する(&A)";
+            this.NameSaveToolStripMenuItem.Click += new System.EventHandler(this.NameSaveToolStripMenuItem_Click);
             // 
             // saveFileDialog1
             // 
+            this.saveFileDialog1.DefaultExt = "dbf";
+            this.saveFileDialog1.Filter = "dbfファイル|*.dbf";
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // openFileDialog1
             // 
+            this.openFileDialog1.DefaultExt = "dbf";
             this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "dbfファイル|*.dbf";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // MainForm
@@ -251,6 +267,8 @@ namespace DailyBuildFriend
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "デイリービルドフレンズ";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.TaskListViewContextMenuStrip.ResumeLayout(false);
@@ -281,9 +299,9 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ColumnHeader columnHeader10;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 閉じるCToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CloseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 名前を付けて保存AToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NameSaveToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }

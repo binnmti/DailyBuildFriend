@@ -1,6 +1,8 @@
 ﻿using DailyBuildFriend.Controller;
 using DailyBuildFriend.Model;
+using DailyBuildFriend.Properties;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -28,9 +30,8 @@ namespace DailyBuildFriend
             return item;
         }
 
-        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddTask(Task task)
         {
-            var task = new Task();
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
@@ -38,11 +39,27 @@ namespace DailyBuildFriend
             TaskListView.Items.Add(ToListViewItem(task));
         }
 
+        private void EditTask(int index, Task task)
+        {
+            var form = new TaskForm(task);
+            if (form.ShowDialog() != DialogResult.OK) return;
+
+            DailyBuildController.EditTask(index, task);
+            TaskListView.Items[index] = ToListViewItem(task);
+        }
+
+
+        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddTask(new Task());
+        }
+
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach(var item in TaskListView.SelectedItems.Cast<ListViewItem>())
             {
                 DailyBuildController.RemoveTask(item.Index);
+                TaskListView.Items.Remove(item);
             }
         }
 
@@ -52,11 +69,7 @@ namespace DailyBuildFriend
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
             var task = DailyBuildController.GetTask(index);
-            var form = new TaskForm(task);
-            if (form.ShowDialog() != DialogResult.OK) return;
-
-            DailyBuildController.EditTask(index, task);
-            TaskListView.Items[index] = ToListViewItem(task);
+            EditTask(index, task);
         }
 
         private void AddToolStripMenuItem_Click(object sender, MouseEventArgs e)
@@ -68,12 +81,14 @@ namespace DailyBuildFriend
         {
             DailyBuildController.Save(fileName);
             _fileName = fileName;
+            Text = $"デイリービルドフレンズ - {Path.GetFileName(_fileName)}";
         }
         private void LoadFile(string fileName)
         {
             DailyBuildController.Load(fileName);
             DailyBuildController.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             _fileName = fileName;
+            Text = $"デイリービルドフレンズ - {Path.GetFileName(_fileName)}";
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,5 +119,74 @@ namespace DailyBuildFriend
         {
             LoadFile(openFileDialog1.FileName);
         }
+
+        private void TaskListView_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.All : DragDropEffects.None;
+        }
+
+        private void TaskListView_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (files.Length <= 0) return;
+
+            AddTask(new Task
+            {
+                FileName = Path.GetFileNameWithoutExtension(files[0]),
+                ProjectPath = files[0]
+            });
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if (!File.Exists(Settings.Default.OpenFileName)) return;
+            LoadFile(Settings.Default.OpenFileName);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Default.OpenFileName = _fileName;
+            Settings.Default.Save();
+        }
+
+        private bool doubleClickFlag;
+        private void TaskListView_MouseDown(object sender, MouseEventArgs e)
+        {
+            doubleClickFlag = e.Clicks >= 2;
+        }
+
+        private void TaskListView_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (!doubleClickFlag) return;
+
+            e.NewValue = e.CurrentValue;
+            doubleClickFlag = false;
+        }
+
+        private void TaskListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (TaskListView.SelectedItems.Count == 0) return;
+
+            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
+            var task = DailyBuildController.GetTask(index);
+            EditTask(index, task);
+        }
+
+        private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TaskListView.Items.Clear();
+            DailyBuildController.ClearTask();
+            _fileName = "";
+            Text = $"デイリービルドフレンズ";
+        }
+
+        private void NameSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(_fileName);
+            saveFileDialog1.FileName = Path.GetFileName(_fileName);
+            saveFileDialog1.ShowDialog();
+        }
+
+
     }
 }

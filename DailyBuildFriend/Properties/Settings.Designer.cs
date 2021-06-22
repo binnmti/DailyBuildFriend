@@ -22,5 +22,17 @@ namespace DailyBuildFriend.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OpenFileName {
+            get {
+                return ((string)(this["OpenFileName"]));
+            }
+            set {
+                this["OpenFileName"] = value;
+            }
+        }
     }
 }
