@@ -29,13 +29,13 @@ namespace DailyBuildFriend
         {
             var item = new ListViewItem(command.Name);
             item.SubItems.Add(command.Param1);
-            item.Checked = command.Checked;
+            item.Checked = command.Check;
             return item;
         }
 
         private void AddCommand(ViewCommand command)
         {
-            command.Checked = true;
+            command.Check = true;
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
@@ -95,7 +95,7 @@ namespace DailyBuildFriend
 
         private void AllCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ViewTask.ViewCommands.ForEach(x => x.Checked = AllCheckBox.Checked);
+            ViewTask.ViewCommands.ForEach(x => x.Check = AllCheckBox.Checked);
             CommandListView.Items.Cast<ListViewItem>().ToList().ForEach(x => x.Checked = AllCheckBox.Checked);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace DailyBuildFriend.ViewModel
@@ -45,9 +46,31 @@ namespace DailyBuildFriend.ViewModel
                 case CommandType.PullGit:
                     if (File.Exists(command.Param1)) msg = "slnファイルが存在しません";
                     break;
+            }
+            return msg;
+        }
+
+        internal static string Run(this ViewCommand command)
+        {
+            string msg = "";
+            switch (command.CommandType)
+            {
+                case CommandType.PullGit:
+                    var info = new ProcessStartInfo();
+                    info.FileName = "git";
+                    info.WorkingDirectory = Path.GetDirectoryName(command.Param1);
+                    info.Arguments = "pull";
+                    Process process = Process.Start(info);
+                    process.WaitForExit();
+                    break;
+
+                //case CommandType.PullGit:
+                //    if (File.Exists(command.Param1)) msg = "slnファイルが存在しません";
+                //    break;
 
             }
             return msg;
         }
+
     }
 }

@@ -3,6 +3,8 @@ using DailyBuildFriend.ViewModel;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DailyBuildFriend
@@ -26,7 +28,7 @@ namespace DailyBuildFriend
             item.SubItems.Add(task.Interval.Result);
             item.SubItems.Add(task.Report.Result);
             item.SubItems.Add(task.TimeOut.Result);
-            item.Checked = true;
+            item.Checked = task.Checked;
             return item;
         }
 
@@ -40,6 +42,7 @@ namespace DailyBuildFriend
 
         private void AddTask(ViewTask task)
         {
+            task.Checked = true;
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
@@ -169,10 +172,19 @@ namespace DailyBuildFriend
 
         private void TaskListView_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (!doubleClickFlag) return;
+            if (doubleClickFlag)
+            {
+                e.NewValue = e.CurrentValue;
+                doubleClickFlag = false;
+            }
+            else
+            {
+                if (TaskListView.Items.Count == 0) return;
 
-            e.NewValue = e.CurrentValue;
-            doubleClickFlag = false;
+                var index = e.Index;
+                ViewTaskAccessor.CheckTask(index, e.NewValue == CheckState.Checked);
+                Text = GetTitle();
+            }
         }
 
         private void TaskListView_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -224,6 +236,73 @@ namespace DailyBuildFriend
                     SaveFile(_fileName);
                 }
             }
+        }
+
+        //--------------------------------------------------------------------------
+        // 現在時刻を書き込む
+        //--------------------------------------------------------------------------
+        //private TimeSpan NowTimeWrite(Task data, string strCommand, bool bStart)
+        //{
+        //    DateTime dt = DateTime.Now;
+        //    string strLogFile = data.strLog + data.strFileName + "\\" + data.strFileName + "Result.log";
+        //    StreamWriter logWriter = new StreamWriter(strLogFile, true, System.Text.Encoding.GetEncoding(m_strStringCode));
+        //    logWriter.WriteLine(strCommand + dt.ToString("G"));
+        //    logWriter.Close();
+        //    m_strLogFile += strCommand + dt.ToString("G") + Environment.NewLine;
+        //    DailyBuildFriendTask(false, data);
+        //    if (bStart)
+        //    {
+        //        m_dtRecordTime = dt;
+        //    }
+        //    return dt - m_dtRecordTime;
+        //}
+
+        private CancellationTokenSource _tokenSource = null;
+        private RunForm RunForm = null;
+
+        public void StopRunForm()
+        {
+            if (_tokenSource != null) _tokenSource.Cancel();
+        }
+
+        delegate void CloseDBFormDelegate();
+        private void CloseDBForm()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new CloseDBFormDelegate(CloseDBForm));
+            }
+            else
+            {
+                RunForm.Close();
+            }
+        }
+
+        private void RunButton_Click(object sender, EventArgs e)
+        {
+            RunForm = new RunForm();
+            RunForm.Show();
+
+            if (_tokenSource == null) _tokenSource = new CancellationTokenSource();
+            var token = _tokenSource.Token;
+            Task.Factory.StartNew(() =>
+            {
+                foreach (var task in ViewTaskAccessor.GetTasks().Where(x => x.Checked))
+                {
+                    foreach (var command in task.ViewCommands.Where(x => x.Check))
+                    {
+                        RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
+                        //NowTimeWrite(task, "\t" + command.Name + "開始:", true);
+                        ViewCommandAccessor.Run(command);
+                        if (token.IsCancellationRequested) return;
+                    }
+                }
+            }, token).ContinueWith(t =>
+            {
+                CloseDBForm();
+                _tokenSource.Dispose();
+                _tokenSource = null;
+            });
         }
     }
 }

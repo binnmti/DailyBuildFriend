@@ -14,6 +14,7 @@ namespace DailyBuildFriend.ViewModel
         internal static void RemoveTask(int index) => TaskAccessor.RemoveTask(index);
         internal static void ClearTask() => TaskAccessor.ClearTask();
         internal static void EditTask(int index, ViewTask task) => TaskAccessor.EditTask(index, task.ToTask());
+        internal static void CheckTask(int index, bool check) => TaskAccessor.CheckTask(index, check);
         internal static string GetJson() => TaskAccessor.GetJson(false);
         internal static void Save(string fileName) => File.WriteAllText(fileName, TaskAccessor.GetJson(true));
         internal static void Load(string fileName) => TaskAccessor.SetJson(File.ReadAllText(fileName));
@@ -26,12 +27,12 @@ namespace DailyBuildFriend.ViewModel
         }
 
         private static ViewCommand ToViewCommand(this Command command)
-            => new ViewCommand() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
+            => new ViewCommand() { Name = command.Name, Check = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
 
         private static ViewTask ToViewTask(this Task task)
             => new ViewTask()
             {
-                Checked = task.Checked,
+                Checked = task.Check,
                 FileName = task.FileName,
                 Interval = new Check() { Checked = task.Interval },
                 LocalRevision = task.LocalRevision,
@@ -48,12 +49,12 @@ namespace DailyBuildFriend.ViewModel
             };
 
         private static Command ToCommand(this ViewCommand command)
-            => new Command() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
+            => new Command() { Name = command.Name, Checked = command.Check, Param1 = command.Param1, Param2 = command.Param2 };
 
         private static Task ToTask(this ViewTask task)
             => new Task()
             {
-                Checked = task.Checked,
+                Check = task.Checked,
                 FileName = task.FileName,
                 Interval = task.Interval.Checked,
                 LocalRevision = task.LocalRevision,

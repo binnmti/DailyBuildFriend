@@ -53,7 +53,7 @@ namespace DailyBuildFriend
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button1 = new System.Windows.Forms.Button();
+            this.RunButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -240,18 +240,19 @@ namespace DailyBuildFriend
             // 
             this.columnHeader10.Text = "サーバー";
             // 
-            // button1
+            // RunButton
             // 
-            this.button1.Location = new System.Drawing.Point(1375, 9);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(180, 79);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "実行";
-            this.button1.UseVisualStyleBackColor = true;
+            this.RunButton.Location = new System.Drawing.Point(1375, 9);
+            this.RunButton.Name = "RunButton";
+            this.RunButton.Size = new System.Drawing.Size(180, 79);
+            this.RunButton.TabIndex = 3;
+            this.RunButton.Text = "実行";
+            this.RunButton.UseVisualStyleBackColor = true;
+            this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.RunButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 195);
             this.panel1.Name = "panel1";
@@ -304,7 +305,7 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ListView TaskListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button RunButton;
         private System.Windows.Forms.ToolStripMenuItem AddToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader columnHeader4;
