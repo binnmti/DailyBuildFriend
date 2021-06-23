@@ -1,5 +1,4 @@
-﻿using DailyBuildFriend.Controller;
-using DailyBuildFriend.Model;
+﻿using DailyBuildFriend.ViewModel;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,25 +7,25 @@ namespace DailyBuildFriend
 {
     public partial class TaskForm : Form
     {
-        private readonly Task Task = new Task();
-        public TaskForm(Task task)
+        private readonly ViewTask ViewTask = new ViewTask();
+        public TaskForm(ViewTask task)
         {
             InitializeComponent();
             TaskNameTextBox.Text = task.TaskName;
             FileNameTextBox.Text = task.FileName;
             ProjectPathTextBox.Text = task.ProjectPath;
-            TimerCheckBox.Checked = task.Timer;
-            IntervalCheckBox.Checked = task.Interval;
-            ReportCheckBox.Checked = task.Report;
-            TimeoutCheckBox.Checked = task.TimeOut;
-            TimeOutTimeNumericUpDown.Value = task.TimeOutTime;
+            TimerCheckBox.Checked = task.Timer.Checked;
+            IntervalCheckBox.Checked = task.Interval.Checked;
+            ReportCheckBox.Checked = task.Report.Checked;
+            TimeoutCheckBox.Checked = task.TimeOut.Check;
+            TimeOutTimeNumericUpDown.Value = task.TimeOut.Time;
             CommandListView.BeginUpdate();
-            task.Commands.ForEach(x => CommandListView.Items.Add(ToListViewItem(x)));
+            task.ViewCommands.ToList().ForEach(x => CommandListView.Items.Add(ToListViewItem(x)));
             CommandListView.EndUpdate();
-            Task = task;
+            ViewTask = task;
         }
 
-        private static ListViewItem ToListViewItem(Command command)
+        private static ListViewItem ToListViewItem(ViewCommand command)
         {
             var item = new ListViewItem(command.Name);
             item.SubItems.Add(command.Param1);
@@ -34,14 +33,14 @@ namespace DailyBuildFriend
             return item;
         }
 
-        private void AddCommand(Command command)
+        private void AddCommand(ViewCommand command)
         {
             command.Checked = true;
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            Task.Commands.Add(command);
             CommandListView.Items.Add(ToListViewItem(command));
+            ViewTask.ViewCommands.Add(command);
         }
 
         private void EditCommand()
@@ -49,19 +48,19 @@ namespace DailyBuildFriend
             if (CommandListView.SelectedItems.Count == 0) return;
 
             var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var command = Task.Commands[index];
+            var command = ViewTask.ViewCommands[index];
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            Task.Commands[index] = command;
             CommandListView.Items[index] = ToListViewItem(command);
+            ViewTask.ViewCommands[index] = command;
         }
 
 
         private void Task2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult != DialogResult.OK) return;
-            var error = TaskController.Validation(Task);
+            var error = ViewTaskController.Validation(ViewTask);
             if (string.IsNullOrEmpty(error)) return;
 
             MessageBox.Show(error);
@@ -70,35 +69,35 @@ namespace DailyBuildFriend
 
 
         private void TaskNameTextBox_TextChanged(object sender, EventArgs e)
-            => Task.TaskName = TaskNameTextBox.Text;
+            => ViewTask.TaskName = TaskNameTextBox.Text;
 
         private void FileNameTextBox_TextChanged(object sender, EventArgs e)
-            => Task.FileName = FileNameTextBox.Text;
+            => ViewTask.FileName = FileNameTextBox.Text;
 
         private void ProjectPathTextBox_TextChanged(object sender, EventArgs e)
-            => Task.ProjectPath = ProjectPathTextBox.Text;
+            => ViewTask.ProjectPath = ProjectPathTextBox.Text;
 
         private void LogPathTextBox_TextChanged(object sender, EventArgs e)
-            => Task.LogPath = LogPathTextBox.Text;
+            => ViewTask.LogPath = LogPathTextBox.Text;
 
         private void TimerCheckBox_CheckedChanged(object sender, EventArgs e)
-            => Task.Timer = TimerCheckBox.Checked;
+            => ViewTask.Timer.Checked = TimerCheckBox.Checked;
 
         private void IntervalCheckBox_CheckedChanged(object sender, EventArgs e)
-            => Task.Interval = IntervalCheckBox.Checked;
+            => ViewTask.Interval.Checked = IntervalCheckBox.Checked;
 
         private void ReportCheckBox_CheckedChanged(object sender, EventArgs e)
-            => Task.Report = ReportCheckBox.Checked;
+            => ViewTask.Report.Checked = ReportCheckBox.Checked;
 
         private void TimeoutCheckBox_CheckedChanged(object sender, EventArgs e)
-            => Task.TimeOut = TimeoutCheckBox.Checked;
+            => ViewTask.TimeOut.Check = TimeoutCheckBox.Checked;
 
         private void TimeOutTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
-            => Task.TimeOutTime = (int)TimeOutTimeNumericUpDown.Value;
+            => ViewTask.TimeOut.Time = (int)TimeOutTimeNumericUpDown.Value;
 
         private void AllCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            Task.Commands.ForEach(x => x.Checked = AllCheckBox.Checked);
+            ViewTask.ViewCommands.ForEach(x => x.Checked = AllCheckBox.Checked);
             CommandListView.Items.Cast<ListViewItem>().ToList().ForEach(x => x.Checked = AllCheckBox.Checked);
         }
 
@@ -112,7 +111,7 @@ namespace DailyBuildFriend
         {
             foreach (var item in CommandListView.SelectedItems.Cast<ListViewItem>())
             {
-                Task.Commands.RemoveAt(item.Index);
+                ViewTask.ViewCommands.RemoveAt(item.Index);
                 CommandListView.Items.Remove(item);
             }
         }
@@ -125,27 +124,27 @@ namespace DailyBuildFriend
         }
 
         private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.PullGit, Param1 = Task.ProjectPath });
+            => AddCommand(ViewCommandController.Create(CommandType.PullGit, ViewTask.ProjectPath, ""));
 
         private void GitCheckOutCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.CheckoutGit, Param1 = Task.ProjectPath });
+            => AddCommand(ViewCommandController.Create(CommandType.CheckoutGit, ViewTask.ProjectPath, ""));
 
         private void GitCloneCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.CloneGit, Param2 = Task.ProjectPath });
+            => AddCommand(ViewCommandController.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
 
         private void VSBuildToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.VisualStudioBuild, Param1 = Task.ProjectPath });
+            => AddCommand(ViewCommandController.Create(CommandType.VisualStudioBuild, ViewTask.ProjectPath, ""));
 
         private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.VisualStudioTest, Param1 = Task.ProjectPath });
+            => AddCommand(ViewCommandController.Create(CommandType.VisualStudioTest, ViewTask.ProjectPath, ""));
 
         private void BatRunToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.RunBat });
+            => AddCommand(ViewCommandController.Create(CommandType.RunBat, "", ""));
 
         private void MailSendToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.SendMail });
+            => AddCommand(ViewCommandController.Create(CommandType.SendMail, "", ""));
 
         private void SlackSendToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(new Command() { CommandType = CommandType.SendSlack });
+            => AddCommand(ViewCommandController.Create(CommandType.SendSlack, "", ""));
     }
 }

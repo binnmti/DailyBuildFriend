@@ -1,5 +1,4 @@
-﻿using DailyBuildFriend.Controller;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestDailyBuildFriend
 {

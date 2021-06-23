@@ -3,25 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DailyBuildFriend.Controller
+namespace DailyBuildFriend.ViewModel
 {
-    internal class CommandController
+    internal static class ViewCommandController
     {
-        private class ViewCommand
-        {
-            public string Name { get; set; } = "";
-            public string Param1Default { get; set; } = "";
-            public string Param2Default { get; set; } = "";
-            public string Param1Description { get; set; } = "";
-            public string Param2Description { get; set; } = "";
-        }
-
         private static readonly Dictionary<CommandType, ViewCommand> Data = new Dictionary<CommandType, ViewCommand>()
         {
             { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
-            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VisualStudioビルド" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2Default = "ビルド" }  },
+            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VisualStudioビルド" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "ビルド" }  },
             { CommandType.VisualStudioTest, new ViewCommand() { Name = "VisualStudioテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Description = "" } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Description = "" } },
             { CommandType.CopyFile, new ViewCommand() { Name = "メール送信" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
@@ -29,12 +20,18 @@ namespace DailyBuildFriend.Controller
             { CommandType.SendSlack, new ViewCommand() { Name = "Slack送信" , Param1Description = "", Param2Description = "" } },
         };
 
-        internal static string GetName(CommandType type) => Data[type].Name;
-        internal static string GetParam1Description(CommandType type) => Data[type].Param1Description;
-        internal static string GetParam2Description(CommandType type) => Data[type].Param2Description;
-        internal static string GetParam1Default(CommandType type, string param) => string.IsNullOrEmpty(param) ? Data[type].Param1Default : param;
-        internal static string GetParam2Default(CommandType type, string param) => string.IsNullOrEmpty(param) ? Data[type].Param2Default : param;
-        internal static string Validation(Command command)
+        internal static ViewCommand Create(CommandType type, string param1, string param2)
+            => new ViewCommand()
+            {
+                CommandType = type,
+                Name = Data[type].Name,
+                Param1 = string.IsNullOrEmpty(param1) ? Data[type].Param1 : param1,
+                Param2 = string.IsNullOrEmpty(param2) ? Data[type].Param2 : param2,
+                Param1Description = Data[type].Param1Description,
+                Param2Description = Data[type].Param2Description,
+            };
+
+        internal static string Validation(this ViewCommand command)
         {
             string msg = "";
             switch (command.CommandType)
@@ -53,5 +50,11 @@ namespace DailyBuildFriend.Controller
             }
             return msg;
         }
+
+        internal static Command ToCommand(this ViewCommand command)
+            => new Command() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
+
+        internal static ViewCommand ToCommand(this Command command)
+            => new ViewCommand() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
     }
 }

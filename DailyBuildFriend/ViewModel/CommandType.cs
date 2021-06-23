@@ -1,4 +1,4 @@
-﻿namespace DailyBuildFriend.Model
+﻿namespace DailyBuildFriend.ViewModel
 {
     public enum CommandType
     {

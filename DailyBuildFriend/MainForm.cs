@@ -1,6 +1,5 @@
-﻿using DailyBuildFriend.Controller;
-using DailyBuildFriend.Model;
-using DailyBuildFriend.Properties;
+﻿using DailyBuildFriend.Properties;
+using DailyBuildFriend.ViewModel;
 using System;
 using System.IO;
 using System.Linq;
@@ -20,14 +19,14 @@ namespace DailyBuildFriend
             InitializeComponent();
         }
 
-        private ListViewItem ToListViewItem(Task task)
+        private ListViewItem ToListViewItem(ViewTask task)
         {
             var item = new ListViewItem(task.TaskName);
             item.SubItems.Add(task.ProjectPath);
-            item.SubItems.Add(TaskController.GetTimer(task.Timer));
-            item.SubItems.Add(TaskController.GetInterval(task.Interval));
-            item.SubItems.Add(TaskController.GetReport(task.Report));
-            item.SubItems.Add(TaskController.GetTimeOut(task.TimeOut, task.TimeOutTime));
+            item.SubItems.Add(task.Timer.Result);
+            item.SubItems.Add(task.Interval.Result);
+            item.SubItems.Add(task.Report.Result);
+            item.SubItems.Add(task.TimeOut.Result);
             item.Checked = true;
             return item;
         }
@@ -40,7 +39,7 @@ namespace DailyBuildFriend
             return title;
         }
 
-        private void AddTask(Task task)
+        private void AddTask(ViewTask task)
         {
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
@@ -50,7 +49,7 @@ namespace DailyBuildFriend
             Text = GetTitle();
         }
 
-        private void EditTask(int index, Task task)
+        private void EditTask(int index, ViewTask task)
         {
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
@@ -63,7 +62,7 @@ namespace DailyBuildFriend
 
         private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddTask(new Task());
+            AddTask(new ViewTask());
         }
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -89,7 +88,7 @@ namespace DailyBuildFriend
 
         }
 
-        private void SaveFile(string fileName, bool bCheck)
+        private void SaveFile(string fileName)
         {
             DailyBuildController.Save(fileName);
             _fileName = fileName;
@@ -114,13 +113,13 @@ namespace DailyBuildFriend
             }
             else
             {
-                SaveFile(_fileName, false);
+                SaveFile(_fileName);
             }
         }
 
         private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveFile(saveFileDialog1.FileName, false);
+            SaveFile(saveFileDialog1.FileName);
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,7 +143,7 @@ namespace DailyBuildFriend
             var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (files.Length <= 0) return;
 
-            AddTask(new Task
+            AddTask(new ViewTask
             {
                 FileName = Path.GetFileNameWithoutExtension(files[0]),
                 ProjectPath = files[0]
