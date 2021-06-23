@@ -460,7 +460,7 @@ namespace DailyBuildFriend
             this.MaximizeBox = false;
             this.Name = "TaskForm";
             this.Text = "タスク";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task2Form_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);

@@ -203,5 +203,27 @@ namespace DailyBuildFriend
         {
             Application.Exit();
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_jsonString == ViewTaskAccessor.GetJson()) return;
+
+            var msg = MessageBox.Show($"{Path.GetFileName(_fileName)} は変更されています。閉じる前に保存しますか？", "", MessageBoxButtons.YesNoCancel);
+            if (msg == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+            else if (msg == DialogResult.Yes)
+            {
+                if (string.IsNullOrEmpty(_fileName))
+                {
+                    saveFileDialog1.ShowDialog();
+                }
+                else
+                {
+                    SaveFile(_fileName);
+                }
+            }
+        }
     }
 }

@@ -56,8 +56,7 @@ namespace DailyBuildFriend
             ViewTask.ViewCommands[index] = command;
         }
 
-
-        private void Task2Form_FormClosing(object sender, FormClosingEventArgs e)
+        private void TaskForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult != DialogResult.OK) return;
             var error = ViewTaskAccessor.Validation(ViewTask);
@@ -66,7 +65,6 @@ namespace DailyBuildFriend
             MessageBox.Show(error);
             e.Cancel = true;
         }
-
 
         private void TaskNameTextBox_TextChanged(object sender, EventArgs e)
             => ViewTask.TaskName = TaskNameTextBox.Text;
