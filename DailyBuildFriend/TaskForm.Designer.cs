@@ -448,8 +448,10 @@ namespace DailyBuildFriend
             // 
             // TaskForm
             // 
+            this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.CancelingButton;
             this.ClientSize = new System.Drawing.Size(775, 628);
             this.Controls.Add(this.CommandListView);
             this.Controls.Add(this.toolStrip1);
