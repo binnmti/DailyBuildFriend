@@ -9,6 +9,6 @@
             set { _checked = value; Result = value ? "〇" : "×"; }
         }
 
-        public string Result { get; private set; } = "";
+        public string Result { get; private set; } = "×";
     }
 }

@@ -57,6 +57,7 @@ namespace DailyBuildFriend
             this.panel1 = new System.Windows.Forms.Panel();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -64,13 +65,12 @@ namespace DailyBuildFriend
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルFToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1567, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1762, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -186,7 +186,7 @@ namespace DailyBuildFriend
             this.TaskListView.Location = new System.Drawing.Point(0, 33);
             this.TaskListView.MultiSelect = false;
             this.TaskListView.Name = "TaskListView";
-            this.TaskListView.Size = new System.Drawing.Size(1567, 162);
+            this.TaskListView.Size = new System.Drawing.Size(1762, 162);
             this.TaskListView.TabIndex = 2;
             this.TaskListView.UseCompatibleStateImageBehavior = false;
             this.TaskListView.View = System.Windows.Forms.View.Details;
@@ -242,7 +242,7 @@ namespace DailyBuildFriend
             // 
             // RunButton
             // 
-            this.RunButton.Location = new System.Drawing.Point(1375, 9);
+            this.RunButton.Location = new System.Drawing.Point(1570, 9);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(180, 79);
             this.RunButton.TabIndex = 3;
@@ -256,7 +256,7 @@ namespace DailyBuildFriend
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 195);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1567, 100);
+            this.panel1.Size = new System.Drawing.Size(1762, 100);
             this.panel1.TabIndex = 4;
             // 
             // saveFileDialog1
@@ -272,11 +272,16 @@ namespace DailyBuildFriend
             this.openFileDialog1.Filter = "dbfファイル|*.dbf";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1567, 295);
+            this.ClientSize = new System.Drawing.Size(1762, 295);
             this.Controls.Add(this.TaskListView);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -324,6 +329,7 @@ namespace DailyBuildFriend
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

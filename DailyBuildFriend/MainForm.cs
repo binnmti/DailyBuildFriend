@@ -28,6 +28,9 @@ namespace DailyBuildFriend
             item.SubItems.Add(task.Interval.Result);
             item.SubItems.Add(task.Report.Result);
             item.SubItems.Add(task.TimeOut.Result);
+            item.SubItems.Add("");
+            item.SubItems.Add(task.LocalRevision);
+            item.SubItems.Add(task.ServerRevision);
             item.Checked = task.Checked;
             return item;
         }
@@ -46,21 +49,26 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
+            ViewTaskAccessor.SetGitCommitId(task);
             ViewTaskAccessor.AddTask(task);
             TaskListView.Items.Add(ToListViewItem(task));
             Text = GetTitle();
         }
 
-        private void EditTask(int index, ViewTask task)
+        private void EditTask()
         {
+            if (TaskListView.SelectedItems.Count == 0) return;
+
+            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
+            var task = ViewTaskAccessor.GetTask(index);
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
+            ViewTaskAccessor.SetGitCommitId(task);
             ViewTaskAccessor.EditTask(index, task);
             TaskListView.Items[index] = ToListViewItem(task);
             Text = GetTitle();
         }
-
 
         private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -77,13 +85,7 @@ namespace DailyBuildFriend
         }
 
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (TaskListView.SelectedItems.Count == 0) return;
-
-            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var task = ViewTaskAccessor.GetTask(index);
-            EditTask(index, task);
-        }
+            => EditTask();
 
         private void AddToolStripMenuItem_Click(object sender, MouseEventArgs e)
         {
@@ -189,13 +191,7 @@ namespace DailyBuildFriend
         }
 
         private void TaskListView_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (TaskListView.SelectedItems.Count == 0) return;
-
-            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var task = ViewTaskAccessor.GetTask(index);
-            EditTask(index, task);
-        }
+            => EditTask();
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -239,6 +235,14 @@ namespace DailyBuildFriend
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var tasks = ViewTaskAccessor.GetTasks().ToList();
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                TaskListView.Items[i] = ToListViewItem(tasks[i]);
+            }
+        }
         //--------------------------------------------------------------------------
         // 現在時刻を書き込む
         //--------------------------------------------------------------------------
