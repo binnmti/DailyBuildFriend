@@ -21,8 +21,10 @@ namespace DailyBuildFriend.ViewModel
 
         internal static string Validation(this ViewTask task)
         {
+            if (!string.IsNullOrEmpty(task.TaskName)) return "名前がありません";
             if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
             if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
+            if (!Directory.Exists(task.LogPath)) return "ログパスが存在しません";
             return "";
         }
 

@@ -148,7 +148,8 @@ namespace DailyBuildFriend
             AddTask(new ViewTask
             {
                 FileName = Path.GetFileNameWithoutExtension(files[0]),
-                ProjectPath = files[0]
+                ProjectPath = files[0],
+                LogPath = files[0],
             });
         }
 
@@ -201,7 +202,7 @@ namespace DailyBuildFriend
             TaskListView.Items.Clear();
             ViewTaskAccessor.ClearTask();
             _fileName = "";
-            Text = $"デイリービルドフレンズ";
+            Text = GetTitle();
         }
 
         private void NameSaveToolStripMenuItem_Click(object sender, EventArgs e)
