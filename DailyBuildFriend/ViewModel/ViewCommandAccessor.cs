@@ -4,7 +4,7 @@ using System.IO;
 
 namespace DailyBuildFriend.ViewModel
 {
-    internal static class ViewCommandController
+    internal static class ViewCommandAccessor
     {
         private static readonly Dictionary<CommandType, ViewCommand> Data = new Dictionary<CommandType, ViewCommand>()
         {

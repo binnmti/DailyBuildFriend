@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace DailyBuildFriend.Data
 {
-    internal class DailyBuildContext
+    internal static class DailyBuildContext
     {
-        internal List<Task> Tasks { get; set; } = new List<Task>();
+        internal static List<Task> Tasks { get; set; } = new List<Task>();
     }
 }

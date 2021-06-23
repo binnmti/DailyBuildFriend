@@ -2,30 +2,33 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DailyBuildFriend.ViewModel
 {
-    public class ViewDailyBuildController
+    internal static class ViewTaskAccessor
     {
-        private readonly DailyBuildController DailyBuildController = new DailyBuildController();
+        internal static IEnumerable<ViewTask> GetTasks() => TaskAccessor.GetTasks().Select(x => x.ToViewTask());
+        internal static void AddTask(ViewTask task) => TaskAccessor.AddTask(task.ToTask());
+        internal static ViewTask GetTask(int index) => TaskAccessor.GetTask(index).ToViewTask();
+        internal static void RemoveTask(int index) => TaskAccessor.RemoveTask(index);
+        internal static void ClearTask() => TaskAccessor.ClearTask();
+        internal static void EditTask(int index, ViewTask task) => TaskAccessor.EditTask(index, task.ToTask());
+        internal static string GetJson() => TaskAccessor.GetJson(false);
+        internal static void Save(string fileName) => File.WriteAllText(fileName, TaskAccessor.GetJson(true));
+        internal static void Load(string fileName) => TaskAccessor.SetJson(File.ReadAllText(fileName));
 
-        internal IEnumerable<ViewTask> GetTasks() => DailyBuildController.GetTasks().Select(x => x.ToViewTask());
-        internal void AddTask(ViewTask task) => DailyBuildController.AddTask(task.ToTask());
-        internal ViewTask GetTask(int index) => DailyBuildController.GetTask(index).ToViewTask();
-        internal void RemoveTask(int index) => DailyBuildController.RemoveTask(index);
-        internal void ClearTask() => DailyBuildController.ClearTask();
-        internal void EditTask(int index, ViewTask task) => DailyBuildController.EditTask(index, task.ToTask());
-        internal string GetJson() => DailyBuildController.GetJson(false);
-        internal void Save(string fileName) => File.WriteAllText(fileName, DailyBuildController.GetJson(true));
-        internal void Load(string fileName) => DailyBuildController.SetJson(File.ReadAllText(fileName));
-    }
+        internal static string Validation(this ViewTask task)
+        {
+            if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
+            if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
+            return "";
+        }
 
-    internal static class TaskConvert
-    {
         private static ViewCommand ToViewCommand(this Command command)
             => new ViewCommand() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
 
-        internal static ViewTask ToViewTask(this Task task)
+        private static ViewTask ToViewTask(this Task task)
             => new ViewTask()
             {
                 Checked = task.Checked,
@@ -47,7 +50,7 @@ namespace DailyBuildFriend.ViewModel
         private static Command ToCommand(this ViewCommand command)
             => new Command() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
 
-        internal static Task ToTask(this ViewTask task)
+        private static Task ToTask(this ViewTask task)
             => new Task()
             {
                 Checked = task.Checked,

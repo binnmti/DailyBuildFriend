@@ -60,7 +60,7 @@ namespace DailyBuildFriend
         private void Task2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult != DialogResult.OK) return;
-            var error = ViewTaskController.Validation(ViewTask);
+            var error = ViewTaskAccessor.Validation(ViewTask);
             if (string.IsNullOrEmpty(error)) return;
 
             MessageBox.Show(error);
@@ -124,27 +124,27 @@ namespace DailyBuildFriend
         }
 
         private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.PullGit, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.PullGit, ViewTask.ProjectPath, ""));
 
         private void GitCheckOutCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.CheckoutGit, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CheckoutGit, ViewTask.ProjectPath, ""));
 
         private void GitCloneCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
 
         private void VSBuildToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.VisualStudioBuild, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioBuild, ViewTask.ProjectPath, ""));
 
         private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.VisualStudioTest, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioTest, ViewTask.ProjectPath, ""));
 
         private void BatRunToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.RunBat, "", ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.RunBat, "", ""));
 
         private void MailSendToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.SendMail, "", ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.SendMail, "", ""));
 
         private void SlackSendToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandController.Create(CommandType.SendSlack, "", ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.SendSlack, "", ""));
     }
 }

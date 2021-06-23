@@ -82,11 +82,10 @@
     <Compile Include="CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\DailyBuildController.cs" />
+    <Compile Include="Model\TaskAccessor.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
-    <Compile Include="ViewModel\ViewTaskController.cs" />
-    <Compile Include="ViewModel\ViewDailyBuildController.cs" />
+    <Compile Include="ViewModel\ViewTaskAccessor.cs" />
     <Compile Include="Data\DailyBuildContext.cs" />
     <Compile Include="TaskForm.cs">
       <SubType>Form</SubType>
@@ -108,7 +107,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\ViewCommand.cs" />
-    <Compile Include="ViewModel\ViewCommandController.cs" />
+    <Compile Include="ViewModel\ViewCommandAccessor.cs" />
     <Compile Include="ViewModel\ViewTask.cs" />
     <EmbeddedResource Include="CommandForm.resx">
       <DependentUpon>CommandForm.cs</DependentUpon>

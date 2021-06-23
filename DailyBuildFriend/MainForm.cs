@@ -12,7 +12,6 @@ namespace DailyBuildFriend
         private string _fileName = "";
         private string _jsonString = "";
 
-        private ViewDailyBuildController DailyBuildController { get; set; } = new ViewDailyBuildController();
 
         public MainForm()
         {
@@ -35,7 +34,7 @@ namespace DailyBuildFriend
         {
             var title = $"デイリービルドフレンズ";
             if (!string.IsNullOrEmpty(_fileName)) title += $" - {Path.GetFileName(_fileName)}";
-            if (_jsonString != DailyBuildController.GetJson()) title += "*";
+            if (_jsonString != ViewTaskAccessor.GetJson()) title += "*";
             return title;
         }
 
@@ -44,7 +43,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            DailyBuildController.AddTask(task);
+            ViewTaskAccessor.AddTask(task);
             TaskListView.Items.Add(ToListViewItem(task));
             Text = GetTitle();
         }
@@ -54,7 +53,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            DailyBuildController.EditTask(index, task);
+            ViewTaskAccessor.EditTask(index, task);
             TaskListView.Items[index] = ToListViewItem(task);
             Text = GetTitle();
         }
@@ -69,7 +68,7 @@ namespace DailyBuildFriend
         {
             foreach(var item in TaskListView.SelectedItems.Cast<ListViewItem>())
             {
-                DailyBuildController.RemoveTask(item.Index);
+                ViewTaskAccessor.RemoveTask(item.Index);
                 TaskListView.Items.Remove(item);
             }
         }
@@ -79,7 +78,7 @@ namespace DailyBuildFriend
             if (TaskListView.SelectedItems.Count == 0) return;
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var task = DailyBuildController.GetTask(index);
+            var task = ViewTaskAccessor.GetTask(index);
             EditTask(index, task);
         }
 
@@ -90,18 +89,18 @@ namespace DailyBuildFriend
 
         private void SaveFile(string fileName)
         {
-            DailyBuildController.Save(fileName);
+            ViewTaskAccessor.Save(fileName);
             _fileName = fileName;
-            _jsonString = DailyBuildController.GetJson();
+            _jsonString = ViewTaskAccessor.GetJson();
             Text = GetTitle();
         }
 
         private void LoadFile(string fileName)
         {
-            DailyBuildController.Load(fileName);
-            DailyBuildController.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
+            ViewTaskAccessor.Load(fileName);
+            ViewTaskAccessor.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             _fileName = fileName;
-            _jsonString = DailyBuildController.GetJson();
+            _jsonString = ViewTaskAccessor.GetJson();
             Text = GetTitle();
         }
 
@@ -181,14 +180,14 @@ namespace DailyBuildFriend
             if (TaskListView.SelectedItems.Count == 0) return;
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var task = DailyBuildController.GetTask(index);
+            var task = ViewTaskAccessor.GetTask(index);
             EditTask(index, task);
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TaskListView.Items.Clear();
-            DailyBuildController.ClearTask();
+            ViewTaskAccessor.ClearTask();
             _fileName = "";
             Text = $"デイリービルドフレンズ";
         }
