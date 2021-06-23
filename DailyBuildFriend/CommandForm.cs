@@ -6,7 +6,7 @@ namespace DailyBuildFriend
     public partial class CommandForm : Form
     {
         private readonly ViewCommand Command = new ViewCommand();
-        public CommandForm(ViewCommand command)
+        internal CommandForm(ViewCommand command)
         {
             InitializeComponent();
 

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 
 namespace DailyBuildFriend.ViewModel
 {
-    public class ViewTask
+    internal class ViewTask
     {
-        public string TaskName { get; set; } = "";
-        public string FileName { get; set; } = "";
-        public string ProjectPath { get; set; } = "";
-        public string LogPath { get; set; } = "";
-        public bool Checked { get; set; }
-        public DateTime Update { get; set; }
-        public Check Timer { get; set; } = new Check();
-        public Check Interval { get; set; } = new Check();
-        public Check Report { get; set; } = new Check();
-        public TimeOut TimeOut { get; set; } = new TimeOut();
-        public DateTime WorstTime { get; set; }
-        public string LocalRevision { get; set; } = "";
-        public string ServerRevision { get; set; } = "";
-        public List<ViewCommand> ViewCommands { get; set; } = new List<ViewCommand>();
+        internal string TaskName { get; set; } = "";
+        internal string FileName { get; set; } = "";
+        internal string ProjectPath { get; set; } = "";
+        internal string LogPath { get; set; } = "";
+        internal bool Checked { get; set; }
+        internal DateTime Update { get; set; }
+        internal Check Timer { get; set; } = new Check();
+        internal Check Interval { get; set; } = new Check();
+        internal Check Report { get; set; } = new Check();
+        internal TimeOut TimeOut { get; set; } = new TimeOut();
+        internal DateTime WorstTime { get; set; }
+        internal string LocalRevision { get; set; } = "";
+        internal string ServerRevision { get; set; } = "";
+        internal List<ViewCommand> ViewCommands { get; set; } = new List<ViewCommand>();
     }
 }

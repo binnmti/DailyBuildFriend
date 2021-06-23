@@ -12,7 +12,7 @@ namespace DailyBuildFriend
         private string _fileName = "";
         private string _jsonString = "";
 
-        private DailyBuildController DailyBuildController { get; set; } = new DailyBuildController();
+        private ViewDailyBuildController DailyBuildController { get; set; } = new ViewDailyBuildController();
 
         public MainForm()
         {

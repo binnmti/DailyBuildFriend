@@ -1,6 +1,6 @@
 ﻿namespace DailyBuildFriend.ViewModel
 {
-    public enum CommandType
+    internal enum CommandType
     {
         PullGit,
         CheckoutGit,

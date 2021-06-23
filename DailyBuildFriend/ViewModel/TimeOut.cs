@@ -1,6 +1,6 @@
 ﻿namespace DailyBuildFriend.ViewModel
 {
-    public class TimeOut
+    internal class TimeOut
     {
         public bool Check { get; set; }
         public int Time { get; set; }

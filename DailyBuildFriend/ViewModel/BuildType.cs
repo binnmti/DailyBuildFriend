@@ -1,6 +1,6 @@
 ﻿namespace DailyBuildFriend.ViewModel
 {
-    public enum BuildType
+    internal enum BuildType
     {
         Build,
         ReBuild

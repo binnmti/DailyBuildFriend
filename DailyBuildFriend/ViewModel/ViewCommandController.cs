@@ -1,5 +1,4 @@
-﻿using DailyBuildFriend.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -12,8 +11,8 @@ namespace DailyBuildFriend.ViewModel
             { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
-            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VisualStudioビルド" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "ビルド" }  },
-            { CommandType.VisualStudioTest, new ViewCommand() { Name = "VisualStudioテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Description = "" } },
+            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "ビルド" }  },
+            { CommandType.VisualStudioTest, new ViewCommand() { Name = "VSテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Description = "" } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Description = "" } },
             { CommandType.CopyFile, new ViewCommand() { Name = "メール送信" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
             { CommandType.SendMail, new ViewCommand() { Name = "コピーファイル" , Param1Description = "", Param2Description = "" } },
@@ -50,11 +49,5 @@ namespace DailyBuildFriend.ViewModel
             }
             return msg;
         }
-
-        internal static Command ToCommand(this ViewCommand command)
-            => new Command() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
-
-        internal static ViewCommand ToCommand(this Command command)
-            => new ViewCommand() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
     }
 }

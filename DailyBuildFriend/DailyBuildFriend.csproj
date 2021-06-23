@@ -82,10 +82,11 @@
     <Compile Include="CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\DailyBuildController.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
     <Compile Include="ViewModel\ViewTaskController.cs" />
-    <Compile Include="ViewModel\DailyBuildController.cs" />
+    <Compile Include="ViewModel\ViewDailyBuildController.cs" />
     <Compile Include="Data\DailyBuildContext.cs" />
     <Compile Include="TaskForm.cs">
       <SubType>Form</SubType>

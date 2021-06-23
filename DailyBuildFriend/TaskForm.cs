@@ -8,7 +8,7 @@ namespace DailyBuildFriend
     public partial class TaskForm : Form
     {
         private readonly ViewTask ViewTask = new ViewTask();
-        public TaskForm(ViewTask task)
+        internal TaskForm(ViewTask task)
         {
             InitializeComponent();
             TaskNameTextBox.Text = task.TaskName;

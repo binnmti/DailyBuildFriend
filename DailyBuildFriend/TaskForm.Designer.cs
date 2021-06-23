@@ -38,42 +38,42 @@ namespace DailyBuildFriend
             this.ProjectPathTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.CommandListView = new System.Windows.Forms.ListView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.OkButton = new System.Windows.Forms.Button();
             this.CancelingButton = new System.Windows.Forms.Button();
+            this.OkButton = new System.Windows.Forms.Button();
+            this.CommandListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label4 = new System.Windows.Forms.Label();
-            this.LogPathTextBox = new System.Windows.Forms.TextBox();
-            this.AllCheckBox = new System.Windows.Forms.CheckBox();
-            this.TimerCheckBox = new System.Windows.Forms.CheckBox();
-            this.IntervalCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReportCheckBox = new System.Windows.Forms.CheckBox();
-            this.TimeoutCheckBox = new System.Windows.Forms.CheckBox();
-            this.TimeOutTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.追加AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GitPullToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GitCheckOutCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GitCloneCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GitPullToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.VSBuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VsTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BatRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MailSendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SlackSendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TimeOutTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.TimeoutCheckBox = new System.Windows.Forms.CheckBox();
+            this.ReportCheckBox = new System.Windows.Forms.CheckBox();
+            this.IntervalCheckBox = new System.Windows.Forms.CheckBox();
+            this.TimerCheckBox = new System.Windows.Forms.CheckBox();
+            this.AllCheckBox = new System.Windows.Forms.CheckBox();
+            this.LogPathTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TimeOutTimeNumericUpDown)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,6 +138,26 @@ namespace DailyBuildFriend
             this.panel1.Size = new System.Drawing.Size(775, 55);
             this.panel1.TabIndex = 6;
             // 
+            // CancelingButton
+            // 
+            this.CancelingButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelingButton.Location = new System.Drawing.Point(661, 16);
+            this.CancelingButton.Name = "CancelingButton";
+            this.CancelingButton.Size = new System.Drawing.Size(106, 34);
+            this.CancelingButton.TabIndex = 1;
+            this.CancelingButton.Text = "キャンセル";
+            this.CancelingButton.UseVisualStyleBackColor = true;
+            // 
+            // OkButton
+            // 
+            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OkButton.Location = new System.Drawing.Point(557, 16);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(98, 34);
+            this.OkButton.TabIndex = 0;
+            this.OkButton.Text = "OK";
+            this.OkButton.UseVisualStyleBackColor = true;
+            // 
             // CommandListView
             // 
             this.CommandListView.CheckBoxes = true;
@@ -158,147 +178,15 @@ namespace DailyBuildFriend
             this.CommandListView.View = System.Windows.Forms.View.Details;
             this.CommandListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.CommandListView_MouseDoubleClick);
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.TimeOutTimeNumericUpDown);
-            this.panel2.Controls.Add(this.TimeoutCheckBox);
-            this.panel2.Controls.Add(this.ReportCheckBox);
-            this.panel2.Controls.Add(this.IntervalCheckBox);
-            this.panel2.Controls.Add(this.TimerCheckBox);
-            this.panel2.Controls.Add(this.AllCheckBox);
-            this.panel2.Controls.Add(this.LogPathTextBox);
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.ProjectPathTextBox);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.FileNameTextBox);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.TaskNameTextBox);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(775, 186);
-            this.panel2.TabIndex = 8;
-            // 
-            // OkButton
-            // 
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(557, 16);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(98, 34);
-            this.OkButton.TabIndex = 0;
-            this.OkButton.Text = "OK";
-            this.OkButton.UseVisualStyleBackColor = true;
-            // 
-            // CancelingButton
-            // 
-            this.CancelingButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelingButton.Location = new System.Drawing.Point(661, 16);
-            this.CancelingButton.Name = "CancelingButton";
-            this.CancelingButton.Size = new System.Drawing.Size(106, 34);
-            this.CancelingButton.TabIndex = 1;
-            this.CancelingButton.Text = "キャンセル";
-            this.CancelingButton.UseVisualStyleBackColor = true;
-            // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "コマンド";
             this.columnHeader1.Width = 100;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(75, 107);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 18);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "ログパス";
-            // 
-            // LogPathTextBox
-            // 
-            this.LogPathTextBox.Location = new System.Drawing.Point(155, 104);
-            this.LogPathTextBox.Name = "LogPathTextBox";
-            this.LogPathTextBox.Size = new System.Drawing.Size(608, 25);
-            this.LogPathTextBox.TabIndex = 7;
-            this.LogPathTextBox.TextChanged += new System.EventHandler(this.LogPathTextBox_TextChanged);
-            // 
-            // AllCheckBox
-            // 
-            this.AllCheckBox.AutoSize = true;
-            this.AllCheckBox.Location = new System.Drawing.Point(12, 158);
-            this.AllCheckBox.Name = "AllCheckBox";
-            this.AllCheckBox.Size = new System.Drawing.Size(99, 22);
-            this.AllCheckBox.TabIndex = 8;
-            this.AllCheckBox.Text = "全チェック";
-            this.AllCheckBox.UseVisualStyleBackColor = true;
-            this.AllCheckBox.CheckedChanged += new System.EventHandler(this.AllCheckBox_CheckedChanged);
-            // 
-            // TimerCheckBox
-            // 
-            this.TimerCheckBox.AutoSize = true;
-            this.TimerCheckBox.Location = new System.Drawing.Point(157, 140);
-            this.TimerCheckBox.Name = "TimerCheckBox";
-            this.TimerCheckBox.Size = new System.Drawing.Size(88, 22);
-            this.TimerCheckBox.TabIndex = 9;
-            this.TimerCheckBox.Text = "タイマー";
-            this.TimerCheckBox.UseVisualStyleBackColor = true;
-            this.TimerCheckBox.CheckedChanged += new System.EventHandler(this.TimerCheckBox_CheckedChanged);
-            // 
-            // IntervalCheckBox
-            // 
-            this.IntervalCheckBox.AutoSize = true;
-            this.IntervalCheckBox.Location = new System.Drawing.Point(254, 140);
-            this.IntervalCheckBox.Name = "IntervalCheckBox";
-            this.IntervalCheckBox.Size = new System.Drawing.Size(117, 22);
-            this.IntervalCheckBox.TabIndex = 10;
-            this.IntervalCheckBox.Text = "インターバル";
-            this.IntervalCheckBox.UseVisualStyleBackColor = true;
-            this.IntervalCheckBox.CheckedChanged += new System.EventHandler(this.IntervalCheckBox_CheckedChanged);
-            // 
-            // ReportCheckBox
-            // 
-            this.ReportCheckBox.AutoSize = true;
-            this.ReportCheckBox.Location = new System.Drawing.Point(380, 140);
-            this.ReportCheckBox.Name = "ReportCheckBox";
-            this.ReportCheckBox.Size = new System.Drawing.Size(91, 22);
-            this.ReportCheckBox.TabIndex = 11;
-            this.ReportCheckBox.Text = "レポート";
-            this.ReportCheckBox.UseVisualStyleBackColor = true;
-            this.ReportCheckBox.CheckedChanged += new System.EventHandler(this.ReportCheckBox_CheckedChanged);
-            // 
-            // TimeoutCheckBox
-            // 
-            this.TimeoutCheckBox.AutoSize = true;
-            this.TimeoutCheckBox.Location = new System.Drawing.Point(480, 140);
-            this.TimeoutCheckBox.Name = "TimeoutCheckBox";
-            this.TimeoutCheckBox.Size = new System.Drawing.Size(114, 22);
-            this.TimeoutCheckBox.TabIndex = 12;
-            this.TimeoutCheckBox.Text = "タイムアウト";
-            this.TimeoutCheckBox.UseVisualStyleBackColor = true;
-            this.TimeoutCheckBox.CheckedChanged += new System.EventHandler(this.TimeoutCheckBox_CheckedChanged);
-            // 
-            // TimeOutTimeNumericUpDown
-            // 
-            this.TimeOutTimeNumericUpDown.Location = new System.Drawing.Point(609, 139);
-            this.TimeOutTimeNumericUpDown.Name = "TimeOutTimeNumericUpDown";
-            this.TimeOutTimeNumericUpDown.Size = new System.Drawing.Size(120, 25);
-            this.TimeOutTimeNumericUpDown.TabIndex = 13;
-            this.TimeOutTimeNumericUpDown.ValueChanged += new System.EventHandler(this.TimeOutTimeNumericUpDown_ValueChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(738, 141);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(26, 18);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "分";
-            // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "内容";
-            this.columnHeader2.Width = 671;
+            this.columnHeader2.Width = 300;
             // 
             // contextMenuStrip1
             // 
@@ -326,6 +214,62 @@ namespace DailyBuildFriend
             this.追加AToolStripMenuItem.Size = new System.Drawing.Size(203, 32);
             this.追加AToolStripMenuItem.Text = "追加(&A)";
             // 
+            // GitPullToolStripMenuItem
+            // 
+            this.GitPullToolStripMenuItem.Name = "GitPullToolStripMenuItem";
+            this.GitPullToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.GitPullToolStripMenuItem.Text = "gitプル(&P)";
+            this.GitPullToolStripMenuItem.Click += new System.EventHandler(this.GitPullToolStripMenuItem_Click);
+            // 
+            // GitCheckOutCToolStripMenuItem
+            // 
+            this.GitCheckOutCToolStripMenuItem.Name = "GitCheckOutCToolStripMenuItem";
+            this.GitCheckOutCToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.GitCheckOutCToolStripMenuItem.Text = "gitチェックアウト(&C)";
+            this.GitCheckOutCToolStripMenuItem.Click += new System.EventHandler(this.GitCheckOutCToolStripMenuItem_Click);
+            // 
+            // GitCloneCToolStripMenuItem
+            // 
+            this.GitCloneCToolStripMenuItem.Name = "GitCloneCToolStripMenuItem";
+            this.GitCloneCToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.GitCloneCToolStripMenuItem.Text = "gitクローン(&K)";
+            this.GitCloneCToolStripMenuItem.Click += new System.EventHandler(this.GitCloneCToolStripMenuItem_Click);
+            // 
+            // VSBuildToolStripMenuItem
+            // 
+            this.VSBuildToolStripMenuItem.Name = "VSBuildToolStripMenuItem";
+            this.VSBuildToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.VSBuildToolStripMenuItem.Text = "VSビルド(&B)";
+            this.VSBuildToolStripMenuItem.Click += new System.EventHandler(this.VSBuildToolStripMenuItem_Click);
+            // 
+            // VsTestToolStripMenuItem
+            // 
+            this.VsTestToolStripMenuItem.Name = "VsTestToolStripMenuItem";
+            this.VsTestToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.VsTestToolStripMenuItem.Text = "VSテスト(&T)";
+            this.VsTestToolStripMenuItem.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
+            // 
+            // BatRunToolStripMenuItem
+            // 
+            this.BatRunToolStripMenuItem.Name = "BatRunToolStripMenuItem";
+            this.BatRunToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.BatRunToolStripMenuItem.Text = "バッチ実行(&B)";
+            this.BatRunToolStripMenuItem.Click += new System.EventHandler(this.BatRunToolStripMenuItem_Click);
+            // 
+            // MailSendToolStripMenuItem
+            // 
+            this.MailSendToolStripMenuItem.Name = "MailSendToolStripMenuItem";
+            this.MailSendToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.MailSendToolStripMenuItem.Text = "メール送信(&M)";
+            this.MailSendToolStripMenuItem.Click += new System.EventHandler(this.MailSendToolStripMenuItem_Click);
+            // 
+            // SlackSendToolStripMenuItem
+            // 
+            this.SlackSendToolStripMenuItem.Name = "SlackSendToolStripMenuItem";
+            this.SlackSendToolStripMenuItem.Size = new System.Drawing.Size(246, 34);
+            this.SlackSendToolStripMenuItem.Text = "slack送信(&S)";
+            this.SlackSendToolStripMenuItem.Click += new System.EventHandler(this.SlackSendToolStripMenuItem_Click);
+            // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
@@ -350,26 +294,117 @@ namespace DailyBuildFriend
             this.RunToolStripMenuItem.Text = "起動(&R)";
             this.RunToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
-            // GitCheckOutCToolStripMenuItem
+            // panel2
             // 
-            this.GitCheckOutCToolStripMenuItem.Name = "GitCheckOutCToolStripMenuItem";
-            this.GitCheckOutCToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.GitCheckOutCToolStripMenuItem.Text = "gitチェックアウト(&C)";
-            this.GitCheckOutCToolStripMenuItem.Click += new System.EventHandler(this.GitCheckOutCToolStripMenuItem_Click);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.TimeOutTimeNumericUpDown);
+            this.panel2.Controls.Add(this.TimeoutCheckBox);
+            this.panel2.Controls.Add(this.ReportCheckBox);
+            this.panel2.Controls.Add(this.IntervalCheckBox);
+            this.panel2.Controls.Add(this.TimerCheckBox);
+            this.panel2.Controls.Add(this.AllCheckBox);
+            this.panel2.Controls.Add(this.LogPathTextBox);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.ProjectPathTextBox);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.FileNameTextBox);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.TaskNameTextBox);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(775, 186);
+            this.panel2.TabIndex = 8;
             // 
-            // GitCloneCToolStripMenuItem
+            // label5
             // 
-            this.GitCloneCToolStripMenuItem.Name = "GitCloneCToolStripMenuItem";
-            this.GitCloneCToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.GitCloneCToolStripMenuItem.Text = "gitクローン(&K)";
-            this.GitCloneCToolStripMenuItem.Click += new System.EventHandler(this.GitCloneCToolStripMenuItem_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(738, 141);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 18);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "分";
             // 
-            // GitPullToolStripMenuItem
+            // TimeOutTimeNumericUpDown
             // 
-            this.GitPullToolStripMenuItem.Name = "GitPullToolStripMenuItem";
-            this.GitPullToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.GitPullToolStripMenuItem.Text = "gitプル(&P)";
-            this.GitPullToolStripMenuItem.Click += new System.EventHandler(this.GitPullToolStripMenuItem_Click);
+            this.TimeOutTimeNumericUpDown.Location = new System.Drawing.Point(609, 139);
+            this.TimeOutTimeNumericUpDown.Name = "TimeOutTimeNumericUpDown";
+            this.TimeOutTimeNumericUpDown.Size = new System.Drawing.Size(120, 25);
+            this.TimeOutTimeNumericUpDown.TabIndex = 13;
+            this.TimeOutTimeNumericUpDown.ValueChanged += new System.EventHandler(this.TimeOutTimeNumericUpDown_ValueChanged);
+            // 
+            // TimeoutCheckBox
+            // 
+            this.TimeoutCheckBox.AutoSize = true;
+            this.TimeoutCheckBox.Location = new System.Drawing.Point(480, 140);
+            this.TimeoutCheckBox.Name = "TimeoutCheckBox";
+            this.TimeoutCheckBox.Size = new System.Drawing.Size(114, 22);
+            this.TimeoutCheckBox.TabIndex = 12;
+            this.TimeoutCheckBox.Text = "タイムアウト";
+            this.TimeoutCheckBox.UseVisualStyleBackColor = true;
+            this.TimeoutCheckBox.CheckedChanged += new System.EventHandler(this.TimeoutCheckBox_CheckedChanged);
+            // 
+            // ReportCheckBox
+            // 
+            this.ReportCheckBox.AutoSize = true;
+            this.ReportCheckBox.Location = new System.Drawing.Point(380, 140);
+            this.ReportCheckBox.Name = "ReportCheckBox";
+            this.ReportCheckBox.Size = new System.Drawing.Size(91, 22);
+            this.ReportCheckBox.TabIndex = 11;
+            this.ReportCheckBox.Text = "レポート";
+            this.ReportCheckBox.UseVisualStyleBackColor = true;
+            this.ReportCheckBox.CheckedChanged += new System.EventHandler(this.ReportCheckBox_CheckedChanged);
+            // 
+            // IntervalCheckBox
+            // 
+            this.IntervalCheckBox.AutoSize = true;
+            this.IntervalCheckBox.Location = new System.Drawing.Point(254, 140);
+            this.IntervalCheckBox.Name = "IntervalCheckBox";
+            this.IntervalCheckBox.Size = new System.Drawing.Size(117, 22);
+            this.IntervalCheckBox.TabIndex = 10;
+            this.IntervalCheckBox.Text = "インターバル";
+            this.IntervalCheckBox.UseVisualStyleBackColor = true;
+            this.IntervalCheckBox.CheckedChanged += new System.EventHandler(this.IntervalCheckBox_CheckedChanged);
+            // 
+            // TimerCheckBox
+            // 
+            this.TimerCheckBox.AutoSize = true;
+            this.TimerCheckBox.Location = new System.Drawing.Point(157, 140);
+            this.TimerCheckBox.Name = "TimerCheckBox";
+            this.TimerCheckBox.Size = new System.Drawing.Size(88, 22);
+            this.TimerCheckBox.TabIndex = 9;
+            this.TimerCheckBox.Text = "タイマー";
+            this.TimerCheckBox.UseVisualStyleBackColor = true;
+            this.TimerCheckBox.CheckedChanged += new System.EventHandler(this.TimerCheckBox_CheckedChanged);
+            // 
+            // AllCheckBox
+            // 
+            this.AllCheckBox.AutoSize = true;
+            this.AllCheckBox.Location = new System.Drawing.Point(12, 158);
+            this.AllCheckBox.Name = "AllCheckBox";
+            this.AllCheckBox.Size = new System.Drawing.Size(99, 22);
+            this.AllCheckBox.TabIndex = 8;
+            this.AllCheckBox.Text = "全チェック";
+            this.AllCheckBox.UseVisualStyleBackColor = true;
+            this.AllCheckBox.CheckedChanged += new System.EventHandler(this.AllCheckBox_CheckedChanged);
+            // 
+            // LogPathTextBox
+            // 
+            this.LogPathTextBox.Location = new System.Drawing.Point(155, 104);
+            this.LogPathTextBox.Name = "LogPathTextBox";
+            this.LogPathTextBox.Size = new System.Drawing.Size(608, 25);
+            this.LogPathTextBox.TabIndex = 7;
+            this.LogPathTextBox.TextChanged += new System.EventHandler(this.LogPathTextBox_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(75, 107);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 18);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "ログパス";
             // 
             // toolStrip1
             // 
@@ -384,50 +419,6 @@ namespace DailyBuildFriend
             this.toolStrip1.TabIndex = 11;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(102, 29);
-            this.toolStripButton1.Text = "VSビルド";
-            this.toolStripButton1.Click += new System.EventHandler(this.VSBuildToolStripMenuItem_Click);
-            // 
-            // VSBuildToolStripMenuItem
-            // 
-            this.VSBuildToolStripMenuItem.Name = "VSBuildToolStripMenuItem";
-            this.VSBuildToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.VSBuildToolStripMenuItem.Text = "VSビルド(&B)";
-            this.VSBuildToolStripMenuItem.Click += new System.EventHandler(this.VSBuildToolStripMenuItem_Click);
-            // 
-            // VsTestToolStripMenuItem
-            // 
-            this.VsTestToolStripMenuItem.Name = "VsTestToolStripMenuItem";
-            this.VsTestToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.VsTestToolStripMenuItem.Text = "VSテスト(&T)";
-            this.VsTestToolStripMenuItem.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
-            // 
-            // BatRunToolStripMenuItem
-            // 
-            this.BatRunToolStripMenuItem.Name = "BatRunToolStripMenuItem";
-            this.BatRunToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.BatRunToolStripMenuItem.Text = "バッチ実行(&B)";
-            this.BatRunToolStripMenuItem.Click += new System.EventHandler(this.BatRunToolStripMenuItem_Click);
-            // 
-            // MailSendToolStripMenuItem
-            // 
-            this.MailSendToolStripMenuItem.Name = "MailSendToolStripMenuItem";
-            this.MailSendToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.MailSendToolStripMenuItem.Text = "メール送信(&M)";
-            this.MailSendToolStripMenuItem.Click += new System.EventHandler(this.MailSendToolStripMenuItem_Click);
-            // 
-            // SlackSendToolStripMenuItem
-            // 
-            this.SlackSendToolStripMenuItem.Name = "SlackSendToolStripMenuItem";
-            this.SlackSendToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.SlackSendToolStripMenuItem.Text = "slack送信(&S)";
-            this.SlackSendToolStripMenuItem.Click += new System.EventHandler(this.SlackSendToolStripMenuItem_Click);
-            // 
             // toolStripButton2
             // 
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
@@ -436,6 +427,15 @@ namespace DailyBuildFriend
             this.toolStripButton2.Size = new System.Drawing.Size(90, 29);
             this.toolStripButton2.Text = "gitプル";
             this.toolStripButton2.Click += new System.EventHandler(this.GitPullToolStripMenuItem_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(102, 29);
+            this.toolStripButton1.Text = "VSビルド";
+            this.toolStripButton1.Click += new System.EventHandler(this.VSBuildToolStripMenuItem_Click);
             // 
             // toolStripButton3
             // 
@@ -446,7 +446,7 @@ namespace DailyBuildFriend
             this.toolStripButton3.Text = "VSテスト";
             this.toolStripButton3.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
             // 
-            // Task2Form
+            // TaskForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -458,14 +458,14 @@ namespace DailyBuildFriend
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Task2Form";
+            this.Name = "TaskForm";
             this.Text = "タスク";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task2Form_FormClosing);
             this.panel1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TimeOutTimeNumericUpDown)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
