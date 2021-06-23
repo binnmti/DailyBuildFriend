@@ -8,6 +8,7 @@ namespace DailyBuildFriend.Model
         public string TaskName { get; set; } = "";
         public string FileName { get; set; } = "";
         public string ProjectPath { get; set; } = "";
+        public string LogPath { get; set; } = "";
         public bool Checked { get; set; }
         public DateTime Update { get; set; }
         public bool Timer { get; set; }

@@ -2,8 +2,9 @@
 {
     public enum CommandType
     {
-        CloneGit,
         PullGit,
+        CheckoutGit,
+        CloneGit,
         VisualStudioBuild,
         VisualStudioTest,
 

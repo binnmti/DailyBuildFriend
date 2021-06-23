@@ -200,5 +200,10 @@ namespace DailyBuildFriend
             saveFileDialog1.FileName = Path.GetFileName(_fileName);
             saveFileDialog1.ShowDialog();
         }
+
+        private void TerminalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

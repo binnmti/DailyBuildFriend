@@ -18,8 +18,9 @@ namespace DailyBuildFriend.Controller
 
         private static readonly Dictionary<CommandType, ViewCommand> Data = new Dictionary<CommandType, ViewCommand>()
         {
+            { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Description = "Gitのパスを入力してください"  } },
+            { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
-            { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Description = "Gitのパスを入力してください", Param2Description = "ブランチを入力してください" } },
             { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VisualStudioビルド" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2Default = "ビルド" }  },
             { CommandType.VisualStudioTest, new ViewCommand() { Name = "VisualStudioテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Description = "" } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Description = "" } },
