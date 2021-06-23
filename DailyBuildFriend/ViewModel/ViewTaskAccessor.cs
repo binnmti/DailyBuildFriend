@@ -1,4 +1,5 @@
 ﻿using DailyBuildFriend.Model;
+using DailyBuildFriend.Utility;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -77,14 +78,6 @@ namespace DailyBuildFriend.ViewModel
             };
 
         private static string GetGitCommitId(string projectPath, string branch)
-            => Process.Start(new ProcessStartInfo
-            {
-                FileName = "git",
-                WorkingDirectory = projectPath,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                Arguments = $"log -n 1 --format=%h {branch}"
-            }).StandardOutput.ReadToEnd();
+            => ProcessUtility.ProcessStart("git", projectPath, $"log -n 1 --format=%h {branch}");
     }
 }

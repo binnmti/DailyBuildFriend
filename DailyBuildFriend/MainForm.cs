@@ -270,12 +270,12 @@ namespace DailyBuildFriend
             if (_tokenSource != null) _tokenSource.Cancel();
         }
 
-        delegate void CloseDBFormDelegate();
-        private void CloseDBForm()
+        delegate void CloseRunFormDelegate();
+        private void CloseRunForm()
         {
             if (InvokeRequired)
             {
-                Invoke(new CloseDBFormDelegate(CloseDBForm));
+                Invoke(new CloseRunFormDelegate(CloseRunForm));
             }
             else
             {
@@ -298,13 +298,13 @@ namespace DailyBuildFriend
                     {
                         RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
                         //NowTimeWrite(task, "\t" + command.Name + "開始:", true);
-                        ViewCommandAccessor.Run(command);
+                        var msg = ViewCommandAccessor.Run(command);
                         if (token.IsCancellationRequested) return;
                     }
                 }
             }, token).ContinueWith(t =>
             {
-                CloseDBForm();
+                CloseRunForm();
                 _tokenSource.Dispose();
                 _tokenSource = null;
             });

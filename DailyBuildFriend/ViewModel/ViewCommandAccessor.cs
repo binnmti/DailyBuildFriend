@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DailyBuildFriend.Utility;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -56,21 +57,16 @@ namespace DailyBuildFriend.ViewModel
             switch (command.CommandType)
             {
                 case CommandType.PullGit:
-                    var info = new ProcessStartInfo();
-                    info.FileName = "git";
-                    info.WorkingDirectory = Path.GetDirectoryName(command.Param1);
-                    info.Arguments = "pull";
-                    Process process = Process.Start(info);
-                    process.WaitForExit();
+                    msg = ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
                     break;
 
-                //case CommandType.PullGit:
-                //    if (File.Exists(command.Param1)) msg = "slnファイルが存在しません";
-                //    break;
-
+                case CommandType.VisualStudioBuild:
+                    //MSBuild MyApp.sln /t:Rebuild /p:Configuration=Release
+                    //TODO:これも指定できるように
+                    msg = ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), $"pull {command.Param1} /p:Configuration=Release");
+                    break;
             }
             return msg;
         }
-
     }
 }
