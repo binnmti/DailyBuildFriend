@@ -1,4 +1,5 @@
 ﻿using DailyBuildFriend.Properties;
+using DailyBuildFriend.Utility;
 using DailyBuildFriend.ViewModel;
 using System;
 using System.IO;
@@ -243,24 +244,7 @@ namespace DailyBuildFriend
                 TaskListView.Items[i] = ToListViewItem(tasks[i]);
             }
         }
-        //--------------------------------------------------------------------------
-        // 現在時刻を書き込む
-        //--------------------------------------------------------------------------
-        //private TimeSpan NowTimeWrite(Task data, string strCommand, bool bStart)
-        //{
-        //    DateTime dt = DateTime.Now;
-        //    string strLogFile = data.strLog + data.strFileName + "\\" + data.strFileName + "Result.log";
-        //    StreamWriter logWriter = new StreamWriter(strLogFile, true, System.Text.Encoding.GetEncoding(m_strStringCode));
-        //    logWriter.WriteLine(strCommand + dt.ToString("G"));
-        //    logWriter.Close();
-        //    m_strLogFile += strCommand + dt.ToString("G") + Environment.NewLine;
-        //    DailyBuildFriendTask(false, data);
-        //    if (bStart)
-        //    {
-        //        m_dtRecordTime = dt;
-        //    }
-        //    return dt - m_dtRecordTime;
-        //}
+
 
         private CancellationTokenSource _tokenSource = null;
         private RunForm RunForm = null;
@@ -292,15 +276,30 @@ namespace DailyBuildFriend
             var token = _tokenSource.Token;
             Task.Factory.StartNew(() =>
             {
+
                 foreach (var task in ViewTaskAccessor.GetTasks().Where(x => x.Checked))
                 {
+                    string file = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.log");
+                    FileUtility.Write(file, false, "デイリービルド開始", true);
                     foreach (var command in task.ViewCommands.Where(x => x.Check))
                     {
-                        RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
-                        //NowTimeWrite(task, "\t" + command.Name + "開始:", true);
-                        var msg = ViewCommandAccessor.Run(command);
+                        try
+                        {
+                            FileUtility.Write(file, true, $"{command.Name}開始", true);
+                            RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
+                            var msg = ViewCommandAccessor.Run(command);
+
+                            FileUtility.Write(file, true, $"{command.Name}終了", true);
+                        }
+                        catch (Exception)
+                        {
+                            FileUtility.Write(file, true, command.Name + "失敗", false);
+                            FileUtility.Write(file, true, "error!!", false);
+                        }
                         if (token.IsCancellationRequested) return;
                     }
+                    FileUtility.Write(file, true, "デイリービルド終了", true);
+                    FileUtility.Write(file, true, "finish!!", false);
                 }
             }, token).ContinueWith(t =>
             {

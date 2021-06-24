@@ -83,6 +83,7 @@
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\TaskAccessor.cs" />
+    <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\ProcessUtility.cs" />
     <Compile Include="RunForm.cs">
       <SubType>Form</SubType>
