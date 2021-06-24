@@ -61,9 +61,11 @@ namespace DailyBuildFriend.ViewModel
                     break;
 
                 case CommandType.VisualStudioBuild:
-                    //MSBuild MyApp.sln /t:Rebuild /p:Configuration=Release
-                    //TODO:これも指定できるように
-                    ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), $"pull {command.Param1} /p:Configuration=Release");
+                    var build = command.Param2 == "リビルド" ? "Rebuild" : "Build";
+                    var arguments = $"{command.Param1} /t:{build} /p:Configuration=Release /fileLogger";
+
+                    //TODO:exeは指定出来るように
+                    ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), arguments);
                     break;
             }
             return isFailed;
