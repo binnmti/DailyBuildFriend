@@ -2,6 +2,7 @@
 using DailyBuildFriend.Utility;
 using DailyBuildFriend.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -279,27 +280,45 @@ namespace DailyBuildFriend
 
                 foreach (var task in ViewTaskAccessor.GetTasks().Where(x => x.Checked))
                 {
+                    bool isBreak = false;
+                    bool isFaild = false;
                     string file = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.log");
                     FileUtility.Write(file, false, "デイリービルド開始", true);
                     foreach (var command in task.ViewCommands.Where(x => x.Check))
                     {
+                        FileUtility.Write(file, true, $"{command.Name}開始", true);
+                        RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
                         try
                         {
-                            FileUtility.Write(file, true, $"{command.Name}開始", true);
-                            RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
-                            var msg = ViewCommandAccessor.Run(command);
-
-                            FileUtility.Write(file, true, $"{command.Name}終了", true);
+                            if(ViewCommandAccessor.Run(command)) isFaild = true;
                         }
                         catch (Exception)
                         {
                             FileUtility.Write(file, true, command.Name + "失敗", false);
                             FileUtility.Write(file, true, "error!!", false);
+                            isBreak = true;
+                            break;
                         }
+                        FileUtility.Write(file, true, $"{command.Name}終了", true);
                         if (token.IsCancellationRequested) return;
                     }
                     FileUtility.Write(file, true, "デイリービルド終了", true);
                     FileUtility.Write(file, true, "finish!!", false);
+
+                    //CSV
+                    string csvFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv");
+
+                    //TODO:CSVが書き換えられた場合これでは駄目だが。。。
+                    var lines = File.Exists(csvFile) ? File.ReadLines(csvFile).Skip(1) : new List<string>();
+                    using var writer = new StreamWriter(csvFile);
+                    writer.WriteLine("リビジョン,結果,エラー,警告,テスト,フルビルド,開始時間,終了時間,全時間,編集者,");
+                    writer.Write($"{task.LocalRevision},");
+                    writer.Write(isBreak ? "中断" : isFaild ? "失敗" : "成功");
+
+                    foreach (var line in lines)
+                    {
+                        writer.WriteLine(line);
+                    }
                 }
             }, token).ContinueWith(t =>
             {

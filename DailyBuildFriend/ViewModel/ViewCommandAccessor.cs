@@ -51,22 +51,22 @@ namespace DailyBuildFriend.ViewModel
             return msg;
         }
 
-        internal static string Run(this ViewCommand command)
+        internal static bool Run(this ViewCommand command)
         {
-            string msg = "";
+            bool isFailed = false;
             switch (command.CommandType)
             {
                 case CommandType.PullGit:
-                    msg = ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
+                    ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
                     break;
 
                 case CommandType.VisualStudioBuild:
                     //MSBuild MyApp.sln /t:Rebuild /p:Configuration=Release
                     //TODO:これも指定できるように
-                    msg = ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), $"pull {command.Param1} /p:Configuration=Release");
+                    ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), $"pull {command.Param1} /p:Configuration=Release");
                     break;
             }
-            return msg;
+            return isFailed;
         }
     }
 }
