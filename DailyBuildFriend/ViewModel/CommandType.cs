@@ -5,6 +5,8 @@
         PullGit,
         CheckoutGit,
         CloneGit,
+
+        VisualStudioOpen,
         VisualStudioBuild,
         VisualStudioTest,
 

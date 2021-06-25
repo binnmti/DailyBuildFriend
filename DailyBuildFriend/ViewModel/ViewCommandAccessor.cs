@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace DailyBuildFriend.ViewModel
 {
@@ -13,7 +14,8 @@ namespace DailyBuildFriend.ViewModel
             { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
-            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "ビルド" }  },
+            { CommandType.VisualStudioOpen, new ViewCommand() { Name = "VS起動" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "ビルド" }  },
+            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "ソリューション名(Debug,Releaseなど)入力してください", Param1 = "Release" }  },
             { CommandType.VisualStudioTest, new ViewCommand() { Name = "VSテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Description = "" } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Description = "" } },
             { CommandType.CopyFile, new ViewCommand() { Name = "メール送信" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
@@ -51,24 +53,29 @@ namespace DailyBuildFriend.ViewModel
             return msg;
         }
 
-        internal static bool Run(this ViewCommand command)
+
+        internal static bool RunVsBuild(this ViewCommand command, List<ViewCommand> commandList)
         {
-            bool isFailed = false;
+            var sln = commandList.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
+            var rebuild = commandList.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param2 == "リビルド" ? "Rebuild" : "Build";
+            var arguments = $"{sln} /t:{rebuild} /p:Configuration={command.Param1} /fileLogger";
+            //TODO:exeは指定出来るように
+            ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), arguments);
+            //TODO:ファイル作って
+
+            //TODO:ログ解析してエラーがあれば返す
+            var failed = true;
+            return failed;
+        }
+
+        internal static void Run(this ViewCommand command)
+        {
             switch (command.CommandType)
             {
                 case CommandType.PullGit:
                     ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
                     break;
-
-                case CommandType.VisualStudioBuild:
-                    var build = command.Param2 == "リビルド" ? "Rebuild" : "Build";
-                    var arguments = $"{command.Param1} /t:{build} /p:Configuration=Release /fileLogger";
-
-                    //TODO:exeは指定出来るように
-                    ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), arguments);
-                    break;
             }
-            return isFailed;
         }
     }
 }

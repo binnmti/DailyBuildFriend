@@ -282,6 +282,7 @@ namespace DailyBuildFriend
                 {
                     bool isBreak = false;
                     bool isFaild = false;
+
                     string file = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.log");
                     FileUtility.Write(file, false, "デイリービルド開始", true);
                     foreach (var command in task.ViewCommands.Where(x => x.Check))
@@ -290,7 +291,14 @@ namespace DailyBuildFriend
                         RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
                         try
                         {
-                            if(ViewCommandAccessor.Run(command)) isFaild = true;
+                            if(command.CommandType == CommandType.VisualStudioBuild)
+                            {
+                                if (command.RunVsBuild(task.ViewCommands)) isFaild = true;
+                            }
+                            else
+                            {
+                                command.Run();
+                            }
                         }
                         catch (Exception)
                         {

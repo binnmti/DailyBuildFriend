@@ -27,7 +27,7 @@ namespace DailyBuildFriend
         private void CommandForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult != DialogResult.OK) return;
-            var error = ViewCommandAccessor.Validation(Command);
+            var error = Command.Validation();
             if (string.IsNullOrEmpty(error)) return;
 
             MessageBox.Show(error);
