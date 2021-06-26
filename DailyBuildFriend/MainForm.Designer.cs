@@ -58,6 +58,7 @@ namespace DailyBuildFriend
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -70,7 +71,8 @@ namespace DailyBuildFriend
             this.ファイルFToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1762, 33);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(10, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(2644, 35);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -170,6 +172,7 @@ namespace DailyBuildFriend
             this.TaskListView.CheckBoxes = true;
             this.TaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
+            this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5,
@@ -183,10 +186,11 @@ namespace DailyBuildFriend
             this.TaskListView.FullRowSelect = true;
             this.TaskListView.GridLines = true;
             this.TaskListView.HideSelection = false;
-            this.TaskListView.Location = new System.Drawing.Point(0, 33);
+            this.TaskListView.Location = new System.Drawing.Point(0, 35);
+            this.TaskListView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.TaskListView.MultiSelect = false;
             this.TaskListView.Name = "TaskListView";
-            this.TaskListView.Size = new System.Drawing.Size(1762, 162);
+            this.TaskListView.Size = new System.Drawing.Size(2644, 290);
             this.TaskListView.TabIndex = 2;
             this.TaskListView.UseCompatibleStateImageBehavior = false;
             this.TaskListView.View = System.Windows.Forms.View.Details;
@@ -242,9 +246,11 @@ namespace DailyBuildFriend
             // 
             // RunButton
             // 
-            this.RunButton.Location = new System.Drawing.Point(1570, 9);
+            this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RunButton.Location = new System.Drawing.Point(2338, 21);
+            this.RunButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(180, 79);
+            this.RunButton.Size = new System.Drawing.Size(288, 132);
             this.RunButton.TabIndex = 3;
             this.RunButton.Text = "実行";
             this.RunButton.UseVisualStyleBackColor = true;
@@ -254,9 +260,10 @@ namespace DailyBuildFriend
             // 
             this.panel1.Controls.Add(this.RunButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 195);
+            this.panel1.Location = new System.Drawing.Point(0, 325);
+            this.panel1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1762, 100);
+            this.panel1.Size = new System.Drawing.Size(2644, 167);
             this.panel1.TabIndex = 4;
             // 
             // saveFileDialog1
@@ -277,16 +284,22 @@ namespace DailyBuildFriend
             this.timer1.Interval = 60000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "更新日時";
+            this.columnHeader2.Width = 120;
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1762, 295);
+            this.ClientSize = new System.Drawing.Size(2644, 492);
             this.Controls.Add(this.TaskListView);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "MainForm";
             this.Text = "デイリービルドフレンズ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -330,6 +343,7 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 

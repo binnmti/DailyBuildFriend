@@ -1,6 +1,7 @@
 ﻿using DailyBuildFriend.Properties;
 using DailyBuildFriend.ViewModel;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -14,7 +15,6 @@ namespace DailyBuildFriend
         private string _fileName = "";
         private string _jsonString = "";
 
-
         public MainForm()
         {
             InitializeComponent();
@@ -23,6 +23,7 @@ namespace DailyBuildFriend
         private ListViewItem ToListViewItem(ViewTask task)
         {
             var item = new ListViewItem(task.TaskName);
+            item.SubItems.Add(task.UpdateDate);
             item.SubItems.Add(task.ProjectPath);
             item.SubItems.Add(task.Timer.Result);
             item.SubItems.Add(task.Interval.Result);
@@ -31,6 +32,14 @@ namespace DailyBuildFriend
             item.SubItems.Add("");
             item.SubItems.Add(task.LocalRevision);
             item.SubItems.Add(task.ServerRevision);
+            item.ForeColor = task.Result switch
+            {
+                "失敗" => Color.Red,
+                "中断" => Color.Gray,
+                "成功" => Color.Green,
+                _ => Color.Black,
+            };
+            item.BackColor = task.LocalRevision == task.ServerRevision ? Color.White : Color.Snow;
             item.Checked = task.Checked;
             return item;
         }
@@ -49,7 +58,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            ViewTaskAccessor.SetGitCommitId(task);
+            ViewTaskAccessor.Update(task);
             ViewTaskAccessor.AddTask(task);
             TaskListView.Items.Add(ToListViewItem(task));
             Text = GetTitle();
@@ -64,7 +73,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            ViewTaskAccessor.SetGitCommitId(task);
+            ViewTaskAccessor.Update(task);
             ViewTaskAccessor.EditTask(index, task);
             TaskListView.Items[index] = ToListViewItem(task);
             Text = GetTitle();
@@ -147,7 +156,6 @@ namespace DailyBuildFriend
         {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (files.Length <= 0) return;
-
             AddTask(new ViewTask
             {
                 FileName = Path.GetFileNameWithoutExtension(files[0]),
@@ -236,13 +244,27 @@ namespace DailyBuildFriend
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void UpdateListView()
         {
+            //TODO:GetTasksはVM的な意味で設計を再考
             var tasks = ViewTaskAccessor.GetTasks().ToList();
             for (int i = 0; i < tasks.Count; i++)
             {
                 TaskListView.Items[i] = ToListViewItem(tasks[i]);
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+            => UpdateListView();
+
+        private void FormActive()
+        {
+            Visible = true;
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+            }
+            Activate();
         }
 
         private static CancellationTokenSource? _tokenSource = null;
@@ -260,7 +282,12 @@ namespace DailyBuildFriend
                     void CloseRunForm()
                     {
                         if (InvokeRequired) Invoke((MethodInvoker)(() => { CloseRunForm(); }));
-                        else runForm.Close();
+                        else
+                        {
+                            runForm.Close();
+                            UpdateListView();
+                            FormActive();
+                        }
                     }
                     CloseRunForm();
                     _tokenSource.Dispose();
