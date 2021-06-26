@@ -1,8 +1,6 @@
 ﻿using DailyBuildFriend.Properties;
-using DailyBuildFriend.Utility;
 using DailyBuildFriend.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;

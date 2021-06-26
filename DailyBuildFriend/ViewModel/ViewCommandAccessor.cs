@@ -1,7 +1,6 @@
 ﻿using DailyBuildFriend.Utility;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -60,21 +59,6 @@ namespace DailyBuildFriend.ViewModel
             var arguments = $"{sln} /t:{rebuild} /p:Configuration={command.Param1} /fileLogger";
             //TODO:exeは指定出来るように
             ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), arguments);
-        }
-
-        internal static void Run(this ViewCommand command)
-        {
-            switch (command.CommandType)
-            {
-                case CommandType.PullGit:
-                    ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
-                    break;
-
-                case CommandType.VisualStudioOpen:
-                    ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
-                    break;
-            }
-            //TODO:テストもエラーを返すがこっちでやるか？
         }
     }
 }

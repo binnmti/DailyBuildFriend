@@ -37,6 +37,7 @@ namespace DailyBuildFriend.ViewModel
             return "";
         }
 
+        //TODO:RunFormが引数なのはちょっと微妙だが、直接渡さないとデータをファイルに書き出してFormで読むなどの処理が必要。そういう仕組みを作ったら移行する
         internal static void Run(RunForm runForm, CancellationToken token)
         {
             foreach (var task in GetTasks().Where(x => x.Checked))
@@ -46,40 +47,32 @@ namespace DailyBuildFriend.ViewModel
 
                 string logPathName = Path.Combine(task.LogPath, task.FileName);
                 string logFileName = Path.Combine(logPathName, task.FileName + "Result.log");
+
+                //TODO:念のためだがバリデーションの中で必ずやることにすればいらない
+                if (!Directory.Exists(Path.GetDirectoryName(logPathName))) Directory.CreateDirectory(Path.GetDirectoryName(logPathName));
+
                 FileUtility.Write(logFileName, false, "デイリービルド開始", true);
                 foreach (var command in task.ViewCommands.Where(x => x.Check))
                 {
-                    FileUtility.Write(logFileName, true, $"{command.Name}開始", true);
                     runForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
                     try
                     {
-                        if (command.CommandType == CommandType.VisualStudioOpen)
-                        {
-                            FileUtility.Write(Path.Combine(logPathName, task.FileName + "Warning.log"), false, "", true);
-                            FileUtility.Write(Path.Combine(logPathName, task.FileName + "Error.log"), false, "", true);
-                        }
-                        else if (command.CommandType == CommandType.VisualStudioBuild)
-                        {
-                            command.RunVsBuild(task.ViewCommands);
-
-                            var file = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
-                            ErrWaningAnalyze(file, file, command.Name, command.Param1, " 警告 ");
-                            ErrWaningAnalyze(file, file, command.Name, command.Param1, " エラー ");
-
-                        }
-                        else
-                        {
-                            command.Run();
-                        }
+                        FileUtility.Write(logFileName, true, $"{command.Name}開始", true);
+                        RunCommand(logPathName, task, command);
+                        FileUtility.Write(logFileName, true, $"{command.Name}終了", true);
                     }
-                    catch (Exception)
+                    //他のプロセスで例外が起きたら、ログを残して、実行を中断する
+                    catch (Exception ex)
                     {
                         FileUtility.Write(logFileName, true, command.Name + "失敗", false);
                         FileUtility.Write(logFileName, true, "error!!", false);
+                        using var writer = new StreamWriter(Path.Combine(logPathName, task.FileName + "Exception.log"));
+                        writer.WriteLine(command.Name);
+                        writer.WriteLine(ex.Message);
+                        writer.WriteLine(ex.StackTrace);
                         isBreak = true;
                         break;
                     }
-                    FileUtility.Write(logFileName, true, $"{command.Name}終了", true);
                     if (token.IsCancellationRequested) return;
                 }
                 FileUtility.Write(logFileName, true, "デイリービルド終了", true);
@@ -101,6 +94,29 @@ namespace DailyBuildFriend.ViewModel
                 //{
                 //    writer.WriteLine(line);
                 //}
+            }
+        }
+
+        private static void RunCommand(string logPathName, ViewTask task, ViewCommand command)
+        {
+            switch (command.CommandType)
+            {
+                case CommandType.PullGit:
+                    ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
+                    break;
+
+                case CommandType.VisualStudioOpen:
+                    FileUtility.Write(Path.Combine(logPathName, task.FileName + "Warning.log"), false, "", true);
+                    FileUtility.Write(Path.Combine(logPathName, task.FileName + "Error.log"), false, "", true);
+                    break;
+
+                case CommandType.VisualStudioBuild:
+                    command.RunVsBuild(task.ViewCommands);
+
+                    var file = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
+                    ErrWaningAnalyze(file, file, command.Name, command.Param1, " 警告 ");
+                    ErrWaningAnalyze(file, file, command.Name, command.Param1, " エラー ");
+                    break;
             }
         }
 
