@@ -61,6 +61,9 @@ namespace DailyBuildFriend
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.設定SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReportCheckBox = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -142,9 +145,10 @@ namespace DailyBuildFriend
             this.TaskListViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddToolStripMenuItem,
             this.EditToolStripMenuItem,
-            this.DeleteToolStripMenuItem});
+            this.DeleteToolStripMenuItem,
+            this.LogToolStripMenuItem});
             this.TaskListViewContextMenuStrip.Name = "contextMenuStrip1";
-            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(206, 100);
+            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(206, 132);
             // 
             // AddToolStripMenuItem
             // 
@@ -262,6 +266,8 @@ namespace DailyBuildFriend
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.ReportCheckBox);
             this.panel1.Controls.Add(this.RunButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 325);
@@ -308,6 +314,32 @@ namespace DailyBuildFriend
             this.OptionToolStripMenuItem.Text = "オプション(&O)";
             this.OptionToolStripMenuItem.Click += new System.EventHandler(this.OptionToolStripMenuItem_Click);
             // 
+            // LogToolStripMenuItem
+            // 
+            this.LogToolStripMenuItem.Name = "LogToolStripMenuItem";
+            this.LogToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
+            this.LogToolStripMenuItem.Text = "ログ(&L)";
+            this.LogToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
+            // 
+            // ReportCheckBox
+            // 
+            this.ReportCheckBox.AutoSize = true;
+            this.ReportCheckBox.Location = new System.Drawing.Point(23, 119);
+            this.ReportCheckBox.Name = "ReportCheckBox";
+            this.ReportCheckBox.Size = new System.Drawing.Size(131, 34);
+            this.ReportCheckBox.TabIndex = 4;
+            this.ReportCheckBox.Text = "レポート";
+            this.ReportCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(160, 115);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(42, 40);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
@@ -328,6 +360,7 @@ namespace DailyBuildFriend
             this.menuStrip1.PerformLayout();
             this.TaskListViewContextMenuStrip.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -365,6 +398,9 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ToolStripMenuItem 設定SToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OptionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem LogToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox ReportCheckBox;
     }
 }
 

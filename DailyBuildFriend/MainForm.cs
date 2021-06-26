@@ -305,5 +305,13 @@ namespace DailyBuildFriend
             var optionForm = new OptionForm();
             optionForm.ShowDialog();
         }
+
+        private void LogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TaskListView.SelectedItems.Count == 0) return;
+
+            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
+            ViewTaskAccessor.OpenLog(index);
+        }
     }
 }

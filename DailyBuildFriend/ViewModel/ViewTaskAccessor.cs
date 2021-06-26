@@ -2,6 +2,7 @@
 using DailyBuildFriend.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace DailyBuildFriend.ViewModel
         internal static void EditTask(int index, ViewTask task) => TaskAccessor.EditTask(index, task.ToTask());
         internal static void AddTask(ViewTask task) => TaskAccessor.AddTask(task.ToTask());
         internal static void CheckTask(int index, bool check) => TaskAccessor.CheckTask(index, check);
+        internal static void OpenLog(int index)
+        {
+            var task = GetTask(index);
+            Process.Start(Path.Combine(task.ProjectPath, task.FileName));
+        }
 
         internal static string Validation(this ViewTask task)
         {
