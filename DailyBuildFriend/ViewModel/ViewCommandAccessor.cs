@@ -53,19 +53,13 @@ namespace DailyBuildFriend.ViewModel
             return msg;
         }
 
-
-        internal static bool RunVsBuild(this ViewCommand command, List<ViewCommand> commandList)
+        internal static void RunVsBuild(this ViewCommand command, List<ViewCommand> commandList)
         {
             var sln = commandList.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
             var rebuild = commandList.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param2 == "リビルド" ? "Rebuild" : "Build";
             var arguments = $"{sln} /t:{rebuild} /p:Configuration={command.Param1} /fileLogger";
             //TODO:exeは指定出来るように
             ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), arguments);
-            //TODO:ファイル作って
-
-            //TODO:ログ解析してエラーがあれば返す
-            var failed = true;
-            return failed;
         }
 
         internal static void Run(this ViewCommand command)
@@ -75,7 +69,12 @@ namespace DailyBuildFriend.ViewModel
                 case CommandType.PullGit:
                     ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
                     break;
+
+                case CommandType.VisualStudioOpen:
+                    ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
+                    break;
             }
+            //TODO:テストもエラーを返すがこっちでやるか？
         }
     }
 }

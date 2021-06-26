@@ -104,6 +104,7 @@ namespace DailyBuildFriend
 
         private void LoadFile(string fileName)
         {
+            //TODO:ロードが出来てもデータとして正しいかは別なのでバリデーションが必要。
             ViewTaskAccessor.Load(fileName);
             ViewTaskAccessor.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             _fileName = fileName;
@@ -246,94 +247,24 @@ namespace DailyBuildFriend
             }
         }
 
-
-        private CancellationTokenSource _tokenSource = null;
-        private RunForm RunForm = null;
-
-        public void StopRunForm()
+        private static CancellationTokenSource? _tokenSource = null;
+        public static void StopRunForm() => _tokenSource?.Cancel();
+        private async void RunButton_Click(object sender, EventArgs e)
         {
-            if (_tokenSource != null) _tokenSource.Cancel();
-        }
-
-        delegate void CloseRunFormDelegate();
-        private void CloseRunForm()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new CloseRunFormDelegate(CloseRunForm));
-            }
-            else
-            {
-                RunForm.Close();
-            }
-        }
-
-        private void RunButton_Click(object sender, EventArgs e)
-        {
-            RunForm = new RunForm();
-            RunForm.Show();
-
-            if (_tokenSource == null) _tokenSource = new CancellationTokenSource();
-            var token = _tokenSource.Token;
-            Task.Factory.StartNew(() =>
-            {
-
-                foreach (var task in ViewTaskAccessor.GetTasks().Where(x => x.Checked))
+            using var runForm = new RunForm();
+            runForm.Show();
+            _tokenSource = new CancellationTokenSource();
+            await Task.Run(() => { ViewTaskAccessor.Run(runForm, _tokenSource.Token); }, _tokenSource.Token)
+                .ContinueWith(t =>
                 {
-                    bool isBreak = false;
-                    bool isFaild = false;
-
-                    string file = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.log");
-                    FileUtility.Write(file, false, "デイリービルド開始", true);
-                    foreach (var command in task.ViewCommands.Where(x => x.Check))
+                    void CloseRunForm()
                     {
-                        FileUtility.Write(file, true, $"{command.Name}開始", true);
-                        RunForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
-                        try
-                        {
-                            if(command.CommandType == CommandType.VisualStudioBuild)
-                            {
-                                if (command.RunVsBuild(task.ViewCommands)) isFaild = true;
-                            }
-                            else
-                            {
-                                command.Run();
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            FileUtility.Write(file, true, command.Name + "失敗", false);
-                            FileUtility.Write(file, true, "error!!", false);
-                            isBreak = true;
-                            break;
-                        }
-                        FileUtility.Write(file, true, $"{command.Name}終了", true);
-                        if (token.IsCancellationRequested) return;
+                        if (InvokeRequired) Invoke((MethodInvoker)(() => { CloseRunForm(); }));
+                        else runForm.Close();
                     }
-                    FileUtility.Write(file, true, "デイリービルド終了", true);
-                    FileUtility.Write(file, true, "finish!!", false);
-
-                    //CSV
-                    string csvFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv");
-
-                    //TODO:CSVが書き換えられた場合これでは駄目だが。。。
-                    var lines = File.Exists(csvFile) ? File.ReadLines(csvFile).Skip(1) : new List<string>();
-                    using var writer = new StreamWriter(csvFile);
-                    writer.WriteLine("リビジョン,結果,エラー,警告,テスト,フルビルド,開始時間,終了時間,全時間,編集者,");
-                    writer.Write($"{task.LocalRevision},");
-                    writer.Write(isBreak ? "中断" : isFaild ? "失敗" : "成功");
-
-                    foreach (var line in lines)
-                    {
-                        writer.WriteLine(line);
-                    }
-                }
-            }, token).ContinueWith(t =>
-            {
-                CloseRunForm();
-                _tokenSource.Dispose();
-                _tokenSource = null;
-            });
+                    CloseRunForm();
+                    _tokenSource.Dispose();
+                });
         }
     }
 }

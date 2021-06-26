@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DailyBuildFriend
@@ -24,14 +17,9 @@ namespace DailyBuildFriend
         private string CommandState { get; set; } = "";
         private string Revision { get; set; } = "";
 
-        private delegate void SetMessageDelegate();
-
         private void ShowMessage()
         {
-            if (InvokeRequired)
-            {
-                Invoke(new SetMessageDelegate(ShowMessage));
-            }
+            if (InvokeRequired) Invoke((MethodInvoker)(() => { ShowMessage(); }));
             else
             {
                 Message1Label.Text = Message1;
@@ -65,5 +53,10 @@ namespace DailyBuildFriend
             ShowMessage();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SuspensionButton.Enabled = false;
+            MainForm.StopRunForm();
+        }
     }
 }
