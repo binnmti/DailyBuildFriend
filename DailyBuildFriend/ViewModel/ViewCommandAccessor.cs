@@ -68,15 +68,13 @@ namespace DailyBuildFriend.ViewModel
         internal static void RunVsBuild(this ViewCommand command, string slnFile, string logFile, string rebuild)
         {
             var arguments = $"\"{slnFile}\" /{rebuild} {command.Param1} /out \"{logFile}\"";
-            //TODO:exeは指定出来るように
-            ProcessUtility.ProcessStart(@"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.exe", Path.GetDirectoryName(slnFile), arguments);
+            ProcessUtility.ProcessStart(ViewOptionAccessor.DevEnv, Path.GetDirectoryName(slnFile), arguments);
         }
 
         internal static void RunMSBuild(this ViewCommand command, string slnFile, string logFile, string rebuild)
         {
             var arguments = $"\"{slnFile}\" /t:{rebuild} /p:Configuration={command.Param1} /fileLogger /fileLoggerParameters:LogFile=\"{logFile}\"";
-            //TODO:exeは指定出来るように
-            ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(slnFile), arguments);
+            ProcessUtility.ProcessStart(ViewOptionAccessor.MSBuild, Path.GetDirectoryName(slnFile), arguments);
         }
     }
 }

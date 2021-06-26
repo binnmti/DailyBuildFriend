@@ -166,6 +166,9 @@ namespace DailyBuildFriend
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
+            if (File.Exists(fileName))  ViewOptionAccessor.Load(fileName);
+
             if (!File.Exists(Settings.Default.OpenFileName)) return;
             LoadFile(Settings.Default.OpenFileName);
         }
@@ -174,6 +177,9 @@ namespace DailyBuildFriend
         {
             Settings.Default.OpenFileName = _fileName;
             Settings.Default.Save();
+
+            string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
+            ViewOptionAccessor.Save(fileName);
         }
 
         private bool doubleClickFlag;
@@ -292,6 +298,12 @@ namespace DailyBuildFriend
                     CloseRunForm();
                     _tokenSource.Dispose();
                 });
+        }
+
+        private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var optionForm = new OptionForm();
+            optionForm.ShowDialog();
         }
     }
 }

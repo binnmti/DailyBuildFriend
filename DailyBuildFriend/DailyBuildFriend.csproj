@@ -43,6 +43,7 @@
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -83,6 +84,12 @@
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\TaskAccessor.cs" />
+    <Compile Include="OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\ProcessUtility.cs" />
     <Compile Include="RunForm.cs">
@@ -94,6 +101,8 @@
     <Compile Include="ViewModel\RunResultSerivce.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
+    <Compile Include="ViewModel\ViewOptionAccessor.cs" />
+    <Compile Include="ViewModel\ViewOption.cs" />
     <Compile Include="ViewModel\ViewTaskAccessor.cs" />
     <Compile Include="Data\DailyBuildContext.cs" />
     <Compile Include="TaskForm.cs">
@@ -120,6 +129,9 @@
     <Compile Include="ViewModel\ViewTask.cs" />
     <EmbeddedResource Include="CommandForm.resx">
       <DependentUpon>CommandForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RunForm.resx">
       <DependentUpon>RunForm.cs</DependentUpon>

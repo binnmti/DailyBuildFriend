@@ -10,7 +10,7 @@ namespace DailyBuildFriend.ViewModel
         internal string ProjectPath { get; set; } = "";
         internal string LogPath { get; set; } = "";
         internal bool Checked { get; set; }
-        internal string UpdateDate { get; set; }
+        internal string UpdateDate { get; set; } = "";
         internal Check Timer { get; set; } = new Check();
         internal Check Interval { get; set; } = new Check();
         internal Check Report { get; set; } = new Check();
