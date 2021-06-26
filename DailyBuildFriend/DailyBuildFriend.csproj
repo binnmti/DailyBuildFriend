@@ -91,6 +91,7 @@
     <Compile Include="RunForm.Designer.cs">
       <DependentUpon>RunForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\RunResultSerivce.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
     <Compile Include="ViewModel\ViewTaskAccessor.cs" />

@@ -52,11 +52,9 @@ namespace DailyBuildFriend.ViewModel
             return msg;
         }
 
-        internal static void RunVsBuild(this ViewCommand command, List<ViewCommand> commandList)
+        internal static void RunVsBuild(this ViewCommand command, string slnFile, string rebuild)
         {
-            var sln = commandList.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
-            var rebuild = commandList.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param2 == "リビルド" ? "Rebuild" : "Build";
-            var arguments = $"{sln} /t:{rebuild} /p:Configuration={command.Param1} /fileLogger";
+            var arguments = $"{slnFile} /t:{rebuild} /p:Configuration={command.Param1} /fileLogger";
             //TODO:exeは指定出来るように
             ProcessUtility.ProcessStart(@"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe", Path.GetDirectoryName(command.Param1), arguments);
         }

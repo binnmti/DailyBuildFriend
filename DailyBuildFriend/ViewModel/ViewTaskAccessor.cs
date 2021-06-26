@@ -39,22 +39,27 @@ namespace DailyBuildFriend.ViewModel
         }
 
         //TODO:RunFormが引数なのはちょっと微妙だが、直接渡さないとデータをファイルに書き出してFormで読むなどの処理が必要。そういう仕組みを作ったら移行する
-        internal static void Run(RunForm runForm, CancellationToken token)
+        internal static void Run(RunForm runForm, CancellationToken token, string forceBuild)
         {
             foreach (var task in GetTasks().Where(x => x.Checked))
             {
-                ResultData data = new ResultData();
+                var data = new RunResultSerivce.ResultData();
 
                 string logPathName = Path.Combine(task.LogPath, task.FileName);
                 string logFileName = Path.Combine(logPathName, task.FileName + "Result.log");
-
-                //TODO:念のためだがバリデーションの中で必ずやることにすればいらない
+                //TODO:念のためやっている。バリデーションの中で必ずやることにすればいらない
                 if (!Directory.Exists(Path.GetDirectoryName(logPathName))) Directory.CreateDirectory(Path.GetDirectoryName(logPathName));
 
                 data.StartTime = DateTime.Now;
                 data.Revision = task.LocalRevision;
-                data.ReBuild = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen)?.Param2 == "リビルド";
-
+                if (forceBuild != "")
+                {
+                    data.ReBuild = forceBuild == "リビルド";
+                }
+                else
+                {
+                    data.ReBuild = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen)?.Param2 == "リビルド";
+                }
                 FileUtility.Write(logFileName, false, "デイリービルド開始", true);
                 foreach (var command in task.ViewCommands.Where(x => x.Check))
                 {
@@ -69,13 +74,14 @@ namespace DailyBuildFriend.ViewModel
                                 break;
 
                             case CommandType.VisualStudioOpen:
-                                FileUtility.Write(Path.Combine(logPathName, task.FileName + "Warning.log"), false, "", true);
-                                FileUtility.Write(Path.Combine(logPathName, task.FileName + "Error.log"), false, "", true);
+                                File.Create(Path.Combine(logPathName, task.FileName + "Warning.log")).Close();
+                                File.Create(Path.Combine(logPathName, task.FileName + "Error.log")).Close();
                                 break;
 
                             case CommandType.VisualStudioBuild:
-                                command.RunVsBuild(task.ViewCommands);
-
+                                var slnFile = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
+                                var rebuild = data.ReBuild ? "Rebuild" : "Build";
+                                command.RunVsBuild(slnFile, rebuild);
                                 var file = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
                                 data.BuildWarningCount += ErrWaningAnalyze(file, file, command.Name, command.Param1, " 警告 ");
                                 data.BuildErrorCount += ErrWaningAnalyze(file, file, command.Name, command.Param1, " エラー ");
@@ -102,49 +108,11 @@ namespace DailyBuildFriend.ViewModel
                 FileUtility.Write(logFileName, true, "finish!!", false);
 
                 //TODO:ここでファイルアクセス出来ない場合はどうするか
-                string csvFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv");
-                WriteResultFile(csvFile, data);
+                data.WriteResult(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"));
             }
         }
 
 
-        internal class ResultData
-        {
-            internal string Revision { get; set; } = "";
-            internal bool ReBuild { get; set; }
-            internal int BuildErrorCount { get; set; }
-            internal int BuildWarningCount { get; set; }
-            internal int TestErrorCount { get; set; }
-            internal DateTime StartTime { get; set; }
-            internal DateTime EndTime { get; set; }
-            internal string Break { get; set; } = "";
-        }
-
-        private static void WriteResultFile(string resultFile, ResultData data)
-        {
-            var sb = new StringBuilder();
-            //TODO:編集者を入れたい
-            sb.AppendLine("リビジョン,結果,エラー,警告,テスト,リビルド,開始時間,終了時間,全時間,");
-            sb.Append($"{data.Revision},");
-            sb.Append(data.Break != "" ? "中断," : data.BuildErrorCount != 0 || data.TestErrorCount != 0 ? "失敗," : "成功,");
-            sb.Append($"{data.BuildErrorCount},");
-            sb.Append($"{data.BuildWarningCount},");
-            sb.Append($"{data.TestErrorCount},");
-            sb.Append(data.ReBuild ? "○," : "×,");
-            sb.Append($"{data.StartTime:G},");
-            sb.Append($"{data.EndTime:G},");
-            if (data.Break != "")
-            {
-                sb.Append($"{data.Break},");
-            }
-            else
-            {
-                sb.Append($"{data.EndTime - data.StartTime:G},");
-            }
-            sb.AppendLine();
-            if (File.Exists(resultFile)) sb.Append(string.Join("\n", File.ReadAllLines(resultFile).Skip(1)));
-            File.WriteAllText(resultFile, sb.ToString());
-        }
 
         private static int ErrWaningAnalyze(string logFileName, string saveFileName, string command, string param, string keyword)
         {

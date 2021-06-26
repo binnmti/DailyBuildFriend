@@ -252,7 +252,9 @@ namespace DailyBuildFriend
             using var runForm = new RunForm();
             runForm.Show();
             _tokenSource = new CancellationTokenSource();
-            await Task.Run(() => { ViewTaskAccessor.Run(runForm, _tokenSource.Token); }, _tokenSource.Token)
+
+            //TODO:UIから強制ビルドしてい可能
+            await Task.Run(() => { ViewTaskAccessor.Run(runForm, _tokenSource.Token, ""); }, _tokenSource.Token)
                 .ContinueWith(t =>
                 {
                     void CloseRunForm()
