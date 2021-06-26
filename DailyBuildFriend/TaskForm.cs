@@ -40,13 +40,16 @@ namespace DailyBuildFriend
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            CommandListView.Items.Add(ToListViewItem(command));
             ViewTask.ViewCommands.Add(command);
+            CommandListView.Items.Add(ToListViewItem(command));
         }
 
         private void EditCommand()
         {
             if (CommandListView.SelectedItems.Count == 0) return;
+
+
+            //ViewCommandAccessor.Create(CommandType.PullGit, ViewTask.ProjectPath, "")
 
             var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
             var command = ViewTask.ViewCommands[index];
@@ -145,5 +148,57 @@ namespace DailyBuildFriend
 
         private void SlackSendToolStripMenuItem_Click(object sender, EventArgs e)
             => AddCommand(ViewCommandAccessor.Create(CommandType.SendSlack, "", ""));
+
+        private void VsOpenToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioOpen, "", ""));
+
+        private bool doubleClickFlag;
+        private void CommandListView_MouseDown(object sender, MouseEventArgs e)
+        {
+            doubleClickFlag = e.Clicks >= 2;
+        }
+
+        private void CommandListView_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (doubleClickFlag)
+            {
+                e.NewValue = e.CurrentValue;
+                doubleClickFlag = false;
+            }
+            else
+            {
+                if (CommandListView.Items.Count == 0) return;
+
+                var index = e.Index;
+                ViewTask.ViewCommands[index].Check = e.NewValue == CheckState.Checked;
+            }
+        }
+
+        private void MoveCommand(int index, int nextIndex)
+        {
+            var command = ViewTask.ViewCommands[index];
+            var item = CommandListView.Items[index];
+
+            ViewTask.ViewCommands.Remove(command);
+            ViewTask.ViewCommands.Insert(nextIndex, command);
+            CommandListView.Items.Remove(item);
+            CommandListView.Items.Insert(nextIndex, item);
+        }
+
+        private void UpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CommandListView.SelectedItems.Count == 0) return;
+            var selectedItem = CommandListView.SelectedItems[0];
+            if (selectedItem.Index == 0) return;
+            MoveCommand(selectedItem.Index, selectedItem.Index - 1);
+        }
+
+        private void DownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CommandListView.SelectedItems.Count == 0) return;
+            var selectedItem = CommandListView.SelectedItems[0];
+            if (selectedItem.Index == CommandListView.Items.Count - 1) return;
+            MoveCommand(selectedItem.Index, selectedItem.Index + 1);
+        }
     }
 }
