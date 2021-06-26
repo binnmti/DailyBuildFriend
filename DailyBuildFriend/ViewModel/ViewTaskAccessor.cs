@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -42,14 +43,17 @@ namespace DailyBuildFriend.ViewModel
         {
             foreach (var task in GetTasks().Where(x => x.Checked))
             {
-                bool isBreak = false;
-                bool isFaild = false;
+                ResultData data = new ResultData();
 
                 string logPathName = Path.Combine(task.LogPath, task.FileName);
                 string logFileName = Path.Combine(logPathName, task.FileName + "Result.log");
 
                 //TODO:念のためだがバリデーションの中で必ずやることにすればいらない
                 if (!Directory.Exists(Path.GetDirectoryName(logPathName))) Directory.CreateDirectory(Path.GetDirectoryName(logPathName));
+
+                data.StartTime = DateTime.Now;
+                data.Revision = task.LocalRevision;
+                data.ReBuild = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen)?.Param2 == "リビルド";
 
                 FileUtility.Write(logFileName, false, "デイリービルド開始", true);
                 foreach (var command in task.ViewCommands.Where(x => x.Check))
@@ -58,66 +62,88 @@ namespace DailyBuildFriend.ViewModel
                     try
                     {
                         FileUtility.Write(logFileName, true, $"{command.Name}開始", true);
-                        RunCommand(logPathName, task, command);
+                        switch (command.CommandType)
+                        {
+                            case CommandType.PullGit:
+                                ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
+                                break;
+
+                            case CommandType.VisualStudioOpen:
+                                FileUtility.Write(Path.Combine(logPathName, task.FileName + "Warning.log"), false, "", true);
+                                FileUtility.Write(Path.Combine(logPathName, task.FileName + "Error.log"), false, "", true);
+                                break;
+
+                            case CommandType.VisualStudioBuild:
+                                command.RunVsBuild(task.ViewCommands);
+
+                                var file = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
+                                data.BuildWarningCount += ErrWaningAnalyze(file, file, command.Name, command.Param1, " 警告 ");
+                                data.BuildErrorCount += ErrWaningAnalyze(file, file, command.Name, command.Param1, " エラー ");
+                                break;
+                        }
                         FileUtility.Write(logFileName, true, $"{command.Name}終了", true);
                     }
                     //他のプロセスで例外が起きたら、ログを残して、実行を中断する
                     catch (Exception ex)
                     {
-                        FileUtility.Write(logFileName, true, command.Name + "失敗", false);
-                        FileUtility.Write(logFileName, true, "error!!", false);
-                        using var writer = new StreamWriter(Path.Combine(logPathName, task.FileName + "Exception.log"));
-                        writer.WriteLine(command.Name);
-                        writer.WriteLine(ex.Message);
-                        writer.WriteLine(ex.StackTrace);
-                        isBreak = true;
+                        FileUtility.Write(logFileName, true, command.Name + "中断", false);
+                        FileUtility.Write(logFileName, true, "break!!", false);
+                        using var exceptionLog = new StreamWriter(Path.Combine(logPathName, task.FileName + "Exception.log"));
+                        exceptionLog.WriteLine(command.Name);
+                        exceptionLog.WriteLine(ex.Message);
+                        exceptionLog.WriteLine(ex.StackTrace);
+                        data.Break = command.Name + "中断";
                         break;
                     }
                     if (token.IsCancellationRequested) return;
                 }
+                data.EndTime = DateTime.Now;
                 FileUtility.Write(logFileName, true, "デイリービルド終了", true);
                 FileUtility.Write(logFileName, true, "finish!!", false);
 
                 //TODO:ここでファイルアクセス出来ない場合はどうするか
-
-                //CSV
                 string csvFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv");
-
-                //TODO:CSVが書き換えられた場合これでは駄目だが。。。
-                //var lines = File.Exists(csvFile) ? File.ReadLines(csvFile).Skip(1) : new List<string>();
-                //using var writer = new StreamWriter(csvFile);
-                //writer.WriteLine("リビジョン,結果,エラー,警告,テスト,フルビルド,開始時間,終了時間,全時間,編集者,");
-                //writer.Write($"{task.LocalRevision},");
-                //writer.Write(isBreak ? "中断" : isFaild ? "失敗" : "成功");
-
-                //foreach (var line in lines)
-                //{
-                //    writer.WriteLine(line);
-                //}
+                WriteResultFile(csvFile, data);
             }
         }
 
-        private static void RunCommand(string logPathName, ViewTask task, ViewCommand command)
+
+        internal class ResultData
         {
-            switch (command.CommandType)
+            internal string Revision { get; set; } = "";
+            internal bool ReBuild { get; set; }
+            internal int BuildErrorCount { get; set; }
+            internal int BuildWarningCount { get; set; }
+            internal int TestErrorCount { get; set; }
+            internal DateTime StartTime { get; set; }
+            internal DateTime EndTime { get; set; }
+            internal string Break { get; set; } = "";
+        }
+
+        private static void WriteResultFile(string resultFile, ResultData data)
+        {
+            var sb = new StringBuilder();
+            //TODO:編集者を入れたい
+            sb.AppendLine("リビジョン,結果,エラー,警告,テスト,リビルド,開始時間,終了時間,全時間,");
+            sb.Append($"{data.Revision},");
+            sb.Append(data.Break != "" ? "中断," : data.BuildErrorCount != 0 || data.TestErrorCount != 0 ? "失敗," : "成功,");
+            sb.Append($"{data.BuildErrorCount},");
+            sb.Append($"{data.BuildWarningCount},");
+            sb.Append($"{data.TestErrorCount},");
+            sb.Append(data.ReBuild ? "○," : "×,");
+            sb.Append($"{data.StartTime:G},");
+            sb.Append($"{data.EndTime:G},");
+            if (data.Break != "")
             {
-                case CommandType.PullGit:
-                    ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
-                    break;
-
-                case CommandType.VisualStudioOpen:
-                    FileUtility.Write(Path.Combine(logPathName, task.FileName + "Warning.log"), false, "", true);
-                    FileUtility.Write(Path.Combine(logPathName, task.FileName + "Error.log"), false, "", true);
-                    break;
-
-                case CommandType.VisualStudioBuild:
-                    command.RunVsBuild(task.ViewCommands);
-
-                    var file = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
-                    ErrWaningAnalyze(file, file, command.Name, command.Param1, " 警告 ");
-                    ErrWaningAnalyze(file, file, command.Name, command.Param1, " エラー ");
-                    break;
+                sb.Append($"{data.Break},");
             }
+            else
+            {
+                sb.Append($"{data.EndTime - data.StartTime:G},");
+            }
+            sb.AppendLine();
+            if (File.Exists(resultFile)) sb.Append(string.Join("\n", File.ReadAllLines(resultFile).Skip(1)));
+            File.WriteAllText(resultFile, sb.ToString());
         }
 
         private static int ErrWaningAnalyze(string logFileName, string saveFileName, string command, string param, string keyword)
@@ -178,6 +204,6 @@ namespace DailyBuildFriend.ViewModel
             };
 
         private static string GetGitCommitId(string projectPath, string branch)
-            => ProcessUtility.ProcessStart("git", projectPath, $"log -n 1 --format=%h {branch}");
+            => ProcessUtility.ProcessStart("git", projectPath, $"log -n 1 --format=%h {branch}").Replace("\n", "");
     }
 }
