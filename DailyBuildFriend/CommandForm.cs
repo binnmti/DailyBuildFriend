@@ -16,6 +16,7 @@ namespace DailyBuildFriend
             Param2Label.Text = command.Param2Description;
             Param1TextBox.Text = command.Param1;
             Param2TextBox.Text = command.Param2;
+            Param2TextBox.Enabled = !command.Param2Disabled;
         }
 
         private void Param1TextBox_TextChanged(object sender, System.EventArgs e)

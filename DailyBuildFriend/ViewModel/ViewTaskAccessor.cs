@@ -131,7 +131,7 @@ namespace DailyBuildFriend.ViewModel
         }
 
         private static ViewCommand ToViewCommand(this Command command)
-            => new ViewCommand() { Name = command.Name, Check = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
+            => ViewCommandAccessor.Create(command);
 
         private static ViewTask ToViewTask(this Task task)
             => new ViewTask()

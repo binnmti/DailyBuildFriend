@@ -1,4 +1,5 @@
-﻿using DailyBuildFriend.Utility;
+﻿using DailyBuildFriend.Model;
+using DailyBuildFriend.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ namespace DailyBuildFriend.ViewModel
             { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Description = "Gitのパスを入力してください"  } },
             { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
             { CommandType.VisualStudioOpen, new ViewCommand() { Name = "VS起動" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "ビルド" }  },
-            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "ソリューション名(Debug,Releaseなど)入力してください", Param1 = "Release" }  },
+            { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "ソリューション名(Debug,Releaseなど)入力してください", Param1 = "Release", Param2Disabled = true }  },
             { CommandType.VisualStudioTest, new ViewCommand() { Name = "VSテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Description = "" } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Description = "" } },
             { CommandType.CopyFile, new ViewCommand() { Name = "メール送信" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
@@ -31,7 +32,17 @@ namespace DailyBuildFriend.ViewModel
                 Param2 = string.IsNullOrEmpty(param2) ? Data[type].Param2 : param2,
                 Param1Description = Data[type].Param1Description,
                 Param2Description = Data[type].Param2Description,
+                Param2Disabled = Data[type].Param2Disabled,
             };
+
+        internal static ViewCommand Create(Command command)
+        {
+            var data = Data.SingleOrDefault(x => x.Value.Name == command.Name);
+            var viewCommand = Create(data.Key, command.Param1, command.Param2);
+            viewCommand.CommandType = data.Key;
+            viewCommand.Check = command.Checked;
+            return viewCommand;
+        }
 
         internal static string Validation(this ViewCommand command)
         {

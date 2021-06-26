@@ -7,6 +7,8 @@ namespace DailyBuildFriend
 {
     public partial class TaskForm : Form
     {
+        //TODO:ドラッグしたら拡張子に合わせてコマンド追加をしたい。sln=VS起動など
+
         private readonly ViewTask ViewTask = new ViewTask();
         internal TaskForm(ViewTask task)
         {
@@ -47,9 +49,6 @@ namespace DailyBuildFriend
         private void EditCommand()
         {
             if (CommandListView.SelectedItems.Count == 0) return;
-
-
-            //ViewCommandAccessor.Create(CommandType.PullGit, ViewTask.ProjectPath, "")
 
             var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
             var command = ViewTask.ViewCommands[index];
@@ -135,7 +134,7 @@ namespace DailyBuildFriend
             => AddCommand(ViewCommandAccessor.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
 
         private void VSBuildToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioBuild, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioBuild, "", ""));
 
         private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
             => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioTest, ViewTask.ProjectPath, ""));
