@@ -124,33 +124,6 @@ namespace DailyBuildFriend
             }
         }
 
-        private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.PullGit, ViewTask.ProjectPath, ""));
-
-        private void GitCheckOutCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.CheckoutGit, ViewTask.ProjectPath, ""));
-
-        private void GitCloneCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
-
-        private void VSBuildToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioBuild, "", ""));
-
-        private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioTest, ViewTask.ProjectPath, ""));
-
-        private void BatRunToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.RunBat, "", ""));
-
-        private void MailSendToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.SendMail, "", ""));
-
-        private void SlackSendToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.SendSlack, "", ""));
-
-        private void VsOpenToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioOpen, "", ""));
-
         private bool doubleClickFlag;
         private void CommandListView_MouseDown(object sender, MouseEventArgs e)
         {
@@ -199,5 +172,33 @@ namespace DailyBuildFriend
             if (selectedItem.Index == CommandListView.Items.Count - 1) return;
             MoveCommand(selectedItem.Index, selectedItem.Index + 1);
         }
+
+        private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.PullGit, ViewTask.ProjectPath, ""));
+
+        private void GitCheckOutCToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CheckoutGit, ViewTask.ProjectPath, ""));
+
+        private void GitCloneCToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
+
+        private void VSBuildToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioBuild, "", ""));
+
+        private void VsTestToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioTest, ViewTask.ProjectPath, ""));
+
+        private void BatRunToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.RunBat, "", ""));
+
+        private void MailSendToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.SendMail, "", ""));
+
+        private void SlackSendToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.SendSlack, "", ""));
+
+        private void VsOpenToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioOpen, "", ""));
+
     }
 }

@@ -69,22 +69,24 @@ namespace DailyBuildFriend.ViewModel
                         FileUtility.Write(logFileName, true, $"{command.Name}開始", true);
                         switch (command.CommandType)
                         {
+                            //TODO:GitPullは、強制リビジョン指定時に無視する必要がある。そういうコマンドにするか要設計
                             case CommandType.PullGit:
                                 ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
                                 break;
 
                             case CommandType.VisualStudioOpen:
+                                File.Create(Path.Combine(logPathName, task.FileName + "ErrWarning.log")).Close();
                                 File.Create(Path.Combine(logPathName, task.FileName + "Warning.log")).Close();
                                 File.Create(Path.Combine(logPathName, task.FileName + "Error.log")).Close();
                                 break;
 
                             case CommandType.VisualStudioBuild:
                                 var slnFile = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
-                                var rebuild = data.ReBuild ? "Rebuild" : "Build";
-                                command.RunVsBuild(slnFile, rebuild);
-                                var file = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
-                                data.BuildWarningCount += ErrWaningAnalyze(file, file, command.Name, command.Param1, " 警告 ");
-                                data.BuildErrorCount += ErrWaningAnalyze(file, file, command.Name, command.Param1, " エラー ");
+                                var logFile = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
+                                var rebuild = data.ReBuild ? "rebuild" : "build";
+                                command.RunVsBuild(slnFile, logFile, rebuild);
+                                data.BuildWarningCount += RunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
+                                data.BuildErrorCount += RunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
                                 break;
                         }
                         FileUtility.Write(logFileName, true, $"{command.Name}終了", true);
@@ -95,7 +97,7 @@ namespace DailyBuildFriend.ViewModel
                         FileUtility.Write(logFileName, true, command.Name + "中断", false);
                         FileUtility.Write(logFileName, true, "break!!", false);
                         using var exceptionLog = new StreamWriter(Path.Combine(logPathName, task.FileName + "Exception.log"));
-                        exceptionLog.WriteLine(command.Name);
+                        exceptionLog.WriteLine("コマンド:" + command.Name);
                         exceptionLog.WriteLine(ex.Message);
                         exceptionLog.WriteLine(ex.StackTrace);
                         data.Break = command.Name + "中断";
@@ -108,26 +110,8 @@ namespace DailyBuildFriend.ViewModel
                 FileUtility.Write(logFileName, true, "finish!!", false);
 
                 //TODO:ここでファイルアクセス出来ない場合はどうするか
-                data.WriteResult(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"));
+                data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"));
             }
-        }
-
-
-
-        private static int ErrWaningAnalyze(string logFileName, string saveFileName, string command, string param, string keyword)
-        {
-            int hit = 0;
-
-            using var writer = new StreamWriter(saveFileName);
-            writer.WriteLine("コマンド:" + command);
-            writer.WriteLine("ターゲット:" + param);
-            writer.WriteLine("//--------------------------------------------------------------------------");
-            foreach (var line in File.ReadLines(logFileName).Where(x => x != keyword))
-            {
-                writer.WriteLine(line);
-                hit++;
-            }
-            return hit;
         }
 
         private static ViewCommand ToViewCommand(this Command command)

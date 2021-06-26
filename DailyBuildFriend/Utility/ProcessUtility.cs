@@ -13,6 +13,7 @@ namespace DailyBuildFriend.Utility
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                
             }).StandardOutput.ReadToEnd();
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace DailyBuildFriend.ViewModel
 {
+    //TODO:名前は再考
     internal static class RunResultSerivce
     {
         internal class ResultData
@@ -19,7 +20,7 @@ namespace DailyBuildFriend.ViewModel
             internal string Break { get; set; } = "";
         }
 
-        internal static void WriteResult(this ResultData data, string resultFile)
+        internal static void WriteCsvFile(this ResultData data, string csvFileName)
         {
             var sb = new StringBuilder();
             //TODO:編集者を入れたい
@@ -41,8 +42,26 @@ namespace DailyBuildFriend.ViewModel
                 sb.Append($"{data.EndTime - data.StartTime:T},");
             }
             sb.AppendLine();
-            if (File.Exists(resultFile)) sb.Append(string.Join("\n", File.ReadAllLines(resultFile).Skip(1)));
-            File.WriteAllText(resultFile, sb.ToString());
+            if (File.Exists(csvFileName)) sb.Append(string.Join("\n", File.ReadAllLines(csvFileName).Skip(1)));
+            File.WriteAllText(csvFileName, sb.ToString());
+        }
+
+        //指定ファイルにあったキーワードから専用ファイルを作る
+        internal static int WriteFileFromKeyword(string analyzeFileName, string writeFileName, string keyword, string command, string param)
+        {
+            int hit = 0;
+
+            using var writer = new StreamWriter(writeFileName);
+            writer.WriteLine("コマンド:" + command);
+            writer.WriteLine("ソリューション構成:" + param);
+            writer.WriteLine("//--------------------------------------------------------------------------");
+            //TODO:devenvがSJISを吐くのでDefault。devenvへの文字コード指定は出来ない。一時バッチで対応するか。文字コード問題は考えねばならぬ。
+            foreach (var line in File.ReadLines(analyzeFileName, Encoding.Default).Where(x => x.Contains(keyword)))
+            {
+                writer.WriteLine(line);
+                hit++;
+            }
+            return hit;
         }
     }
 }
