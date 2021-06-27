@@ -26,7 +26,7 @@ namespace DailyBuildFriend.ViewModel
         internal static void OpenLog(int index)
         {
             var task = GetTask(index);
-            Process.Start(Path.Combine(task.ProjectPath, task.FileName));
+            Process.Start(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.html"));
         }
 
         internal static string Validation(this ViewTask task)
@@ -118,8 +118,116 @@ namespace DailyBuildFriend.ViewModel
                 FileUtility.Write(logFileName, true, "finish!!", false);
 
                 //TODO:ここでファイルアクセス出来ない場合はどうするか
-                data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"));
+                data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"), task.TaskName);
+                WriteHtml(task);
             }
+        }
+
+        private static void WriteHtml(ViewTask task)
+        {
+            using var writer = new StreamWriter(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.html"));
+            writer.WriteLine("<html>");
+            writer.WriteLine("<head><title>デイリービルド結果</title></head>");
+            writer.WriteLine("<body>");
+            writer.WriteLine("<table border='1'>");
+            writer.WriteLine("<td>名前</td>");
+            writer.WriteLine("<td>最新結果時間</td>");
+            writer.WriteLine("<td>最新リビジョン</td>");
+            writer.WriteLine("<td>エラー数</td>");
+            writer.WriteLine("<td>警告数</td>");
+            writer.WriteLine("<td>ビルド情報</td>");
+            writer.WriteLine("<td>最終成功時間</td>");
+            //フォルダの中にあるcsvのファイル名を回す
+            foreach (var csvFile in Directory.GetFiles(Path.Combine(task.LogPath, task.FileName), "*.csv"))
+            {
+                writer.WriteLine("<tr>");
+                var lines = File.ReadAllLines(csvFile);
+                if (lines.Length >= 2)
+                {
+                    var cols = lines[1].Split(',');
+                    var logFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.log");
+                    //名前
+                    var taskName = lines[0].Substring(lines[0].LastIndexOf(',') + 1);
+                    writer.WriteLine($"<td><font size='5'>{taskName}</font></td>");
+                    //ビルド中
+                    if (!File.ReadAllText(logFile).Contains("finish!!"))
+                    {
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font><a href='{logFile}'>（詳細）</a></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>ビルド中</font></td>");
+                    }
+                    //中断時
+                    else if (cols[1].Contains("中断"))
+                    {
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>{cols[7]}(中断)</font><a href='{logFile}'>（詳細）</a></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                    }
+                    //成功時
+                    else
+                    {
+                        var resultColor = cols[1].Contains("失敗") ? "FF0000" : "00FF00";
+                        //最新結果時間
+                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{DateTime.Parse(cols[7]):yy/MM/dd HH:mm}</font><a href='{logFile}'>（詳細）</a></td>");
+                        //リビジョン
+                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{cols[0]}</font></td>");
+                        //エラー
+                        int.TryParse(cols[2], out var error);
+                        if (error == 0)
+                        {
+                            writer.WriteLine($"<td><font color='#{resultColor}' size='5'>0</font></td>");
+                        }
+                        else
+                        {
+                            var errorFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "error.log");
+                            writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{error}</font><a href='{errorFile}'>（詳細）</a></td>");
+                        }
+                        //警告
+                        int.TryParse(cols[3], out var warning);
+                        if (warning == 0)
+                        {
+                            writer.WriteLine($"<td><font color='#{resultColor}' size='5'>0</font></td>");
+                        }
+                        else
+                        {
+                            var warningFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "warning.log");
+                            writer.WriteLine($"<td><font color='#D0D000' size='5'>{warning}</font><a href='{warningFile}'>（詳細）</a></td>");
+                        }
+                        //ビルド情報
+                        string buildType = (cols[5] == "○") ? "リビルド" : "ビルド";
+                        DateTime.TryParse(cols[8], out var buildTime);
+                        int minute = (buildTime.Hour * 60 + buildTime.Minute != 0) ? (buildTime.Hour * 60 + buildTime.Minute) : 0;
+                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{buildType}約{minute}分</font></td>");
+                    }
+                    var line = lines.Skip(1).FirstOrDefault(x => x.Split(',')[1].Contains("成功"));
+                    if (line != null)
+                    {
+                        var c = line.Split(',');
+                        writer.WriteLine($"<td><font color='#00FF00' size='5'>{DateTime.Parse(c[7]):yy/MM/dd HH:mm} リビジョン:{c[0]}</font><a href='{csvFile}'>（詳細）</a></td>");
+                    }
+                    else
+                    {
+                        writer.WriteLine($"<td>-<a href='{csvFile}'>（詳細）</a></td>");
+                    }
+                }
+                //情報未定義
+                else
+                {
+                    writer.WriteLine("<td>-</td>");
+                    writer.WriteLine("<td>-</td>");
+                    writer.WriteLine("<td>-</td>");
+                    writer.WriteLine("<td>-</td>");
+                    writer.WriteLine("<td>-</td>");
+                    writer.WriteLine("<td>-</td>");
+                }
+            }
+            writer.WriteLine("</table>");
+            writer.WriteLine("</body>");
+            writer.WriteLine("</html>");
         }
 
         internal static ViewTask Update(this ViewTask task)

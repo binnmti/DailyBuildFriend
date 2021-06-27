@@ -20,11 +20,11 @@ namespace DailyBuildFriend.ViewModel
             internal string Break { get; set; } = "";
         }
 
-        internal static void WriteCsvFile(this ResultData data, string csvFileName)
+        internal static void WriteCsvFile(this ResultData data, string csvFileName, string taskName)
         {
             var sb = new StringBuilder();
             //TODO:編集者を入れたい
-            sb.AppendLine("リビジョン,結果,エラー,警告,テスト,リビルド,開始時間,終了時間,全時間,");
+            sb.AppendLine("リビジョン,結果,エラー,警告,テスト,リビルド,開始時間,終了時間,全時間," + taskName);
             sb.Append($"{data.Revision},");
             sb.Append(data.Break != "" ? "中断," : data.BuildErrorCount != 0 || data.TestErrorCount != 0 ? "失敗," : "成功,");
             sb.Append($"{data.BuildErrorCount},");
