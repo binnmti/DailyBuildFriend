@@ -39,9 +39,17 @@ namespace DailyBuildFriend.ViewModel
         }
 
         //TODO:RunFormが引数なのはちょっと微妙だが、直接渡さないとデータをファイルに書き出してFormで読むなどの処理が必要。そういう仕組みを作ったら移行する
-        internal static void Run(RunForm runForm, CancellationToken token, string forceBuild)
+        internal static void Run(RunForm runForm, CancellationToken token, RunType runType, string forceBuild)
         {
-            foreach (var task in GetTasks().Where(x => x.Checked))
+            var tasks = runType switch
+            {
+                RunType.Click => GetTasks().Where(x => x.Checked),
+                RunType.Timer => GetTasks().Where(x => x.Timer.Checked),
+                RunType.Interval => GetTasks().Where(x => x.Interval.Checked),
+                _ => GetTasks().Where(x => x.Checked),
+                //TODO:OnlyをやろうとするならSelectedが良い。
+            };
+            foreach (var task in tasks)
             {
                 var data = new RunResultSerivce.ResultData();
 

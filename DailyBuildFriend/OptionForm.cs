@@ -5,18 +5,17 @@ namespace DailyBuildFriend
 {
     public partial class OptionForm : Form
     {
-        private ViewOption _viewOption;
+        private ViewOption ViewOption;
 
         public OptionForm()
         {
             InitializeComponent();
-            _viewOption = ViewOptionAccessor.GetViewOption().Clone();
-            propertyGrid1.SelectedObject = _viewOption;
+
+            ViewOption = ViewOptionAccessor.GetViewOption().Clone();
+            propertyGrid1.SelectedObject = ViewOption;
         }
 
         private void OKButton_Click(object sender, System.EventArgs e)
-        {
-            ViewOptionAccessor.SetViewOption(_viewOption);
-        }
+            => ViewOptionAccessor.SetViewOption(ViewOption);
     }
 }

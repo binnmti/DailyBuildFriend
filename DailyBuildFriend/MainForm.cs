@@ -12,8 +12,10 @@ namespace DailyBuildFriend
 {
     public partial class MainForm : Form
     {
-        private string _fileName = "";
-        private string _jsonString = "";
+        private string FileName = "";
+        private string JsonString = "";
+        private int CheckTimeCounter = 0;
+        private int IntervalTimeCounter = 0;
 
         public MainForm()
         {
@@ -47,8 +49,8 @@ namespace DailyBuildFriend
         private string GetTitle()
         {
             var title = $"デイリービルドフレンズ";
-            if (!string.IsNullOrEmpty(_fileName)) title += $" - {Path.GetFileName(_fileName)}";
-            if (_jsonString != ViewTaskAccessor.GetJson()) title += "*";
+            if (!string.IsNullOrEmpty(FileName)) title += $" - {Path.GetFileName(FileName)}";
+            if (JsonString != ViewTaskAccessor.GetJson()) title += "*";
             return title;
         }
 
@@ -104,8 +106,8 @@ namespace DailyBuildFriend
         private void SaveFile(string fileName)
         {
             ViewTaskAccessor.Save(fileName);
-            _fileName = fileName;
-            _jsonString = ViewTaskAccessor.GetJson();
+            FileName = fileName;
+            JsonString = ViewTaskAccessor.GetJson();
             Text = GetTitle();
         }
 
@@ -114,20 +116,20 @@ namespace DailyBuildFriend
             //TODO:ロードが出来てもデータとして正しいかは別なのでバリデーションが必要。
             ViewTaskAccessor.Load(fileName);
             ViewTaskAccessor.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
-            _fileName = fileName;
-            _jsonString = ViewTaskAccessor.GetJson();
+            FileName = fileName;
+            JsonString = ViewTaskAccessor.GetJson();
             Text = GetTitle();
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_fileName))
+            if (string.IsNullOrEmpty(FileName))
             {
                 saveFileDialog1.ShowDialog();
             }
             else
             {
-                SaveFile(_fileName);
+                SaveFile(FileName);
             }
         }
 
@@ -175,7 +177,7 @@ namespace DailyBuildFriend
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Settings.Default.OpenFileName = _fileName;
+            Settings.Default.OpenFileName = FileName;
             Settings.Default.Save();
 
             string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
@@ -212,14 +214,14 @@ namespace DailyBuildFriend
         {
             TaskListView.Items.Clear();
             ViewTaskAccessor.ClearTask();
-            _fileName = "";
+            FileName = "";
             Text = GetTitle();
         }
 
         private void NameSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(_fileName);
-            saveFileDialog1.FileName = Path.GetFileName(_fileName);
+            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(FileName);
+            saveFileDialog1.FileName = Path.GetFileName(FileName);
             saveFileDialog1.ShowDialog();
         }
 
@@ -230,22 +232,22 @@ namespace DailyBuildFriend
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_jsonString == ViewTaskAccessor.GetJson()) return;
+            if (JsonString == ViewTaskAccessor.GetJson()) return;
 
-            var msg = MessageBox.Show($"{Path.GetFileName(_fileName)} は変更されています。閉じる前に保存しますか？", "", MessageBoxButtons.YesNoCancel);
+            var msg = MessageBox.Show($"{Path.GetFileName(FileName)} は変更されています。閉じる前に保存しますか？", "", MessageBoxButtons.YesNoCancel);
             if (msg == DialogResult.Cancel)
             {
                 e.Cancel = true;
             }
             else if (msg == DialogResult.Yes)
             {
-                if (string.IsNullOrEmpty(_fileName))
+                if (string.IsNullOrEmpty(FileName))
                 {
                     saveFileDialog1.ShowDialog();
                 }
                 else
                 {
-                    SaveFile(_fileName);
+                    SaveFile(FileName);
                 }
             }
         }
@@ -260,9 +262,6 @@ namespace DailyBuildFriend
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-            => UpdateListView();
-
         private void FormActive()
         {
             Visible = true;
@@ -275,14 +274,20 @@ namespace DailyBuildFriend
 
         private static CancellationTokenSource? _tokenSource = null;
         public static void StopRunForm() => _tokenSource?.Cancel();
-        private async void RunButton_Click(object sender, EventArgs e)
+        private async Task RunDailyBuildAsync(RunType runType)
         {
+            RunButton.Enabled = false;
+
             using var runForm = new RunForm();
             runForm.Show();
             _tokenSource = new CancellationTokenSource();
 
+            string forceBuild = "";
+            if (BuildRadioButton.Checked) forceBuild = "ビルド";
+            else if (ReBuildRadioButton.Checked) forceBuild = "リビルド";
+
             //TODO:UIから強制ビルドしてい可能
-            await Task.Run(() => { ViewTaskAccessor.Run(runForm, _tokenSource.Token, ""); }, _tokenSource.Token)
+            await Task.Run(() => { ViewTaskAccessor.Run(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
                 .ContinueWith(t =>
                 {
                     void CloseRunForm()
@@ -291,6 +296,8 @@ namespace DailyBuildFriend
                         else
                         {
                             runForm.Close();
+                            RunButton.Enabled = true;
+                            NormalRadioButton.Checked = true;
                             UpdateListView();
                             FormActive();
                         }
@@ -298,6 +305,46 @@ namespace DailyBuildFriend
                     CloseRunForm();
                     _tokenSource.Dispose();
                 });
+
+        }
+
+        private async void RunButton_Click(object sender, EventArgs e)
+            => await RunDailyBuildAsync(RunType.Click);
+
+        private async void timer1_Tick(object sender, EventArgs e)
+        {
+            //実行中
+            if (!RunButton.Enabled)
+            {
+                //タイムアウトチェック
+                return;
+            }
+            //スケジュール
+            else if (ScheduleCheckBox.Checked)
+            {
+                NowTimerTextBox.Text = DateTime.Now.ToLongTimeString();
+                if (TimerTextBox.Text == NowTimerTextBox.Text)
+                {
+                    await RunDailyBuildAsync(RunType.Timer);
+                }
+                IntervalTimeCounter++;
+                int iTimer = (int)IntervalNumericUpDown.Value;
+                if (IntervalTimeCounter == (60 * iTimer))
+                {
+
+
+                    await RunDailyBuildAsync(RunType.Timer);
+                    IntervalTimeCounter = 0;
+                }
+                IntervalTextBox.Text = (60 * iTimer - IntervalTimeCounter).ToString();
+                CheckTimeCounter++;
+                if (CheckTimeCounter == 60)
+                {
+                    UpdateListView();
+                    CheckTimeCounter = 0;
+                }
+                CheckTextBox.Text = (60 - CheckTimeCounter).ToString();
+            }
         }
 
         private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -312,6 +359,20 @@ namespace DailyBuildFriend
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
             ViewTaskAccessor.OpenLog(index);
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ScheduleCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void IntervalNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            IntervalTimeCounter = 0;
         }
     }
 }

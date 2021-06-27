@@ -99,6 +99,7 @@
       <DependentUpon>RunForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\RunResultSerivce.cs" />
+    <Compile Include="ViewModel\RunType.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
     <Compile Include="ViewModel\ViewOptionAccessor.cs" />
