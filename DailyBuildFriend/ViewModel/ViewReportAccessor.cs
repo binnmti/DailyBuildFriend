@@ -26,9 +26,6 @@ namespace DailyBuildFriend.ViewModel
             foreach (var member in viewReport.ViewReportMembers.Where(x => x.Check))
             {
                 smtp.Authenticate(member.MailAddress, member.Password);
-
-                //smtp.Authenticate(member.MailAddress.Substring(0, member.MailAddress.IndexOf('@')), member.Password);
-
                 // 送信するメールを作成
                 var mail = new MimeKit.MimeMessage();
                 var builder = new MimeKit.BodyBuilder();
@@ -55,6 +52,8 @@ namespace DailyBuildFriend.ViewModel
 
         private static async Task SendSlackAsync(ViewReport viewReport)
         {
+            if (viewReport.SlackUrl == "") return;
+
             var slack = new SlackWebhook()
             {
                 channel = "#notification",
