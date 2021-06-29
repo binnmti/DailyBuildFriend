@@ -64,6 +64,7 @@ namespace DailyBuildFriend
             this.BuildRadioButton = new System.Windows.Forms.RadioButton();
             this.NormalRadioButton = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TimerTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.IntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.NowTimerTextBox = new System.Windows.Forms.TextBox();
@@ -84,7 +85,6 @@ namespace DailyBuildFriend
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.TimerTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -95,6 +95,7 @@ namespace DailyBuildFriend
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルFToolStripMenuItem,
@@ -102,7 +103,7 @@ namespace DailyBuildFriend
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(10, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(2644, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(2644, 35);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -116,7 +117,7 @@ namespace DailyBuildFriend
             this.toolStripSeparator1,
             this.ExitToolStripMenuItem});
             this.ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
-            this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(98, 30);
+            this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(98, 29);
             this.ファイルFToolStripMenuItem.Text = "ファイル(&F)";
             // 
             // OpenToolStripMenuItem
@@ -167,7 +168,7 @@ namespace DailyBuildFriend
             this.設定SToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OptionToolStripMenuItem});
             this.設定SToolStripMenuItem.Name = "設定SToolStripMenuItem";
-            this.設定SToolStripMenuItem.Size = new System.Drawing.Size(84, 30);
+            this.設定SToolStripMenuItem.Size = new System.Drawing.Size(84, 29);
             this.設定SToolStripMenuItem.Text = "設定(&S)";
             // 
             // OptionToolStripMenuItem
@@ -239,11 +240,11 @@ namespace DailyBuildFriend
             this.TaskListView.FullRowSelect = true;
             this.TaskListView.GridLines = true;
             this.TaskListView.HideSelection = false;
-            this.TaskListView.Location = new System.Drawing.Point(0, 36);
+            this.TaskListView.Location = new System.Drawing.Point(0, 35);
             this.TaskListView.Margin = new System.Windows.Forms.Padding(5);
             this.TaskListView.MultiSelect = false;
             this.TaskListView.Name = "TaskListView";
-            this.TaskListView.Size = new System.Drawing.Size(2644, 228);
+            this.TaskListView.Size = new System.Drawing.Size(2644, 229);
             this.TaskListView.TabIndex = 2;
             this.TaskListView.UseCompatibleStateImageBehavior = false;
             this.TaskListView.View = System.Windows.Forms.View.Details;
@@ -396,6 +397,14 @@ namespace DailyBuildFriend
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // TimerTextBox
+            // 
+            this.TimerTextBox.Location = new System.Drawing.Point(207, 144);
+            this.TimerTextBox.Name = "TimerTextBox";
+            this.TimerTextBox.Size = new System.Drawing.Size(169, 37);
+            this.TimerTextBox.TabIndex = 16;
+            this.TimerTextBox.Text = "0:00:00";
             // 
             // label7
             // 
@@ -557,6 +566,7 @@ namespace DailyBuildFriend
             this.button1.TabIndex = 5;
             this.button1.Text = "...";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ReportCheckBox
             // 
@@ -586,14 +596,6 @@ namespace DailyBuildFriend
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // TimerTextBox
-            // 
-            this.TimerTextBox.Location = new System.Drawing.Point(207, 144);
-            this.TimerTextBox.Name = "TimerTextBox";
-            this.TimerTextBox.Size = new System.Drawing.Size(169, 37);
-            this.TimerTextBox.TabIndex = 16;
-            this.TimerTextBox.Text = "0:00:00";
             // 
             // MainForm
             // 
