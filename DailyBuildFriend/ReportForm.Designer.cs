@@ -32,19 +32,23 @@ namespace DailyBuildFriend
             this.UserNameTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MemberListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuccessMessageTextBox = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.FailureMessageTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuccessTestButton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.OkButton = new System.Windows.Forms.Button();
+            this.DoCancelButton = new System.Windows.Forms.Button();
             this.AddUserButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.PasswordTextBox = new System.Windows.Forms.TextBox();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label5 = new System.Windows.Forms.Label();
+            this.SlackChannelNameTextBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.slackHookUrlTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // UserNameTextBox
@@ -76,13 +80,22 @@ namespace DailyBuildFriend
             this.MemberListView.Location = new System.Drawing.Point(12, 158);
             this.MemberListView.MultiSelect = false;
             this.MemberListView.Name = "MemberListView";
-            this.MemberListView.Size = new System.Drawing.Size(1318, 596);
+            this.MemberListView.Size = new System.Drawing.Size(1318, 318);
             this.MemberListView.TabIndex = 2;
             this.MemberListView.UseCompatibleStateImageBehavior = false;
             this.MemberListView.View = System.Windows.Forms.View.Details;
             this.MemberListView.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.MemberListView_AfterLabelEdit);
             this.MemberListView.BeforeLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.MemberListView_BeforeLabelEdit);
             this.MemberListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MemberListView_KeyUp);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "メールアドレス";
+            this.columnHeader1.Width = 500;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "パスワード";
             // 
             // SuccessMessageTextBox
             // 
@@ -92,15 +105,17 @@ namespace DailyBuildFriend
             this.SuccessMessageTextBox.Size = new System.Drawing.Size(664, 194);
             this.SuccessMessageTextBox.TabIndex = 3;
             this.SuccessMessageTextBox.Text = "デイリービルドが成功しました。";
+            this.SuccessMessageTextBox.TextChanged += new System.EventHandler(this.SuccessMessageTextBox_TextChanged);
             // 
-            // textBox3
+            // FailureMessageTextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(701, 823);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(629, 194);
-            this.textBox3.TabIndex = 4;
-            this.textBox3.Text = "デイリービルドが失敗しました。";
+            this.FailureMessageTextBox.Location = new System.Drawing.Point(701, 823);
+            this.FailureMessageTextBox.Multiline = true;
+            this.FailureMessageTextBox.Name = "FailureMessageTextBox";
+            this.FailureMessageTextBox.Size = new System.Drawing.Size(629, 194);
+            this.FailureMessageTextBox.TabIndex = 4;
+            this.FailureMessageTextBox.Text = "デイリービルドが失敗しました。";
+            this.FailureMessageTextBox.TextChanged += new System.EventHandler(this.FailureMessageTextBox_TextChanged);
             // 
             // label2
             // 
@@ -119,11 +134,6 @@ namespace DailyBuildFriend
             this.label3.Size = new System.Drawing.Size(214, 30);
             this.label3.TabIndex = 6;
             this.label3.Text = "失敗時メッセージ";
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "メールアドレス";
-            this.columnHeader1.Width = 500;
             // 
             // SuccessTestButton
             // 
@@ -144,23 +154,26 @@ namespace DailyBuildFriend
             this.button2.Text = "テスト送信";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // OkButton
             // 
-            this.button3.Location = new System.Drawing.Point(1002, 1123);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(152, 59);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "OK";
-            this.button3.UseVisualStyleBackColor = true;
+            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OkButton.Location = new System.Drawing.Point(1002, 1123);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(152, 59);
+            this.OkButton.TabIndex = 9;
+            this.OkButton.Text = "OK";
+            this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // button4
+            // DoCancelButton
             // 
-            this.button4.Location = new System.Drawing.Point(1178, 1123);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(152, 59);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "キャンセル";
-            this.button4.UseVisualStyleBackColor = true;
+            this.DoCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.DoCancelButton.Location = new System.Drawing.Point(1178, 1123);
+            this.DoCancelButton.Name = "DoCancelButton";
+            this.DoCancelButton.Size = new System.Drawing.Size(152, 59);
+            this.DoCancelButton.TabIndex = 10;
+            this.DoCancelButton.Text = "キャンセル";
+            this.DoCancelButton.UseVisualStyleBackColor = true;
             // 
             // AddUserButton
             // 
@@ -189,25 +202,59 @@ namespace DailyBuildFriend
             this.PasswordTextBox.TabIndex = 12;
             this.PasswordTextBox.UseSystemPasswordChar = true;
             // 
-            // columnHeader2
+            // label5
             // 
-            this.columnHeader2.Text = "パスワード";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 536);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(174, 30);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "slackHookUrl";
+            // 
+            // SlackChannelNameTextBox
+            // 
+            this.SlackChannelNameTextBox.Location = new System.Drawing.Point(17, 671);
+            this.SlackChannelNameTextBox.Name = "SlackChannelNameTextBox";
+            this.SlackChannelNameTextBox.Size = new System.Drawing.Size(1286, 37);
+            this.SlackChannelNameTextBox.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 638);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(220, 30);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "slackチャンネル名";
+            // 
+            // slackHookUrlTextBox
+            // 
+            this.slackHookUrlTextBox.Location = new System.Drawing.Point(17, 569);
+            this.slackHookUrlTextBox.Name = "slackHookUrlTextBox";
+            this.slackHookUrlTextBox.Size = new System.Drawing.Size(1286, 37);
+            this.slackHookUrlTextBox.TabIndex = 18;
             // 
             // ReportForm
             // 
+            this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.DoCancelButton;
             this.ClientSize = new System.Drawing.Size(1343, 1194);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.slackHookUrlTextBox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.SlackChannelNameTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.AddUserButton);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.DoCancelButton);
+            this.Controls.Add(this.OkButton);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.SuccessTestButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.FailureMessageTextBox);
             this.Controls.Add(this.SuccessMessageTextBox);
             this.Controls.Add(this.MemberListView);
             this.Controls.Add(this.label1);
@@ -226,16 +273,20 @@ namespace DailyBuildFriend
         private System.Windows.Forms.ListView MemberListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.TextBox SuccessMessageTextBox;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox FailureMessageTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button SuccessTestButton;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Button DoCancelButton;
         private System.Windows.Forms.Button AddUserButton;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox PasswordTextBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox SlackChannelNameTextBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox slackHookUrlTextBox;
     }
 }

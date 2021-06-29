@@ -93,6 +93,10 @@
     <Compile Include="CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Report.cs" />
+    <Compile Include="Model\ReportMember.cs" />
+    <Compile Include="Model\ReportAccessor.cs" />
+    <Compile Include="Model\TaskReport.cs" />
     <Compile Include="Model\TaskAccessor.cs" />
     <Compile Include="OptionForm.cs">
       <SubType>Form</SubType>
@@ -114,12 +118,15 @@
     <Compile Include="RunForm.Designer.cs">
       <DependentUpon>RunForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\ViewReportMember.cs" />
+    <Compile Include="ViewModel\ViewReport.cs" />
     <Compile Include="ViewModel\RunResultSerivce.cs" />
     <Compile Include="ViewModel\RunType.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
     <Compile Include="ViewModel\ViewOptionAccessor.cs" />
     <Compile Include="ViewModel\ViewOption.cs" />
+    <Compile Include="ViewModel\ViewReportAccessor.cs" />
     <Compile Include="ViewModel\ViewTaskAccessor.cs" />
     <Compile Include="Data\DailyBuildContext.cs" />
     <Compile Include="TaskForm.cs">
