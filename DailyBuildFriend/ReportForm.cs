@@ -8,15 +8,16 @@ namespace DailyBuildFriend
 {
     public partial class ReportForm : Form
     {
-        public ReportForm()
+        private ViewReport ViewReport = new ViewReport();
+        public ReportForm(ViewReport viewReport)
         {
             InitializeComponent();
 
-            var viewReport = ViewReportAccessor.GetViewReport();
             SlackChannelNameTextBox.Text = viewReport.SlackChannel;
             SuccessMessageTextBox.Text = viewReport.SuccessMessage;
             FailureMessageTextBox.Text = viewReport.FailureMessage;
             viewReport.ViewReportMembers.ForEach(x => ToListViewItem(x));
+            ViewReport = viewReport;
         }
 
         private static ListViewItem ToListViewItem(ViewReportMember member)
@@ -97,7 +98,7 @@ namespace DailyBuildFriend
                 SlackUrl = slackHookUrlTextBox.Text,
                 ViewReportMembers = MemberListView.Items.Cast<ListViewItem>().Select(x => ToViewReportMember(x)).ToList()
             };
-            ViewReportAccessor.SetViewReport(viewReport);
+            ViewReport = viewReport;
         }
     }
 }

@@ -7,15 +7,14 @@ namespace DailyBuildFriend
     {
         private ViewOption ViewOption;
 
-        public OptionForm()
+        public OptionForm(ViewOption viewOption)
         {
             InitializeComponent();
-
-            ViewOption = ViewOptionAccessor.GetViewOption().Clone();
-            propertyGrid1.SelectedObject = ViewOption;
+            propertyGrid1.SelectedObject = viewOption;
+            ViewOption = viewOption;
         }
 
         private void OKButton_Click(object sender, System.EventArgs e)
-            => ViewOptionAccessor.SetViewOption(ViewOption);
+            => ViewOption = propertyGrid1.SelectedObject as ViewOption ?? new ViewOption();
     }
 }

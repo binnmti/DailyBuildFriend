@@ -23,6 +23,12 @@ namespace DailyBuildFriend.ViewModel
             { CommandType.SendSlack, new ViewCommand() { Name = "Slack送信" , Param1Description = "",  Param2Disabled = true } },
         };
 
+        internal static ViewCommand ToViewCommand(this Command command)
+            => Create(command);
+
+        internal static Command ToCommand(this ViewCommand command)
+            => new Command() { Name = command.Name, Checked = command.Check, Param1 = command.Param1, Param2 = command.Param2 };
+
         internal static ViewCommand Create(CommandType type, string param1, string param2)
             => new ViewCommand()
             {
@@ -35,7 +41,7 @@ namespace DailyBuildFriend.ViewModel
                 Param2Disabled = Data[type].Param2Disabled,
             };
 
-        internal static ViewCommand Create(Command command)
+        private static ViewCommand Create(Command command)
         {
             var data = Data.SingleOrDefault(x => x.Value.Name == command.Name);
             var viewCommand = Create(data.Key, "", "");
@@ -65,16 +71,5 @@ namespace DailyBuildFriend.ViewModel
             return msg;
         }
 
-        internal static void RunVsBuild(this ViewCommand command, string slnFile, string logFile, string rebuild)
-        {
-            var arguments = $"\"{slnFile}\" /{rebuild} {command.Param1} /out \"{logFile}\"";
-            ProcessUtility.ProcessStart(ViewOptionAccessor.DevEnv, Path.GetDirectoryName(slnFile), arguments);
-        }
-
-        internal static void RunMSBuild(this ViewCommand command, string slnFile, string logFile, string rebuild)
-        {
-            var arguments = $"\"{slnFile}\" /t:{rebuild} /p:Configuration={command.Param1} /fileLogger /fileLoggerParameters:LogFile=\"{logFile}\"";
-            ProcessUtility.ProcessStart(ViewOptionAccessor.MSBuild, Path.GetDirectoryName(slnFile), arguments);
-        }
     }
 }

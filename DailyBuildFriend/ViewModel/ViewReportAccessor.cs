@@ -1,19 +1,43 @@
-﻿using System.IO;
+﻿using DailyBuildFriend.Model;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DailyBuildFriend.ViewModel
 {
     internal static class ViewReportAccessor
     {
-        internal static ViewReport ViewReport = new ViewReport();
-        internal static void SetViewReport(ViewReport viewReport) => ViewReport = viewReport;
-        internal static ViewReport GetViewReport() => ViewReport;
+        internal static ViewReport ToViewReport(this Report report)
+         => new ViewReport()
+            {
+                FailureMessage = report.FailureMessage,
+                SuccessMessage = report.SuccessMessage,
+                SlackChannel = report.SlackChannel,
+                SlackUrl = report.SlackUrl,
+                ViewReportMembers = report.ReportMembers
+                    .Select(x => new ViewReportMember() { Check = x.Check, MailAddress = x.MailAddress, Password = x.Password })
+                    .ToList(),
+            };
 
-        internal static async Task SendAsync(ViewReport viewReport)
+        internal static Report ToReport(this ViewReport report)
+             => new Report()
+             {
+                 FailureMessage = report.FailureMessage,
+                 SuccessMessage = report.SuccessMessage,
+                 SlackChannel = report.SlackChannel,
+                 ReportMembers = report.ViewReportMembers
+                            .Select(x => new ReportMember()
+                            {
+                                Check = x.Check,
+                                MailAddress = x.MailAddress,
+                                Password = x.Password
+                            })
+                            .ToList(),
+             };
+
+
+        internal static async System.Threading.Tasks.Task SendAsync(ViewReport viewReport)
         {
             SendMail(viewReport);
             await SendSlackAsync(viewReport);
@@ -32,7 +56,7 @@ namespace DailyBuildFriend.ViewModel
                 mail.From.Add(new MimeKit.MailboxAddress("", "dailybuild@gmail.com"));
                 mail.To.Add(new MimeKit.MailboxAddress("", member.MailAddress));
                 mail.Subject = "デイリービルドフレンズ:成功連絡";
-                builder.TextBody = ViewReport.SuccessMessage;
+                builder.TextBody = viewReport.SuccessMessage;
                 mail.Body = builder.ToMessageBody();
                 smtp.Send(mail);
             }
@@ -50,7 +74,7 @@ namespace DailyBuildFriend.ViewModel
 
         private static HttpClient HttpClient { get; set; } = new HttpClient();
 
-        private static async Task SendSlackAsync(ViewReport viewReport)
+        private static async System.Threading.Tasks.Task SendSlackAsync(ViewReport viewReport)
         {
             if (viewReport.SlackUrl == "") return;
 

@@ -1,6 +1,7 @@
 ﻿using DailyBuildFriend.Properties;
 using DailyBuildFriend.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace DailyBuildFriend
         private string JsonString = "";
         private int CheckTimeCounter = 0;
         private int IntervalTimeCounter = 0;
+
+        private ViewDailyBuild ViewDailyBuild = new ViewDailyBuild();
 
         public MainForm()
         {
@@ -50,7 +53,7 @@ namespace DailyBuildFriend
         {
             var title = $"デイリービルドフレンズ";
             if (!string.IsNullOrEmpty(FileName)) title += $" - {Path.GetFileName(FileName)}";
-            if (JsonString != ViewTaskAccessor.GetJson()) title += "*";
+            if (JsonString != ViewDailyBuild.ToJson(false)) title += "*";
             return title;
         }
 
@@ -61,7 +64,7 @@ namespace DailyBuildFriend
             if (form.ShowDialog() != DialogResult.OK) return;
 
             ViewTaskAccessor.Update(task);
-            ViewTaskAccessor.AddTask(task);
+            ViewDailyBuild.ViewTasks.Add(task);
             TaskListView.Items.Add(ToListViewItem(task));
             Text = GetTitle();
         }
@@ -71,12 +74,12 @@ namespace DailyBuildFriend
             if (TaskListView.SelectedItems.Count == 0) return;
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            var task = ViewTaskAccessor.GetTask(index);
+            var task = ViewDailyBuild.ViewTasks[index];
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
             ViewTaskAccessor.Update(task);
-            ViewTaskAccessor.EditTask(index, task);
+            ViewDailyBuild.ViewTasks[index] = task;
             TaskListView.Items[index] = ToListViewItem(task);
             Text = GetTitle();
         }
@@ -90,7 +93,7 @@ namespace DailyBuildFriend
         {
             foreach(var item in TaskListView.SelectedItems.Cast<ListViewItem>())
             {
-                ViewTaskAccessor.RemoveTask(item.Index);
+                ViewDailyBuild.ViewTasks.RemoveAt(item.Index);
                 TaskListView.Items.Remove(item);
             }
         }
@@ -105,19 +108,24 @@ namespace DailyBuildFriend
 
         private void SaveFile(string fileName)
         {
-            ViewTaskAccessor.Save(fileName);
+            File.WriteAllText(fileName, ViewDailyBuild.ToJson(true));
+
+            //TODO:この3つのアクションはまとめられそう
             FileName = fileName;
-            JsonString = ViewTaskAccessor.GetJson();
+            JsonString = ViewDailyBuild.ToJson(false);
             Text = GetTitle();
         }
 
         private void LoadFile(string fileName)
         {
+            //TODO:一旦ロード切り
+            //ViewDailyBuild = ViewDailyBuildAccessor.ToViewDailyBuild(File.ReadAllText(fileName));
+
             //TODO:ロードが出来てもデータとして正しいかは別なのでバリデーションが必要。
-            ViewTaskAccessor.Load(fileName);
-            ViewTaskAccessor.GetTasks().ToList().ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
+            //ViewTaskAccessor.SetJson(File.ReadAllText(fileName));
+            ViewDailyBuild.ViewTasks.ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             FileName = fileName;
-            JsonString = ViewTaskAccessor.GetJson();
+            JsonString = ViewDailyBuild.ToJson(false);
             Text = GetTitle();
         }
 
@@ -169,7 +177,7 @@ namespace DailyBuildFriend
         private void MainForm_Load(object sender, EventArgs e)
         {
             string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
-            if (File.Exists(fileName))  ViewOptionAccessor.Load(fileName);
+            //if (File.Exists(fileName))  ViewOptionAccessor.Load(fileName);
 
             if (!File.Exists(Settings.Default.OpenFileName)) return;
             LoadFile(Settings.Default.OpenFileName);
@@ -181,7 +189,7 @@ namespace DailyBuildFriend
             Settings.Default.Save();
 
             string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
-            ViewOptionAccessor.Save(fileName);
+            //ViewOptionAccessor.Save(fileName);
         }
 
         private bool doubleClickFlag;
@@ -202,7 +210,7 @@ namespace DailyBuildFriend
                 if (TaskListView.Items.Count == 0) return;
 
                 var index = e.Index;
-                ViewTaskAccessor.CheckTask(index, e.NewValue == CheckState.Checked);
+                ViewDailyBuild.ViewTasks[index].Checked = e.NewValue == CheckState.Checked;
                 Text = GetTitle();
             }
         }
@@ -213,7 +221,7 @@ namespace DailyBuildFriend
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TaskListView.Items.Clear();
-            ViewTaskAccessor.ClearTask();
+            ViewDailyBuild.ViewTasks.Clear();
             FileName = "";
             Text = GetTitle();
         }
@@ -232,7 +240,7 @@ namespace DailyBuildFriend
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (JsonString == ViewTaskAccessor.GetJson()) return;
+            if (JsonString == ViewDailyBuild.ToJson(false)) return;
 
             var msg = MessageBox.Show($"{Path.GetFileName(FileName)} は変更されています。閉じる前に保存しますか？", "", MessageBoxButtons.YesNoCancel);
             if (msg == DialogResult.Cancel)
@@ -255,10 +263,9 @@ namespace DailyBuildFriend
         private void UpdateListView()
         {
             //TODO:GetTasksはVM的な意味で設計を再考
-            var tasks = ViewTaskAccessor.GetTasks().ToList();
-            for (int i = 0; i < tasks.Count; i++)
+            for (int i = 0; i < ViewDailyBuild.ViewTasks.Count; i++)
             {
-                TaskListView.Items[i] = ToListViewItem(tasks[i]);
+                TaskListView.Items[i] = ToListViewItem(ViewDailyBuild.ViewTasks[i]);
             }
         }
 
@@ -287,7 +294,7 @@ namespace DailyBuildFriend
             else if (ReBuildRadioButton.Checked) forceBuild = "リビルド";
 
             //TODO:UIから強制ビルドしてい可能
-            await Task.Run(() => { ViewTaskAccessor.Run(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
+            await Task.Run(() => { ViewDailyBuild.Run(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
                 .ContinueWith(t =>
                 {
                     void CloseRunForm()
@@ -349,7 +356,7 @@ namespace DailyBuildFriend
 
         private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var optionForm = new OptionForm();
+            var optionForm = new OptionForm(ViewDailyBuild.ViewOption);
             optionForm.ShowDialog();
         }
 
@@ -358,7 +365,7 @@ namespace DailyBuildFriend
             if (TaskListView.SelectedItems.Count == 0) return;
 
             var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
-            ViewTaskAccessor.OpenLog(index);
+            ViewDailyBuild.ViewTasks[index].OpenLog();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -377,7 +384,7 @@ namespace DailyBuildFriend
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var form = new ReportForm();
+            var form = new ReportForm(ViewDailyBuild.ViewReport);
             form.ShowDialog();
         }
     }
