@@ -95,10 +95,11 @@ namespace DailyBuildFriend.ViewModel.Accessor
                                 data.BuildErrorCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
                                 break;
 
-                            //case CommandType.MSBuild:
-                            //    //    var arguments = $"\"{slnFile}\" /t:{rebuild} /p:Configuration={command.Param1} /fileLogger /fileLoggerParameters:LogFile=\"{logFile}\"";
-                            //    //    ProcessUtility.ProcessStart(ViewOptionAccessor.MSBuild, Path.GetDirectoryName(slnFile), arguments);
-                            //    break;
+                                //TODO:MSBuildは要確認
+                                //case CommandType.MSBuild:
+                                //    //    var arguments = $"\"{slnFile}\" /t:{rebuild} /p:Configuration={command.Param1} /fileLogger /fileLoggerParameters:LogFile=\"{logFile}\"";
+                                //    //    ProcessUtility.ProcessStart(ViewOptionAccessor.MSBuild, Path.GetDirectoryName(slnFile), arguments);
+                                //    break;
                         }
                         WriteFile(logFileName, true, $"{command.Name}終了", true);
                     }
@@ -120,7 +121,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 WriteFile(logFileName, true, "デイリービルド終了", true);
                 WriteFile(logFileName, true, "finish!!", false);
 
-                //TODO:ここでファイルアクセス出来ない場合はどうするか
+                //TODO:ここでファイルアクセス出来ない場合など例外はどうするか
                 data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"), task.TaskName);
                 task.WriteHtmlFile();
             }

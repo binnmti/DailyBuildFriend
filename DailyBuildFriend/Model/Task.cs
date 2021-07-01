@@ -4,11 +4,11 @@ namespace DailyBuildFriend.Model
 {
     public class Task
     {
+        public bool Checked { get; set; }
         public string TaskName { get; set; } = "";
         public string FileName { get; set; } = "";
         public string ProjectPath { get; set; } = "";
         public string LogPath { get; set; } = "";
-        public bool Checked { get; set; }
         public bool Timer { get; set; }
         public bool Interval { get; set; }
         public bool Report { get; set; }
