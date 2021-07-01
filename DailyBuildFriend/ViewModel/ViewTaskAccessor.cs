@@ -41,13 +41,14 @@ namespace DailyBuildFriend.ViewModel
             };
 
         internal static void OpenLog(this ViewTask task)
-            => Process.Start(task.GetFileName("Result.html"));
+            => Process.Start(Path.Combine(task.LogPath, "index.html"));
 
         internal static void OpenProject(this ViewTask task)
             => Process.Start(task.ProjectPath);
         
         internal static string Validation(this ViewTask task)
         {
+            //TODO:タスク名の重複チェックをしたいが、この作りでは情報が足りてない
             if (string.IsNullOrEmpty(task.TaskName)) return "名前がありません";
             if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
             if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
@@ -67,12 +68,13 @@ namespace DailyBuildFriend.ViewModel
             => Path.Combine(task.LogPath, task.FileName, task.FileName + name);
 
         private static string GetGitCommitId(this ViewTask task, string branch)
+            //TODO:gitを直打ちしている
             => Directory.Exists(task.ProjectPath) ? ProcessUtility.ProcessStart("git", task.ProjectPath, $"log -n 1 --format=%h {branch}").Replace("\n", "") : "-";
 
         private static string GetResult(this ViewTask task)
         {
             var fileName = task.GetFileName("Result.csv");
-            return File.Exists(fileName) ? File.ReadLines(fileName).Skip(1).FirstOrDefault()?.Split(',')?.Skip(1).FirstOrDefault() ?? "" : "-";
+            return File.Exists(fileName) ? File.ReadLines(fileName).Skip(1).FirstOrDefault()?.Split(',')?.Skip(1).FirstOrDefault() ?? "" : "";
         }
 
         private static string GetUpdateDate(this ViewTask task)

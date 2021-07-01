@@ -66,11 +66,14 @@ namespace DailyBuildFriend
         {
             if (DialogResult != DialogResult.OK) return;
             var error = ViewTask.Validation();
-            if (string.IsNullOrEmpty(error)) return;
+            if (string.IsNullOrEmpty(error))
+            {
+                ViewTask.Update();
+                return;
+            }
 
             MessageBox.Show(error);
             e.Cancel = true;
-            ViewTask.Update();
         }
 
         private void TaskNameTextBox_TextChanged(object sender, EventArgs e)

@@ -45,7 +45,9 @@ namespace DailyBuildFriend
             this.AddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.LogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TaskListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -85,8 +87,6 @@ namespace DailyBuildFriend
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -97,14 +97,13 @@ namespace DailyBuildFriend
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルFToolStripMenuItem,
             this.設定SToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1652, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1981, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -190,13 +189,13 @@ namespace DailyBuildFriend
             this.LogToolStripMenuItem,
             this.ProjectToolStripMenuItem});
             this.TaskListViewContextMenuStrip.Name = "contextMenuStrip1";
-            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(241, 203);
+            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(227, 170);
             // 
             // AddToolStripMenuItem
             // 
             this.AddToolStripMenuItem.Name = "AddToolStripMenuItem";
             this.AddToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.AddToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.AddToolStripMenuItem.Size = new System.Drawing.Size(226, 32);
             this.AddToolStripMenuItem.Text = "追加(&A)";
             this.AddToolStripMenuItem.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
             // 
@@ -204,7 +203,7 @@ namespace DailyBuildFriend
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(226, 32);
             this.EditToolStripMenuItem.Text = "編集(&E)";
             this.EditToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
@@ -212,16 +211,28 @@ namespace DailyBuildFriend
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
             this.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(226, 32);
             this.DeleteToolStripMenuItem.Text = "削除(&D)";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(223, 6);
             // 
             // LogToolStripMenuItem
             // 
             this.LogToolStripMenuItem.Name = "LogToolStripMenuItem";
-            this.LogToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.LogToolStripMenuItem.Size = new System.Drawing.Size(226, 32);
             this.LogToolStripMenuItem.Text = "ログ(&L)";
             this.LogToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
+            // 
+            // ProjectToolStripMenuItem
+            // 
+            this.ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem";
+            this.ProjectToolStripMenuItem.Size = new System.Drawing.Size(226, 32);
+            this.ProjectToolStripMenuItem.Text = "プロジェクトを開く(&P)";
+            this.ProjectToolStripMenuItem.Click += new System.EventHandler(this.ProjectToolStripMenuItem_Click);
             // 
             // TaskListView
             // 
@@ -246,7 +257,7 @@ namespace DailyBuildFriend
             this.TaskListView.Location = new System.Drawing.Point(0, 33);
             this.TaskListView.MultiSelect = false;
             this.TaskListView.Name = "TaskListView";
-            this.TaskListView.Size = new System.Drawing.Size(1652, 125);
+            this.TaskListView.Size = new System.Drawing.Size(1981, 125);
             this.TaskListView.TabIndex = 2;
             this.TaskListView.UseCompatibleStateImageBehavior = false;
             this.TaskListView.View = System.Windows.Forms.View.Details;
@@ -308,7 +319,7 @@ namespace DailyBuildFriend
             // RunButton
             // 
             this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RunButton.Location = new System.Drawing.Point(1461, 13);
+            this.RunButton.Location = new System.Drawing.Point(1790, 13);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(180, 79);
             this.RunButton.TabIndex = 3;
@@ -327,7 +338,7 @@ namespace DailyBuildFriend
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 158);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1652, 137);
+            this.panel1.Size = new System.Drawing.Size(1981, 137);
             this.panel1.TabIndex = 4;
             // 
             // groupBox2
@@ -618,23 +629,11 @@ namespace DailyBuildFriend
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(237, 6);
-            // 
-            // ProjectToolStripMenuItem
-            // 
-            this.ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem";
-            this.ProjectToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
-            this.ProjectToolStripMenuItem.Text = "プロジェクトを開く(&P)";
-            this.ProjectToolStripMenuItem.Click += new System.EventHandler(this.ProjectToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1652, 295);
+            this.ClientSize = new System.Drawing.Size(1981, 295);
             this.Controls.Add(this.TaskListView);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);

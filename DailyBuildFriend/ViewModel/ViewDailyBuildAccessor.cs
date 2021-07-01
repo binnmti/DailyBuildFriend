@@ -183,7 +183,7 @@ namespace DailyBuildFriend.ViewModel
 
         private static void WriteHtml(ViewTask task)
         {
-            using var writer = new StreamWriter(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.html"));
+            using var writer = new StreamWriter(Path.Combine(task.LogPath, "index.html"));
             writer.WriteLine("<html>");
             writer.WriteLine("<head><title>デイリービルド結果</title></head>");
             writer.WriteLine("<body>");
@@ -196,7 +196,7 @@ namespace DailyBuildFriend.ViewModel
             writer.WriteLine("<td>ビルド情報</td>");
             writer.WriteLine("<td>最終成功時間</td>");
             //フォルダの中にあるcsvのファイル名を回す
-            foreach (var csvFile in Directory.GetFiles(Path.Combine(task.LogPath, task.FileName), "*.csv"))
+            foreach (var csvFile in Directory.GetFiles(task.LogPath, "*.csv", SearchOption.AllDirectories))
             {
                 writer.WriteLine("<tr>");
                 var lines = File.ReadAllLines(csvFile);

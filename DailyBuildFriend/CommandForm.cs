@@ -1,4 +1,5 @@
 ﻿using DailyBuildFriend.ViewModel;
+using System.IO;
 using System.Windows.Forms;
 
 namespace DailyBuildFriend
@@ -34,5 +35,23 @@ namespace DailyBuildFriend
             MessageBox.Show(error);
             e.Cancel = true;
         }
+
+        private void SetFileName(TextBox textBox)
+        {
+            if(File.Exists(textBox.Text))
+            {
+                openFileDialog1.InitialDirectory = Path.GetDirectoryName(textBox.Text);
+                openFileDialog1.FileName = Path.GetFileName(textBox.Text);
+            }
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
+
+            textBox.Text = openFileDialog1.FileName;
+        }
+
+        private void Param1Button_Click(object sender, System.EventArgs e)
+            => SetFileName(Param1TextBox);
+
+        private void Param2Button_Click(object sender, System.EventArgs e)
+            => SetFileName(Param2TextBox);
     }
 }
