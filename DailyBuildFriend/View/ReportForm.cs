@@ -26,12 +26,12 @@ namespace DailyBuildFriend.View
         {
             var item = new ListViewItem(member.MailAddress);
             item.SubItems.Add(member.Password);
-            item.Checked = member.Check;
+            item.Checked = member.Checked;
             return item;
         }
 
         private static ViewReportMember ToViewReportMember(ListViewItem item)
-            => new ViewReportMember() { Check = item.Checked, MailAddress = item.Text, Password = item.SubItems[1].Text };
+            => new ViewReportMember() { Checked = item.Checked, MailAddress = item.Text, Password = item.SubItems[1].Text };
 
 
         private void AddUserButton_Click(object sender, EventArgs e)

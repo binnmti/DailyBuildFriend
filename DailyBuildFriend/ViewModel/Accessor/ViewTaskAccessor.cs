@@ -12,14 +12,14 @@ namespace DailyBuildFriend.ViewModel.Accessor
         internal static Task ToTask(this ViewTask task)
             => new Task()
             {
-                Check = task.Checked,
+                Checked = task.Checked,
                 FileName = task.FileName,
                 Interval = task.Interval.Checked,
                 LogPath = task.LogPath,
                 ProjectPath = task.ProjectPath,
                 Report = task.Report.Checked,
                 TaskName = task.TaskName,
-                TimeOut = task.TimeOut.Check,
+                TimeOut = task.TimeOut.Checked,
                 TimeOutTime = task.TimeOut.Time,
                 Timer = task.Timer.Checked,
                 Commands = task.ViewCommands.Select(x => x.ToCommand()).ToList(),
@@ -28,14 +28,14 @@ namespace DailyBuildFriend.ViewModel.Accessor
         internal static ViewTask ToViewTask(this Task task)
             => new ViewTask()
             {
-                Checked = task.Check,
+                Checked = task.Checked,
                 FileName = task.FileName,
                 Interval = new Check() { Checked = task.Interval },
                 LogPath = task.LogPath,
                 ProjectPath = task.ProjectPath,
                 Report = new Check() { Checked = task.Report },
                 TaskName = task.TaskName,
-                TimeOut = new TimeOut() { Check = task.TimeOut, Time = task.TimeOutTime },
+                TimeOut = new TimeOut() { Checked = task.TimeOut, Time = task.TimeOutTime },
                 Timer = new Check() { Checked = task.Timer },
                 ViewCommands = task.Commands.Select(x => x.ToViewCommand()).ToList(),
             };

@@ -2,7 +2,7 @@
 {
     public class ReportMember
     {
-        public bool Check { get; set; }
+        public bool Checked { get; set; }
         public string MailAddress { get; set; } = "";
         public string Password { get; set; } = "";
     }

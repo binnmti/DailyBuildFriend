@@ -5,7 +5,7 @@ namespace DailyBuildFriend.ViewModel
     public class ViewReport
     {
         internal ViewReport Clone() => (ViewReport)MemberwiseClone();
-        public bool Check { get; set; }
+        public bool Checked { get; set; }
         public string SuccessMessage { get; set; } = "デイリービルドが成功しました。";
         public string FailureMessage { get; set; } = "デイリービルドが失敗しました。";
         public string SlackUrl { get; set; } = "";

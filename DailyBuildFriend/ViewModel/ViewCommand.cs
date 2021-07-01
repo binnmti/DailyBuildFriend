@@ -12,6 +12,6 @@
         internal string Param2Description { get; set; } = "";
         internal bool Param2Disabled { get; set; }
         internal string Summary { get; set; } = "";
-        internal bool Check { get; set; }
+        internal bool Checked { get; set; }
     }
 }

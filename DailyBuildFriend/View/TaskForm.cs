@@ -22,7 +22,7 @@ namespace DailyBuildFriend.View
             TimerCheckBox.Checked = task.Timer.Checked;
             IntervalCheckBox.Checked = task.Interval.Checked;
             ReportCheckBox.Checked = task.Report.Checked;
-            TimeoutCheckBox.Checked = task.TimeOut.Check;
+            TimeoutCheckBox.Checked = task.TimeOut.Checked;
             TimeOutTimeNumericUpDown.Value = task.TimeOut.Time;
             CommandListView.BeginUpdate();
             task.ViewCommands.ToList().ForEach(x => CommandListView.Items.Add(ToListViewItem(x)));
@@ -34,13 +34,13 @@ namespace DailyBuildFriend.View
         {
             var item = new ListViewItem(command.Name);
             item.SubItems.Add(command.Param1);
-            item.Checked = command.Check;
+            item.Checked = command.Checked;
             return item;
         }
 
         private void AddCommand(ViewCommand command)
         {
-            command.Check = true;
+            command.Checked = true;
             var form = new CommandForm(command, ProjectPathTextBox.Text);
             if (form.ShowDialog() != DialogResult.OK) return;
 
@@ -99,14 +99,14 @@ namespace DailyBuildFriend.View
             => ViewTask.Report.Checked = ReportCheckBox.Checked;
 
         private void TimeoutCheckBox_CheckedChanged(object sender, EventArgs e)
-            => ViewTask.TimeOut.Check = TimeoutCheckBox.Checked;
+            => ViewTask.TimeOut.Checked = TimeoutCheckBox.Checked;
 
         private void TimeOutTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
             => ViewTask.TimeOut.Time = (int)TimeOutTimeNumericUpDown.Value;
 
         private void AllCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ViewTask.ViewCommands.ForEach(x => x.Check = AllCheckBox.Checked);
+            ViewTask.ViewCommands.ForEach(x => x.Checked = AllCheckBox.Checked);
             CommandListView.Items.Cast<ListViewItem>().ToList().ForEach(x => x.Checked = AllCheckBox.Checked);
         }
 
@@ -150,7 +150,7 @@ namespace DailyBuildFriend.View
                 if (CommandListView.Items.Count == 0) return;
 
                 var index = e.Index;
-                ViewTask.ViewCommands[index].Check = e.NewValue == CheckState.Checked;
+                ViewTask.ViewCommands[index].Checked = e.NewValue == CheckState.Checked;
             }
         }
 

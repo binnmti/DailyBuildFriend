@@ -7,7 +7,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
         internal static ViewSchedule ToViewSchedule(this Schedule schedule)
          => new ViewSchedule()
             {
-                Check = schedule.Check,
+                Checked = schedule.Checked,
                 Interval = schedule.Interval,
                 Timer = schedule.Timer,
             };
@@ -15,7 +15,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
         internal static Schedule ToSchedule(this ViewSchedule schedule)
              => new Schedule()
              {
-                 Check = schedule.Check,
+                 Checked = schedule.Checked,
                  Interval = schedule.Interval,
                  Timer = schedule.Timer,
              };

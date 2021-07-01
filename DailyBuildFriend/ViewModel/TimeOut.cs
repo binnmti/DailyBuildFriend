@@ -2,8 +2,8 @@
 {
     internal class TimeOut
     {
-        public bool Check { get; set; }
+        public bool Checked { get; set; }
         public int Time { get; set; }
-        public string Result => Check ? $"{Time}分" : "-";
+        public string Result => Checked ? $"{Time}分" : "-";
     }
 }

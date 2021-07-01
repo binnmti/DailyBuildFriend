@@ -29,12 +29,12 @@ namespace DailyBuildFriend.ViewModel.Accessor
             viewCommand.CommandType = data.Key;
             viewCommand.Param1 = command.Param1;
             viewCommand.Param2 = command.Param2;
-            viewCommand.Check = command.Checked;
+            viewCommand.Checked = command.Checked;
             return viewCommand;
         }
 
         internal static Command ToCommand(this ViewCommand command)
-            => new Command() { Name = command.Name, Checked = command.Check, Param1 = command.Param1, Param2 = command.Param2 };
+            => new Command() { Name = command.Name, Checked = command.Checked, Param1 = command.Param1, Param2 = command.Param2 };
 
         internal static ViewCommand Create(CommandType type, string param1, string param2)
             => new ViewCommand()

@@ -65,7 +65,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 WriteFile(logFileName, false, "デイリービルド開始", true);
                 runForm.SetTaskState($"{index + 1}/{tasks.Count()}");
 
-                var commands = task.ViewCommands.Where(x => x.Check);
+                var commands = task.ViewCommands.Where(x => x.Checked);
                 foreach (var (command, cIndex) in commands.Select((x, i) => (x, i)))
                 {
                     runForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.TimeOut.Time, task.ServerRevision, $"{cIndex + 1}/{commands.Count()}");
@@ -125,7 +125,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 task.WriteHtmlFile();
             }
             //レポート送信
-            if (viewDailyBuild.ViewReport.Check && viewDailyBuild.ViewTasks.Any(x => x.Report.Checked))
+            if (viewDailyBuild.ViewReport.Checked && viewDailyBuild.ViewTasks.Any(x => x.Report.Checked))
             {
                 var (subject, message) = viewDailyBuild.GetReportMessage();
                 await viewDailyBuild.ViewReport.SendAsync(subject, message);

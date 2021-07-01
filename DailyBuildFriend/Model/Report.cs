@@ -4,7 +4,7 @@ namespace DailyBuildFriend.Model
 {
     public class Report
     {
-        public bool Check { get; set; }
+        public bool Checked { get; set; }
         public string SuccessMessage { get; set; } = "";
         public string FailureMessage { get; set; } = "";
         public string SlackChannel { get; set; } = "";

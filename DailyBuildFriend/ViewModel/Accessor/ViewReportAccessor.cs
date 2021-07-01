@@ -11,20 +11,20 @@ namespace DailyBuildFriend.ViewModel.Accessor
         internal static ViewReport ToViewReport(this Report report)
          => new ViewReport()
             {
-                Check = report.Check,
+                Checked = report.Checked,
                 FailureMessage = report.FailureMessage,
                 SuccessMessage = report.SuccessMessage,
                 SlackChannel = report.SlackChannel,
                 SlackUrl = report.SlackUrl,
                 ViewReportMembers = report.ReportMembers
-                    .Select(x => new ViewReportMember() { Check = x.Check, MailAddress = x.MailAddress, Password = x.Password })
+                    .Select(x => new ViewReportMember() { Checked = x.Checked, MailAddress = x.MailAddress, Password = x.Password })
                     .ToList(),
             };
 
         internal static Report ToReport(this ViewReport report)
              => new Report()
              {
-                 Check = report.Check,
+                 Checked = report.Checked,
                  FailureMessage = report.FailureMessage,
                  SuccessMessage = report.SuccessMessage,
                  SlackChannel = report.SlackChannel,
@@ -32,7 +32,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                  ReportMembers = report.ViewReportMembers
                             .Select(x => new ReportMember()
                             {
-                                Check = x.Check,
+                                Checked = x.Checked,
                                 MailAddress = x.MailAddress,
                                 Password = x.Password
                             })
@@ -50,7 +50,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
         {
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, false);
-            foreach (var member in viewReport.ViewReportMembers.Where(x => x.Check))
+            foreach (var member in viewReport.ViewReportMembers.Where(x => x.Checked))
             {
                 smtp.Authenticate(member.MailAddress, member.Password);
                 // 送信するメールを作成

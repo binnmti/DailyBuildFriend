@@ -118,8 +118,8 @@ namespace DailyBuildFriend.View
             ViewDailyBuild = ViewDailyBuildAccessor.ToViewDailyBuild(File.ReadAllText(fileName));
             ViewDailyBuild.ViewTasks.ForEach(x => x.Update());
             ViewDailyBuild.ViewTasks.ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
-            ReportCheckBox.Checked = ViewDailyBuild.ViewReport.Check;
-            ScheduleCheckBox.Checked = ViewDailyBuild.ViewSchedule.Check;
+            ReportCheckBox.Checked = ViewDailyBuild.ViewReport.Checked;
+            ScheduleCheckBox.Checked = ViewDailyBuild.ViewSchedule.Checked;
             IntervalNumericUpDown.Value = ViewDailyBuild.ViewSchedule.Interval;
             TimerTextBox.Text = ViewDailyBuild.ViewSchedule.Timer.ToLongTimeString();
 
@@ -372,7 +372,7 @@ namespace DailyBuildFriend.View
 
         private void ScheduleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ViewDailyBuild.ViewSchedule.Check = ScheduleCheckBox.Checked;
+            ViewDailyBuild.ViewSchedule.Checked = ScheduleCheckBox.Checked;
             Text = GetTitle();
         }
 
@@ -384,7 +384,7 @@ namespace DailyBuildFriend.View
 
         private void ReportCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ViewDailyBuild.ViewReport.Check = ReportCheckBox.Checked;
+            ViewDailyBuild.ViewReport.Checked = ReportCheckBox.Checked;
             Text = GetTitle();
         }
 
