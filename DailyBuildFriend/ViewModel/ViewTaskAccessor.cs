@@ -43,6 +43,9 @@ namespace DailyBuildFriend.ViewModel
         internal static void OpenLog(this ViewTask task)
             => Process.Start(task.GetFileName("Result.html"));
 
+        internal static void OpenProject(this ViewTask task)
+            => Process.Start(task.ProjectPath);
+        
         internal static string Validation(this ViewTask task)
         {
             if (string.IsNullOrEmpty(task.TaskName)) return "名前がありません";
@@ -77,6 +80,5 @@ namespace DailyBuildFriend.ViewModel
             var fileName = task.GetFileName("Result.csv");
             return File.Exists(fileName) ? File.GetLastWriteTime(fileName).ToString() : "-";
         }
-
     }
 }

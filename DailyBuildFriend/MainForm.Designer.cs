@@ -85,6 +85,8 @@ namespace DailyBuildFriend
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.TaskListViewContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -95,6 +97,7 @@ namespace DailyBuildFriend
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルFToolStripMenuItem,
@@ -183,15 +186,17 @@ namespace DailyBuildFriend
             this.AddToolStripMenuItem,
             this.EditToolStripMenuItem,
             this.DeleteToolStripMenuItem,
-            this.LogToolStripMenuItem});
+            this.toolStripSeparator2,
+            this.LogToolStripMenuItem,
+            this.ProjectToolStripMenuItem});
             this.TaskListViewContextMenuStrip.Name = "contextMenuStrip1";
-            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(206, 132);
+            this.TaskListViewContextMenuStrip.Size = new System.Drawing.Size(241, 203);
             // 
             // AddToolStripMenuItem
             // 
             this.AddToolStripMenuItem.Name = "AddToolStripMenuItem";
             this.AddToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.AddToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
+            this.AddToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.AddToolStripMenuItem.Text = "追加(&A)";
             this.AddToolStripMenuItem.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
             // 
@@ -199,7 +204,7 @@ namespace DailyBuildFriend
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.EditToolStripMenuItem.Text = "編集(&E)";
             this.EditToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
@@ -207,14 +212,14 @@ namespace DailyBuildFriend
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
             this.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.DeleteToolStripMenuItem.Text = "削除(&D)";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // LogToolStripMenuItem
             // 
             this.LogToolStripMenuItem.Name = "LogToolStripMenuItem";
-            this.LogToolStripMenuItem.Size = new System.Drawing.Size(205, 32);
+            this.LogToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.LogToolStripMenuItem.Text = "ログ(&L)";
             this.LogToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
             // 
@@ -331,9 +336,9 @@ namespace DailyBuildFriend
             this.groupBox2.Controls.Add(this.BuildRadioButton);
             this.groupBox2.Controls.Add(this.NormalRadioButton);
             this.groupBox2.Location = new System.Drawing.Point(674, 5);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(232, 123);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
@@ -343,7 +348,7 @@ namespace DailyBuildFriend
             // 
             this.ReBuildRadioButton.AutoSize = true;
             this.ReBuildRadioButton.Location = new System.Drawing.Point(21, 81);
-            this.ReBuildRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReBuildRadioButton.Margin = new System.Windows.Forms.Padding(2);
             this.ReBuildRadioButton.Name = "ReBuildRadioButton";
             this.ReBuildRadioButton.Size = new System.Drawing.Size(171, 22);
             this.ReBuildRadioButton.TabIndex = 2;
@@ -354,7 +359,7 @@ namespace DailyBuildFriend
             // 
             this.BuildRadioButton.AutoSize = true;
             this.BuildRadioButton.Location = new System.Drawing.Point(21, 52);
-            this.BuildRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BuildRadioButton.Margin = new System.Windows.Forms.Padding(2);
             this.BuildRadioButton.Name = "BuildRadioButton";
             this.BuildRadioButton.Size = new System.Drawing.Size(160, 22);
             this.BuildRadioButton.TabIndex = 1;
@@ -366,7 +371,7 @@ namespace DailyBuildFriend
             this.NormalRadioButton.AutoSize = true;
             this.NormalRadioButton.Checked = true;
             this.NormalRadioButton.Location = new System.Drawing.Point(21, 23);
-            this.NormalRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NormalRadioButton.Margin = new System.Windows.Forms.Padding(2);
             this.NormalRadioButton.Name = "NormalRadioButton";
             this.NormalRadioButton.Size = new System.Drawing.Size(163, 22);
             this.NormalRadioButton.TabIndex = 0;
@@ -392,18 +397,17 @@ namespace DailyBuildFriend
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.ScheduleCheckBox);
             this.groupBox1.Location = new System.Drawing.Point(211, 5);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(426, 123);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // TimerTextBox
             // 
             this.TimerTextBox.Location = new System.Drawing.Point(129, 86);
-            this.TimerTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TimerTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.TimerTextBox.Name = "TimerTextBox";
             this.TimerTextBox.Size = new System.Drawing.Size(107, 25);
             this.TimerTextBox.TabIndex = 16;
@@ -423,7 +427,7 @@ namespace DailyBuildFriend
             // IntervalNumericUpDown
             // 
             this.IntervalNumericUpDown.Location = new System.Drawing.Point(129, 56);
-            this.IntervalNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IntervalNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
             this.IntervalNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -442,7 +446,7 @@ namespace DailyBuildFriend
             // NowTimerTextBox
             // 
             this.NowTimerTextBox.Location = new System.Drawing.Point(311, 86);
-            this.NowTimerTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NowTimerTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.NowTimerTextBox.Name = "NowTimerTextBox";
             this.NowTimerTextBox.ReadOnly = true;
             this.NowTimerTextBox.Size = new System.Drawing.Size(95, 25);
@@ -472,7 +476,7 @@ namespace DailyBuildFriend
             // IntervalTextBox
             // 
             this.IntervalTextBox.Location = new System.Drawing.Point(311, 56);
-            this.IntervalTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IntervalTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.IntervalTextBox.Name = "IntervalTextBox";
             this.IntervalTextBox.ReadOnly = true;
             this.IntervalTextBox.Size = new System.Drawing.Size(64, 25);
@@ -512,7 +516,7 @@ namespace DailyBuildFriend
             // CheckTextBox
             // 
             this.CheckTextBox.Location = new System.Drawing.Point(311, 25);
-            this.CheckTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CheckTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.CheckTextBox.Name = "CheckTextBox";
             this.CheckTextBox.ReadOnly = true;
             this.CheckTextBox.Size = new System.Drawing.Size(64, 25);
@@ -553,7 +557,7 @@ namespace DailyBuildFriend
             // 
             this.ScheduleCheckBox.AutoSize = true;
             this.ScheduleCheckBox.Location = new System.Drawing.Point(4, 0);
-            this.ScheduleCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ScheduleCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.ScheduleCheckBox.Name = "ScheduleCheckBox";
             this.ScheduleCheckBox.Size = new System.Drawing.Size(155, 22);
             this.ScheduleCheckBox.TabIndex = 0;
@@ -565,7 +569,7 @@ namespace DailyBuildFriend
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(14, 5);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(157, 22);
             this.checkBox1.TabIndex = 6;
@@ -575,7 +579,7 @@ namespace DailyBuildFriend
             // ReportButton
             // 
             this.ReportButton.Location = new System.Drawing.Point(114, 95);
-            this.ReportButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReportButton.Margin = new System.Windows.Forms.Padding(2);
             this.ReportButton.Name = "ReportButton";
             this.ReportButton.Size = new System.Drawing.Size(34, 35);
             this.ReportButton.TabIndex = 5;
@@ -587,7 +591,7 @@ namespace DailyBuildFriend
             // 
             this.ReportCheckBox.AutoSize = true;
             this.ReportCheckBox.Location = new System.Drawing.Point(14, 103);
-            this.ReportCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ReportCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.ReportCheckBox.Name = "ReportCheckBox";
             this.ReportCheckBox.Size = new System.Drawing.Size(91, 22);
             this.ReportCheckBox.TabIndex = 4;
@@ -613,6 +617,18 @@ namespace DailyBuildFriend
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(237, 6);
+            // 
+            // ProjectToolStripMenuItem
+            // 
+            this.ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem";
+            this.ProjectToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.ProjectToolStripMenuItem.Text = "プロジェクトを開く(&P)";
+            this.ProjectToolStripMenuItem.Click += new System.EventHandler(this.ProjectToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -700,6 +716,8 @@ namespace DailyBuildFriend
         private System.Windows.Forms.RadioButton BuildRadioButton;
         private System.Windows.Forms.RadioButton NormalRadioButton;
         private System.Windows.Forms.TextBox TimerTextBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem ProjectToolStripMenuItem;
     }
 }
 

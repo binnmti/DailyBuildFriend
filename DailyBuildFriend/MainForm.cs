@@ -101,11 +101,6 @@ namespace DailyBuildFriend
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
             => EditTask();
 
-        private void AddToolStripMenuItem_Click(object sender, MouseEventArgs e)
-        {
-
-        }
-
         private void SaveFile(string fileName)
         {
             File.WriteAllText(fileName, ViewDailyBuild.ToJson(true));
@@ -279,6 +274,14 @@ namespace DailyBuildFriend
             Activate();
         }
 
+        private void EndDailyBuild()
+        {
+            RunButton.Enabled = true;
+            NormalRadioButton.Checked = true;
+            UpdateListView();
+            FormActive();
+        }
+
         private static CancellationTokenSource? _tokenSource = null;
         public static void StopRunForm() => _tokenSource?.Cancel();
         private async Task RunDailyBuildAsync(RunType runType)
@@ -293,25 +296,12 @@ namespace DailyBuildFriend
             if (BuildRadioButton.Checked) forceBuild = "ビルド";
             else if (ReBuildRadioButton.Checked) forceBuild = "リビルド";
 
-            //TODO:UIから強制ビルドしてい可能
             await Task.Run(async () => { await ViewDailyBuild.RunAsync(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
                 .ContinueWith(t =>
                 {
-                    void CloseRunForm()
-                    {
-                        if (InvokeRequired) Invoke((MethodInvoker)(() => { CloseRunForm(); }));
-                        else
-                        {
-                            runForm.Close();
-                            RunButton.Enabled = true;
-                            NormalRadioButton.Checked = true;
-                            UpdateListView();
-                            FormActive();
-                        }
-                    }
-                    CloseRunForm();
+                    runForm.Close();
+                    EndDailyBuild();
                     _tokenSource.Dispose();
-                    //TODO:Invokeいらない
                 }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -368,9 +358,12 @@ namespace DailyBuildFriend
             ViewDailyBuild.ViewTasks[index].OpenLog();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void ProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (TaskListView.SelectedItems.Count == 0) return;
 
+            var index = TaskListView.SelectedItems.Cast<ListViewItem>().Single().Index;
+            ViewDailyBuild.ViewTasks[index].OpenProject();
         }
 
         private void ScheduleCheckBox_CheckedChanged(object sender, EventArgs e)

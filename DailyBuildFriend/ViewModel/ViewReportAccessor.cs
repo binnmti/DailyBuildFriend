@@ -83,7 +83,7 @@ namespace DailyBuildFriend.ViewModel
 
             var slack = new SlackWebhook()
             {
-                channel = "#notification",
+                channel = viewReport.SlackChannel,
                 username = "DailyBuildAutomata",
                 text = message,
                 icon_emoji = ":books:",

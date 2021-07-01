@@ -91,6 +91,7 @@ namespace DailyBuildFriend.ViewModel
                                 data.BuildWarningCount += RunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
                                 data.BuildErrorCount += RunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
                                 break;
+
                             //case CommandType.MSBuild:
                             //    //    var arguments = $"\"{slnFile}\" /t:{rebuild} /p:Configuration={command.Param1} /fileLogger /fileLoggerParameters:LogFile=\"{logFile}\"";
                             //    //    ProcessUtility.ProcessStart(ViewOptionAccessor.MSBuild, Path.GetDirectoryName(slnFile), arguments);
@@ -120,14 +121,14 @@ namespace DailyBuildFriend.ViewModel
                 data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"), task.TaskName);
                 WriteHtml(task);
             }
-            if (viewDailyBuild.ViewReport.Check && viewDailyBuild.ViewTasks.Any(x => x.Report.Checked))
-            {
-                await SendReport(viewDailyBuild.ViewTasks, viewDailyBuild.ViewReport);
-            }
+            await SendReport(viewDailyBuild.ViewTasks, viewDailyBuild.ViewReport);
         }
 
         private static async System.Threading.Tasks.Task SendReport(List<ViewTask> tasks, ViewReport report)
         {
+            if (!report.Check) return;
+            if (!tasks.Any(x => x.Report.Checked)) return;
+
             var sb = new StringBuilder();
             string nowState = "";
             string preState = "";
@@ -137,7 +138,7 @@ namespace DailyBuildFriend.ViewModel
             {
                 var lines = File.ReadAllLines(task.GetFileName("Result.csv"));
                 if (lines.Length < 2) continue;
-                //TODO:直値なので、ここは後から見直す
+                //TODO:直値は後から見直す
                 nowState = lines[1].Split(',')[1];
                 nowErrorCounter = int.TryParse(lines[1].Split(',')[2], out var error) ? error : 0;
                 //成功時は何の情報もいらないが、成功以外の場合は何処で失敗したかを知りたい。
@@ -153,44 +154,28 @@ namespace DailyBuildFriend.ViewModel
                 preErrorCounter = int.TryParse(lines[2].Split(',')[2], out error) ? error : 0;
             }
 
+            string subject = "";
+            string message = "";
             if (nowState == "中断")
             {
-                //TODO:中断は管理者のみで良い
-                await report.SendAsync("デイリービルドフレンズ:中断連絡", report.FailureMessage + sb.ToString());
-                //スケジュールを止める
+                //中断は管理者のみで良い
+                subject = "中断連絡";
+                message = $"{report.FailureMessage}\n{sb}";
             }
             else if (nowState == "成功")
             {
-                if (preState != "成功")
-                {
-                    await report.SendAsync("デイリービルドフレンズ:成功連絡", report.SuccessMessage);
-                }
-                //TODO:通常連絡は、中身がないので、相手によってはノイズ
-                else if (preState == "成功")
-                {
-                    await report.SendAsync("デイリービルドフレンズ:通常連絡", report.SuccessMessage);
-                }
+                //連続成功連絡は、相手によってはノイズ
+                subject = preState != "成功" ? "成功連絡" : "連続成功連絡";
+                message = report.SuccessMessage;
             }
             //失敗
             else
             {
-                if (preState == "成功")
-                {
-                    await report.SendAsync("デイリービルドフレンズ:失敗連絡", report.FailureMessage + sb.ToString());
-                }
-                else
-                {
-                    if (nowErrorCounter != preErrorCounter)
-                    {
-                        await report.SendAsync("デイリービルドフレンズ:連続失敗連絡", report.FailureMessage + sb.ToString());
-                    }
-                    else
-                    {
-                        //TODO:同じ失敗なので、相手によってはノイズ
-                        await report.SendAsync("デイリービルドフレンズ:再度失敗連絡", report.FailureMessage + sb.ToString());
-                    }
-                }
+                //失敗再送連絡は、相手によってはノイズ
+                subject = preState == "成功" ? "失敗連絡" : nowErrorCounter != preErrorCounter ? "連続失敗連絡" : "失敗再送連絡";
+                message = $"{report.FailureMessage}\n{sb}";
             }
+            await report.SendAsync($"デイリービルドフレンズ:{subject}", message);
         }
 
         private static void WriteHtml(ViewTask task)
