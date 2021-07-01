@@ -44,7 +44,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
             };
             foreach (var (task,index) in tasks.Select((x,i) => (x,i)))
             {
-                var data = new DailyBuildRunResultSerivce.ResultData();
+                var data = new ViewDailyBuildRunResultSerivce.ResultData();
 
                 string logPathName = Path.Combine(task.LogPath, task.FileName);
                 string logFileName = Path.Combine(logPathName, task.FileName + "Result.log");
@@ -90,8 +90,8 @@ namespace DailyBuildFriend.ViewModel.Accessor
                                 var rebuild = data.ReBuild ? "rebuild" : "build";
                                 var arguments = $"\"{slnFile}\" /{rebuild} {command.Param1} /out \"{logFile}\"";
                                 ProcessUtility.ProcessStart(viewDailyBuild.ViewOption.Devenv, Path.GetDirectoryName(slnFile), arguments);
-                                data.BuildWarningCount += DailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
-                                data.BuildErrorCount += DailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
+                                data.BuildWarningCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
+                                data.BuildErrorCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
                                 break;
 
                             //case CommandType.MSBuild:
@@ -121,9 +121,14 @@ namespace DailyBuildFriend.ViewModel.Accessor
 
                 //TODO:ここでファイルアクセス出来ない場合はどうするか
                 data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"), task.TaskName);
-                task.WriteHtml();
+                task.WriteHtmlFile();
             }
-            await viewDailyBuild.SendReport();
+            //レポート送信
+            if (viewDailyBuild.ViewReport.Check && viewDailyBuild.ViewTasks.Any(x => x.Report.Checked))
+            {
+                var (subject, message) = viewDailyBuild.GetReportMessage();
+                await viewDailyBuild.ViewReport.SendAsync(subject, message);
+            }
         }
 
         private static void WriteFile(string file, bool append, string msg, bool time)

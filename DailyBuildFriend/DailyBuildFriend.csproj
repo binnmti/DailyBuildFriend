@@ -140,7 +140,7 @@
     <Compile Include="ViewModel\Accessor\ViewScheduleAccessor.cs" />
     <Compile Include="ViewModel\ViewReportMember.cs" />
     <Compile Include="ViewModel\ViewReport.cs" />
-    <Compile Include="ViewModel\Accessor\DailyBuildRunResultSerivce.cs" />
+    <Compile Include="ViewModel\Accessor\ViewDailyBuildRunResultSerivce.cs" />
     <Compile Include="ViewModel\RunType.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />

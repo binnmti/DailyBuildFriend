@@ -58,29 +58,21 @@ namespace DailyBuildFriend.ViewModel.Accessor
 
         internal static void Update(this ViewTask task)
         {
-            task.UpdateDate = task.GetUpdateDate();
+            task.ResultFileName = Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv");
             task.LocalRevision = task.GetGitCommitId("");
             task.ServerRevision = task.GetGitCommitId("origin");
+            task.UpdateDate = task.GetUpdateDate();
             task.Result = task.GetResult();
         }
-
-        internal static string GetFileName(this ViewTask task, string name)
-            => Path.Combine(task.LogPath, task.FileName, task.FileName + name);
 
         private static string GetGitCommitId(this ViewTask task, string branch)
             //TODO:gitを直打ちしている
             => Directory.Exists(task.ProjectPath) ? ProcessUtility.ProcessStart("git", task.ProjectPath, $"log -n 1 --format=%h {branch}").Replace("\n", "") : "-";
 
         private static string GetResult(this ViewTask task)
-        {
-            var fileName = task.GetFileName("Result.csv");
-            return File.Exists(fileName) ? File.ReadLines(fileName).Skip(1).FirstOrDefault()?.Split(',')?.Skip(1).FirstOrDefault() ?? "" : "";
-        }
+            => File.Exists(task.ResultFileName) ? File.ReadLines(task.ResultFileName).Skip(1).FirstOrDefault()?.Split(',')?.Skip(1).FirstOrDefault() ?? "" : "";
 
         private static string GetUpdateDate(this ViewTask task)
-        {
-            var fileName = task.GetFileName("Result.csv");
-            return File.Exists(fileName) ? File.GetLastWriteTime(fileName).ToString() : "-";
-        }
+            => File.Exists(task.ResultFileName) ? File.GetLastWriteTime(task.ResultFileName).ToString() : "-";
     }
 }

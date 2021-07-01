@@ -2,11 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DailyBuildFriend.ViewModel.Accessor
 {
-    internal static class DailyBuildRunResultSerivce
+    internal static class ViewDailyBuildRunResultSerivce
     {
         internal class ResultData
         {
@@ -64,61 +63,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
             return hit;
         }
 
-        internal static async Task SendReport(this ViewDailyBuild viewDailyBuild)
-        {
-            if (!viewDailyBuild.ViewReport.Check) return;
-            if (!viewDailyBuild.ViewTasks.Any(x => x.Report.Checked)) return;
-
-            var sb = new StringBuilder();
-            string nowState = "";
-            string preState = "";
-            int preErrorCounter = 0;
-            int nowErrorCounter = 0;
-            foreach (var task in viewDailyBuild.ViewTasks.Where(x => x.Report.Checked))
-            {
-                var lines = File.ReadAllLines(task.GetFileName("Result.csv"));
-                if (lines.Length < 2) continue;
-                //TODO:直値は後から見直す
-                nowState = lines[1].Split(',')[1];
-                nowErrorCounter = int.TryParse(lines[1].Split(',')[2], out var error) ? error : 0;
-                //成功時は何の情報もいらないが、成功以外の場合は何処で失敗したかを知りたい。
-                if (nowState != "成功")
-                {
-                    sb.AppendLine($"//--------------------------------------------------------------------------");
-                    sb.AppendLine($"タスク名:{task.TaskName}:リビジョン:{task.LocalRevision}");
-                    sb.AppendLine($"エラー数:{nowErrorCounter}:全時間:{DateTime.Parse(lines[1].Split(',')[7]):yy/MM/dd HH:mm}");
-                }
-
-                if (lines.Length < 3) continue;
-                preState = lines[2].Split(',')[1];
-                preErrorCounter = int.TryParse(lines[2].Split(',')[2], out error) ? error : 0;
-            }
-
-            string subject = "";
-            string message = "";
-            if (nowState == "中断")
-            {
-                //中断は管理者のみで良い
-                subject = "中断連絡";
-                message = $"{viewDailyBuild.ViewReport.FailureMessage}\n{sb}";
-            }
-            else if (nowState == "成功")
-            {
-                //連続成功連絡は、相手によってはノイズ
-                subject = preState != "成功" ? "成功連絡" : "連続成功連絡";
-                message = viewDailyBuild.ViewReport.SuccessMessage;
-            }
-            //失敗
-            else
-            {
-                //失敗再送連絡は、相手によってはノイズ
-                subject = preState == "成功" ? "失敗連絡" : nowErrorCounter != preErrorCounter ? "連続失敗連絡" : "失敗再送連絡";
-                message = $"{viewDailyBuild.ViewReport.FailureMessage}\n{sb}";
-            }
-            await viewDailyBuild.ViewReport.SendAsync($"デイリービルドフレンズ:{subject}", message);
-        }
-
-        internal static void WriteHtml(this ViewTask task)
+        internal static void WriteHtmlFile(this ViewTask task)
         {
             using var writer = new StreamWriter(Path.Combine(task.LogPath, "index.html"));
             writer.WriteLine("<html>");
@@ -223,6 +168,57 @@ namespace DailyBuildFriend.ViewModel.Accessor
             writer.WriteLine("</table>");
             writer.WriteLine("</body>");
             writer.WriteLine("</html>");
+        }
+
+        internal static (string, string) GetReportMessage(this ViewDailyBuild viewDailyBuild)
+        {
+            var sb = new StringBuilder();
+            string nowState = "";
+            string preState = "";
+            int preErrorCounter = 0;
+            int nowErrorCounter = 0;
+            foreach (var task in viewDailyBuild.ViewTasks.Where(x => x.Report.Checked))
+            {
+                var lines = File.ReadAllLines(task.ResultFileName);
+                if (lines.Length < 2) continue;
+                //TODO:直値は後から見直す
+                nowState = lines[1].Split(',')[1];
+                nowErrorCounter = int.TryParse(lines[1].Split(',')[2], out var error) ? error : 0;
+                //成功時は何の情報もいらないが、成功以外の場合は何処で失敗したかを知りたい。
+                if (nowState != "成功")
+                {
+                    sb.AppendLine($"//--------------------------------------------------------------------------");
+                    sb.AppendLine($"タスク名:{task.TaskName}:リビジョン:{task.LocalRevision}");
+                    sb.AppendLine($"エラー数:{nowErrorCounter}:全時間:{DateTime.Parse(lines[1].Split(',')[7]):yy/MM/dd HH:mm}");
+                }
+
+                if (lines.Length < 3) continue;
+                preState = lines[2].Split(',')[1];
+                preErrorCounter = int.TryParse(lines[2].Split(',')[2], out error) ? error : 0;
+            }
+
+            string subject = "";
+            string message = "";
+            if (nowState == "中断")
+            {
+                //中断は管理者のみで良い
+                subject = "中断連絡";
+                message = $"{viewDailyBuild.ViewReport.FailureMessage}\n{sb}";
+            }
+            else if (nowState == "成功")
+            {
+                //連続成功連絡は、相手によってはノイズ
+                subject = preState != "成功" ? "成功連絡" : "連続成功連絡";
+                message = viewDailyBuild.ViewReport.SuccessMessage;
+            }
+            //失敗
+            else
+            {
+                //失敗再送連絡は、相手によってはノイズ
+                subject = preState == "成功" ? "失敗連絡" : nowErrorCounter != preErrorCounter ? "連続失敗連絡" : "失敗再送連絡";
+                message = $"{viewDailyBuild.ViewReport.FailureMessage}\n{sb}";
+            }
+            return ($"デイリービルドフレンズ:{subject}", message);
         }
     }
 }

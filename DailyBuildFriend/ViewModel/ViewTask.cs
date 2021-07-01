@@ -17,6 +17,7 @@ namespace DailyBuildFriend.ViewModel
         internal TimeOut TimeOut { get; set; } = new TimeOut();
         internal string LocalRevision { get; set; } = "";
         internal string ServerRevision { get; set; } = "";
+        internal string ResultFileName { get; set; } = "";
         internal string Result { get; set; } = "";
         internal List<ViewCommand> ViewCommands { get; set; } = new List<ViewCommand>();
     }
