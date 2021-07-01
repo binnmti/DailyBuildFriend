@@ -15,7 +15,7 @@ namespace UnitTestDailyBuildFriend
                 FileName = "File",
                 ProjectPath = @"C:\"
             };
-            ViewTaskAccessor.Validation(task).Is();
+            task.Validation().Is();
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace UnitTestDailyBuildFriend
                 FileName = "File",
                 ProjectPath = @"C:\DailyBuildFriend"
             };
-            ViewTaskAccessor.Validation(task).IsNot();
+            task.Validation().IsNot();
         }
     }
 }

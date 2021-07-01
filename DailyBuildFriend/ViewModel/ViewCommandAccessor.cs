@@ -1,5 +1,4 @@
 ﻿using DailyBuildFriend.Model;
-using DailyBuildFriend.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +23,15 @@ namespace DailyBuildFriend.ViewModel
         };
 
         internal static ViewCommand ToViewCommand(this Command command)
-            => Create(command);
+        {
+            var data = Data.SingleOrDefault(x => x.Value.Name == command.Name);
+            var viewCommand = Create(data.Key, "", "");
+            viewCommand.CommandType = data.Key;
+            viewCommand.Param1 = command.Param1;
+            viewCommand.Param2 = command.Param2;
+            viewCommand.Check = command.Checked;
+            return viewCommand;
+        }
 
         internal static Command ToCommand(this ViewCommand command)
             => new Command() { Name = command.Name, Checked = command.Check, Param1 = command.Param1, Param2 = command.Param2 };
@@ -40,17 +47,6 @@ namespace DailyBuildFriend.ViewModel
                 Param2Description = Data[type].Param2Description,
                 Param2Disabled = Data[type].Param2Disabled,
             };
-
-        private static ViewCommand Create(Command command)
-        {
-            var data = Data.SingleOrDefault(x => x.Value.Name == command.Name);
-            var viewCommand = Create(data.Key, "", "");
-            viewCommand.CommandType = data.Key;
-            viewCommand.Param1 = command.Param1;
-            viewCommand.Param2 = command.Param2;
-            viewCommand.Check = command.Checked;
-            return viewCommand;
-        }
 
         internal static string Validation(this ViewCommand command)
         {
@@ -70,6 +66,5 @@ namespace DailyBuildFriend.ViewModel
             }
             return msg;
         }
-
     }
 }

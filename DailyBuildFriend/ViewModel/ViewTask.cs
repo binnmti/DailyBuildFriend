@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DailyBuildFriend.ViewModel
 {
     internal class ViewTask
     {
+        internal ViewTask Clone() => (ViewTask)MemberwiseClone();
         internal string TaskName { get; set; } = "";
         internal string FileName { get; set; } = "";
         internal string ProjectPath { get; set; } = "";

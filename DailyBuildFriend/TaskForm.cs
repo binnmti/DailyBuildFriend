@@ -9,7 +9,7 @@ namespace DailyBuildFriend
     {
         //TODO:ドラッグしたら拡張子に合わせてコマンド追加をしたい。sln=VS起動など
 
-        private readonly ViewTask ViewTask = new ViewTask();
+        internal ViewTask ViewTask { get; set; } = new ViewTask();
         internal TaskForm(ViewTask task)
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace DailyBuildFriend
             CommandListView.BeginUpdate();
             task.ViewCommands.ToList().ForEach(x => CommandListView.Items.Add(ToListViewItem(x)));
             CommandListView.EndUpdate();
-            ViewTask = task;
+            ViewTask = task.Clone();
         }
 
         private static ListViewItem ToListViewItem(ViewCommand command)
@@ -42,6 +42,7 @@ namespace DailyBuildFriend
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
+            command = form.Command;
             ViewTask.ViewCommands.Add(command);
             CommandListView.Items.Add(ToListViewItem(command));
         }
@@ -55,6 +56,7 @@ namespace DailyBuildFriend
             var form = new CommandForm(command);
             if (form.ShowDialog() != DialogResult.OK) return;
 
+            command = form.Command;
             CommandListView.Items[index] = ToListViewItem(command);
             ViewTask.ViewCommands[index] = command;
         }
@@ -62,11 +64,12 @@ namespace DailyBuildFriend
         private void TaskForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult != DialogResult.OK) return;
-            var error = ViewTaskAccessor.Validation(ViewTask);
+            var error = ViewTask.Validation();
             if (string.IsNullOrEmpty(error)) return;
 
             MessageBox.Show(error);
             e.Cancel = true;
+            ViewTask.Update();
         }
 
         private void TaskNameTextBox_TextChanged(object sender, EventArgs e)

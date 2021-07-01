@@ -62,7 +62,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            task.Update();
+            task = form.ViewTask;
             ViewDailyBuild.ViewTasks.Add(task);
             TaskListView.Items.Add(ToListViewItem(task));
             Text = GetTitle();
@@ -77,7 +77,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            task.Update();
+            task = form.ViewTask;
             ViewDailyBuild.ViewTasks[index] = task;
             TaskListView.Items[index] = ToListViewItem(task);
             Text = GetTitle();
@@ -117,9 +117,9 @@ namespace DailyBuildFriend
 
         private void LoadFile(string fileName)
         {
-
             //TODO:ロードが出来てもデータとして正しいかは別なのでバリデーションが必要。
             ViewDailyBuild = ViewDailyBuildAccessor.ToViewDailyBuild(File.ReadAllText(fileName));
+            ViewDailyBuild.ViewTasks.ForEach(x => x.Update());
             ViewDailyBuild.ViewTasks.ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             FileName = fileName;
             JsonString = ViewDailyBuild.ToJson(false);
@@ -256,7 +256,7 @@ namespace DailyBuildFriend
 
         private void UpdateListView()
         {
-            //TODO:GetTasksはVM的な意味で設計を再考
+            ViewDailyBuild.ViewTasks.ForEach(x => x.Update());
             for (int i = 0; i < ViewDailyBuild.ViewTasks.Count; i++)
             {
                 TaskListView.Items[i] = ToListViewItem(ViewDailyBuild.ViewTasks[i]);

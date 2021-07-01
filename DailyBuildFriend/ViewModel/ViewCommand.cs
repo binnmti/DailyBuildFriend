@@ -2,6 +2,8 @@
 {
     internal class ViewCommand
     {
+        internal ViewCommand Clone() => (ViewCommand)MemberwiseClone();
+
         internal CommandType CommandType { get; set; }
         internal string Name { get; set; } = "";
         internal string Param1 { get; set; } = "";

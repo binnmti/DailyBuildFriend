@@ -25,7 +25,6 @@ namespace DailyBuildFriend.ViewModel
                 Commands = task.ViewCommands.Select(x => x.ToCommand()).ToList(),
             };
 
-
         internal static ViewTask ToViewTask(this Task task)
             => new ViewTask()
             {
@@ -38,15 +37,11 @@ namespace DailyBuildFriend.ViewModel
                 TaskName = task.TaskName,
                 TimeOut = new TimeOut() { Check = task.TimeOut, Time = task.TimeOutTime },
                 Timer = new Check() { Checked = task.Timer },
-                UpdateDate = GetUpdateDate(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.csv")),
-                LocalRevision = GetGitCommitId(task.ProjectPath, ""),
-                ServerRevision = GetGitCommitId(task.ProjectPath, "origin"),
-                Result = GetResult(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.csv")),
                 ViewCommands = task.Commands.Select(x => x.ToViewCommand()).ToList(),
             };
 
         internal static void OpenLog(this ViewTask task)
-            => Process.Start(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.html"));
+            => Process.Start(task.GetFileName("Result.html"));
 
         internal static string Validation(this ViewTask task)
         {
@@ -59,19 +54,28 @@ namespace DailyBuildFriend.ViewModel
 
         internal static void Update(this ViewTask task)
         {
-            task.UpdateDate = GetUpdateDate(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.csv"));
-            task.LocalRevision = GetGitCommitId(task.ProjectPath, "");
-            task.ServerRevision = GetGitCommitId(task.ProjectPath, "origin");
-            task.Result = GetResult(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.csv"));
+            task.UpdateDate = task.GetUpdateDate();
+            task.LocalRevision = task.GetGitCommitId("");
+            task.ServerRevision = task.GetGitCommitId("origin");
+            task.Result = task.GetResult();
         }
 
-        private static string GetGitCommitId(string projectPath, string branch)
-            => ProcessUtility.ProcessStart("git", projectPath, $"log -n 1 --format=%h {branch}").Replace("\n", "");
+        private static string GetGitCommitId(this ViewTask task, string branch)
+            => Directory.Exists(task.ProjectPath) ? ProcessUtility.ProcessStart("git", task.ProjectPath, $"log -n 1 --format=%h {branch}").Replace("\n", "") : "-";
 
-        private static string GetResult(string fileName)
-            => File.Exists(fileName) ? File.ReadLines(fileName).Skip(1).FirstOrDefault()?.Split(',')?.Skip(1).FirstOrDefault() ?? "" : "-";
+        private static string GetResult(this ViewTask task)
+        {
+            var fileName = task.GetFileName("Result.csv");
+            return File.Exists(fileName) ? File.ReadLines(fileName).Skip(1).FirstOrDefault()?.Split(',')?.Skip(1).FirstOrDefault() ?? "" : "-";
+        }
 
-        private static string GetUpdateDate(string fileName)
-            => File.Exists(fileName) ? File.GetLastWriteTime(fileName).ToString() : "-";
+        private static string GetUpdateDate(this ViewTask task)
+        {
+            var fileName = task.GetFileName("Result.csv");
+            return File.Exists(fileName) ? File.GetLastWriteTime(fileName).ToString() : "-";
+        }
+
+        private static string GetFileName(this ViewTask task, string name)
+            => Path.Combine(task.ProjectPath, task.FileName, task.FileName + name);
     }
 }
