@@ -114,7 +114,6 @@
     <Compile Include="Model\DailyBuild.cs" />
     <Compile Include="Model\Report.cs" />
     <Compile Include="Model\ReportMember.cs" />
-    <Compile Include="Model\DailyBuildAccessor.cs" />
     <Compile Include="Model\Option.cs" />
     <Compile Include="Model\Schedule.cs" />
     <Compile Include="OptionForm.cs">
@@ -129,7 +128,6 @@
     <Compile Include="ReportForm.Designer.cs">
       <DependentUpon>ReportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\ProcessUtility.cs" />
     <Compile Include="RunForm.cs">
       <SubType>Form</SubType>
@@ -138,19 +136,19 @@
       <DependentUpon>RunForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ViewDailyBuild.cs" />
-    <Compile Include="ViewModel\ViewDailyBuildAccessor.cs" />
-    <Compile Include="ViewModel\ViewScheduleAccessor.cs" />
+    <Compile Include="ViewModel\Accessor\ViewDailyBuildAccessor.cs" />
+    <Compile Include="ViewModel\Accessor\ViewScheduleAccessor.cs" />
     <Compile Include="ViewModel\ViewReportMember.cs" />
     <Compile Include="ViewModel\ViewReport.cs" />
-    <Compile Include="ViewModel\RunResultSerivce.cs" />
+    <Compile Include="ViewModel\Accessor\DailyBuildRunResultSerivce.cs" />
     <Compile Include="ViewModel\RunType.cs" />
     <Compile Include="ViewModel\TimeOut.cs" />
     <Compile Include="ViewModel\Check.cs" />
-    <Compile Include="ViewModel\ViewOptionAccessor.cs" />
+    <Compile Include="ViewModel\Accessor\ViewOptionAccessor.cs" />
     <Compile Include="ViewModel\ViewOption.cs" />
-    <Compile Include="ViewModel\ViewReportAccessor.cs" />
+    <Compile Include="ViewModel\Accessor\ViewReportAccessor.cs" />
     <Compile Include="ViewModel\ViewSchedule.cs" />
-    <Compile Include="ViewModel\ViewTaskAccessor.cs" />
+    <Compile Include="ViewModel\Accessor\ViewTaskAccessor.cs" />
     <Compile Include="TaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,14 +162,13 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IsExternalInit.cs" />
-    <Compile Include="ViewModel\BuildType.cs" />
     <Compile Include="Model\Command.cs" />
     <Compile Include="ViewModel\CommandType.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\ViewCommand.cs" />
-    <Compile Include="ViewModel\ViewCommandAccessor.cs" />
+    <Compile Include="ViewModel\Accessor\ViewCommandAccessor.cs" />
     <Compile Include="ViewModel\ViewTask.cs" />
     <EmbeddedResource Include="CommandForm.resx">
       <DependentUpon>CommandForm.cs</DependentUpon>

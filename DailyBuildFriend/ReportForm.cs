@@ -1,4 +1,5 @@
 ﻿using DailyBuildFriend.ViewModel;
+using DailyBuildFriend.ViewModel.Accessor;
 using System;
 using System.Data;
 using System.Linq;

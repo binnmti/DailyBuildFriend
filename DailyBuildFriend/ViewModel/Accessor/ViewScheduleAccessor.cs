@@ -1,6 +1,6 @@
 ﻿using DailyBuildFriend.Model;
 
-namespace DailyBuildFriend.ViewModel
+namespace DailyBuildFriend.ViewModel.Accessor
 {
     internal static class ViewScheduleAccessor
     {

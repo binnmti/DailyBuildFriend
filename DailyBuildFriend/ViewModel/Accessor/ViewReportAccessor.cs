@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 
-namespace DailyBuildFriend.ViewModel
+namespace DailyBuildFriend.ViewModel.Accessor
 {
     internal static class ViewReportAccessor
     {

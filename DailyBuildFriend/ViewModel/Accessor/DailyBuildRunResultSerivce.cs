@@ -1,143 +1,80 @@
-﻿using DailyBuildFriend.Model;
-using DailyBuildFriend.Utility;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 
-namespace DailyBuildFriend.ViewModel
+namespace DailyBuildFriend.ViewModel.Accessor
 {
-    internal static class ViewDailyBuildAccessor
+    internal static class DailyBuildRunResultSerivce
     {
-        internal static string ToJson(this ViewDailyBuild viewDailyBuild, bool indent)
-            => DailyBuildAccessor.ToJson(new DailyBuild()
-            {
-                Schedule = viewDailyBuild.ViewSchedule.ToSchedule(),
-                Option = viewDailyBuild.ViewOption.ToOption(),
-                Report = viewDailyBuild.ViewReport.ToReport(),
-                Tasks = viewDailyBuild.ViewTasks.Select(x => x.ToTask()).ToList(),
-            }, indent);
-
-        internal static ViewDailyBuild ToViewDailyBuild(string json)
+        internal class ResultData
         {
-            var dailybuild = DailyBuildAccessor.ToDailyBuild(json);
-            return new ViewDailyBuild()
-            {
-                ViewTasks = dailybuild.Tasks.Select(x => x.ToViewTask()).ToList(),
-                ViewOption = dailybuild.Option.ToViewOption(),
-                ViewReport = dailybuild.Report.ToViewReport(),
-                ViewSchedule = dailybuild.Schedule.ToViewSchedule(),
-            };
+            internal string Revision { get; set; } = "";
+            internal bool ReBuild { get; set; }
+            internal int BuildErrorCount { get; set; }
+            internal int BuildWarningCount { get; set; }
+            internal int TestErrorCount { get; set; }
+            internal DateTime StartTime { get; set; }
+            internal DateTime EndTime { get; set; }
+            internal string Break { get; set; } = "";
         }
 
-        //TODO:RunFormが引数なのはちょっと微妙だが、直接渡さないとデータをファイルに書き出してFormで読むなどの処理が必要。そういう仕組みを作ったら移行する
-        internal static async System.Threading.Tasks.Task RunAsync(this ViewDailyBuild viewDailyBuild, RunForm runForm, CancellationToken token, RunType runType, string forceBuild)
+        internal static void WriteCsvFile(this ResultData data, string csvFileName, string taskName)
         {
-            var tasks = runType switch
+            var sb = new StringBuilder();
+            //TODO:編集者を入れたい
+            sb.AppendLine("リビジョン,結果,エラー,警告,テスト,リビルド,開始時間,終了時間,全時間," + taskName);
+            sb.Append($"{data.Revision},");
+            sb.Append(data.Break != "" ? "中断," : data.BuildErrorCount != 0 || data.TestErrorCount != 0 ? "失敗," : "成功,");
+            sb.Append($"{data.BuildErrorCount},");
+            sb.Append($"{data.BuildWarningCount},");
+            sb.Append($"{data.TestErrorCount},");
+            sb.Append(data.ReBuild ? "○," : "×,");
+            sb.Append($"{data.StartTime:G},");
+            sb.Append($"{data.EndTime:G},");
+            if (data.Break != "")
             {
-                RunType.Click => viewDailyBuild.ViewTasks.Where(x => x.Checked),
-                RunType.Timer => viewDailyBuild.ViewTasks.Where(x => x.Timer.Checked),
-                RunType.Interval => viewDailyBuild.ViewTasks.Where(x => x.Interval.Checked),
-                _ => viewDailyBuild.ViewTasks.Where(x => x.Checked),
-                //TODO:OnlyをやろうとするならSelectedが良い。
-            };
-            foreach (var (task,index) in tasks.Select((x,i) => (x,i)))
-            {
-                var data = new RunResultSerivce.ResultData();
-
-                string logPathName = Path.Combine(task.LogPath, task.FileName);
-                string logFileName = Path.Combine(logPathName, task.FileName + "Result.log");
-                //TODO:念のためやっている。バリデーションの中で必ずやることにすればいらない
-                if (!Directory.Exists(logPathName)) Directory.CreateDirectory(logPathName);
-
-                data.StartTime = DateTime.Now;
-                data.Revision = task.LocalRevision;
-                if (forceBuild != "")
-                {
-                    data.ReBuild = forceBuild == "リビルド";
-                }
-                else
-                {
-                    data.ReBuild = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen)?.Param2 == "リビルド";
-                }
-                FileUtility.Write(logFileName, false, "デイリービルド開始", true);
-                runForm.SetTaskState($"{index + 1}/{tasks.Count()}");
-
-                var commands = task.ViewCommands.Where(x => x.Check);
-                foreach (var (command, cIndex) in commands.Select((x, i) => (x, i)))
-                {
-                    runForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.TimeOut.Time, task.ServerRevision, $"{cIndex + 1}/{commands.Count()}");
-                    try
-                    {
-                        FileUtility.Write(logFileName, true, $"{command.Name}開始", true);
-                        switch (command.CommandType)
-                        {
-                            //TODO:GitPullは、強制リビジョン指定時に無視する必要がある。そういうコマンドにするか要設計
-                            case CommandType.PullGit:
-                                ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
-                                break;
-
-                            case CommandType.VisualStudioOpen:
-                                File.Create(Path.Combine(logPathName, task.FileName + "ErrWarning.log")).Close();
-                                File.Create(Path.Combine(logPathName, task.FileName + "Warning.log")).Close();
-                                File.Create(Path.Combine(logPathName, task.FileName + "Error.log")).Close();
-                                break;
-
-                            case CommandType.VisualStudioBuild:
-                                var slnFile = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
-                                var logFile = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
-                                var rebuild = data.ReBuild ? "rebuild" : "build";
-                                var arguments = $"\"{slnFile}\" /{rebuild} {command.Param1} /out \"{logFile}\"";
-                                ProcessUtility.ProcessStart(viewDailyBuild.ViewOption.Devenv, Path.GetDirectoryName(slnFile), arguments);
-                                data.BuildWarningCount += RunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
-                                data.BuildErrorCount += RunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
-                                break;
-
-                            //case CommandType.MSBuild:
-                            //    //    var arguments = $"\"{slnFile}\" /t:{rebuild} /p:Configuration={command.Param1} /fileLogger /fileLoggerParameters:LogFile=\"{logFile}\"";
-                            //    //    ProcessUtility.ProcessStart(ViewOptionAccessor.MSBuild, Path.GetDirectoryName(slnFile), arguments);
-                            //    break;
-                        }
-                        FileUtility.Write(logFileName, true, $"{command.Name}終了", true);
-                    }
-                    //他のプロセスで例外が起きたら、ログを残して、実行を中断する
-                    catch (Exception ex)
-                    {
-                        FileUtility.Write(logFileName, true, command.Name + "中断", false);
-                        FileUtility.Write(logFileName, true, "break!!", false);
-                        using var exceptionLog = new StreamWriter(Path.Combine(logPathName, task.FileName + "Exception.log"));
-                        exceptionLog.WriteLine("コマンド:" + command.Name);
-                        exceptionLog.WriteLine(ex.Message);
-                        exceptionLog.WriteLine(ex.StackTrace);
-                        data.Break = command.Name + "中断";
-                        break;
-                    }
-                    if (token.IsCancellationRequested) return;
-                }
-                data.EndTime = DateTime.Now;
-                FileUtility.Write(logFileName, true, "デイリービルド終了", true);
-                FileUtility.Write(logFileName, true, "finish!!", false);
-
-                //TODO:ここでファイルアクセス出来ない場合はどうするか
-                data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"), task.TaskName);
-                WriteHtml(task);
+                sb.Append($"{data.Break},");
             }
-            await SendReport(viewDailyBuild.ViewTasks, viewDailyBuild.ViewReport);
+            else
+            {
+                sb.Append($"{data.EndTime - data.StartTime:T},");
+            }
+            sb.AppendLine();
+            if (File.Exists(csvFileName)) sb.Append(string.Join("\n", File.ReadAllLines(csvFileName).Skip(1)));
+            File.WriteAllText(csvFileName, sb.ToString());
         }
 
-        private static async System.Threading.Tasks.Task SendReport(List<ViewTask> tasks, ViewReport report)
+        //指定ファイルにあったキーワードから専用ファイルを作る
+        internal static int WriteFileFromKeyword(string analyzeFileName, string writeFileName, string keyword, string command, string param)
         {
-            if (!report.Check) return;
-            if (!tasks.Any(x => x.Report.Checked)) return;
+            int hit = 0;
+
+            using var writer = new StreamWriter(writeFileName);
+            writer.WriteLine("コマンド:" + command);
+            writer.WriteLine("ソリューション構成:" + param);
+            writer.WriteLine("//--------------------------------------------------------------------------");
+            //TODO:devenvがSJISを吐くのでDefault。devenvへの文字コード指定は出来ない。一時バッチで対応するか。文字コード問題は考えねばならぬ。
+            foreach (var line in File.ReadLines(analyzeFileName, Encoding.Default).Where(x => x.Contains(keyword)))
+            {
+                writer.WriteLine(line);
+                hit++;
+            }
+            return hit;
+        }
+
+        internal static async Task SendReport(this ViewDailyBuild viewDailyBuild)
+        {
+            if (!viewDailyBuild.ViewReport.Check) return;
+            if (!viewDailyBuild.ViewTasks.Any(x => x.Report.Checked)) return;
 
             var sb = new StringBuilder();
             string nowState = "";
             string preState = "";
             int preErrorCounter = 0;
             int nowErrorCounter = 0;
-            foreach (var task in tasks.Where(x => x.Report.Checked))
+            foreach (var task in viewDailyBuild.ViewTasks.Where(x => x.Report.Checked))
             {
                 var lines = File.ReadAllLines(task.GetFileName("Result.csv"));
                 if (lines.Length < 2) continue;
@@ -145,7 +82,7 @@ namespace DailyBuildFriend.ViewModel
                 nowState = lines[1].Split(',')[1];
                 nowErrorCounter = int.TryParse(lines[1].Split(',')[2], out var error) ? error : 0;
                 //成功時は何の情報もいらないが、成功以外の場合は何処で失敗したかを知りたい。
-                if(nowState != "成功")
+                if (nowState != "成功")
                 {
                     sb.AppendLine($"//--------------------------------------------------------------------------");
                     sb.AppendLine($"タスク名:{task.TaskName}:リビジョン:{task.LocalRevision}");
@@ -163,25 +100,25 @@ namespace DailyBuildFriend.ViewModel
             {
                 //中断は管理者のみで良い
                 subject = "中断連絡";
-                message = $"{report.FailureMessage}\n{sb}";
+                message = $"{viewDailyBuild.ViewReport.FailureMessage}\n{sb}";
             }
             else if (nowState == "成功")
             {
                 //連続成功連絡は、相手によってはノイズ
                 subject = preState != "成功" ? "成功連絡" : "連続成功連絡";
-                message = report.SuccessMessage;
+                message = viewDailyBuild.ViewReport.SuccessMessage;
             }
             //失敗
             else
             {
                 //失敗再送連絡は、相手によってはノイズ
                 subject = preState == "成功" ? "失敗連絡" : nowErrorCounter != preErrorCounter ? "連続失敗連絡" : "失敗再送連絡";
-                message = $"{report.FailureMessage}\n{sb}";
+                message = $"{viewDailyBuild.ViewReport.FailureMessage}\n{sb}";
             }
-            await report.SendAsync($"デイリービルドフレンズ:{subject}", message);
+            await viewDailyBuild.ViewReport.SendAsync($"デイリービルドフレンズ:{subject}", message);
         }
 
-        private static void WriteHtml(ViewTask task)
+        internal static void WriteHtml(this ViewTask task)
         {
             using var writer = new StreamWriter(Path.Combine(task.LogPath, "index.html"));
             writer.WriteLine("<html>");

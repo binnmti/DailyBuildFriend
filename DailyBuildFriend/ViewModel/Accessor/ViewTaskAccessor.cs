@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace DailyBuildFriend.ViewModel
+namespace DailyBuildFriend.ViewModel.Accessor
 {
     internal static class ViewTaskAccessor
     {
@@ -52,7 +52,7 @@ namespace DailyBuildFriend.ViewModel
             if (string.IsNullOrEmpty(task.TaskName)) return "名前がありません";
             if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
             if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
-            if (!Directory.Exists(task.LogPath)) Directory.CreateDirectory(task.LogPath);
+            if (task.LogPath != "" && !Directory.Exists(task.LogPath)) Directory.CreateDirectory(task.LogPath);
             return "";
         }
 

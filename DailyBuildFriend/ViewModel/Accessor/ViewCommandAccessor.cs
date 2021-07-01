@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DailyBuildFriend.ViewModel
+namespace DailyBuildFriend.ViewModel.Accessor
 {
     internal static class ViewCommandAccessor
     {
