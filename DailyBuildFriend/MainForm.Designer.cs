@@ -614,20 +614,20 @@ namespace DailyBuildFriend
             // 
             this.saveFileDialog1.DefaultExt = "dbf";
             this.saveFileDialog1.Filter = "dbfファイル|*.dbf";
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveFileDialog1_FileOk);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "dbf";
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "dbfファイル|*.dbf";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // MainForm
             // 

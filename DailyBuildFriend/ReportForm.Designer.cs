@@ -249,7 +249,7 @@ namespace DailyBuildFriend
             this.SlackHookUrlTextBox.Name = "SlackHookUrlTextBox";
             this.SlackHookUrlTextBox.Size = new System.Drawing.Size(805, 25);
             this.SlackHookUrlTextBox.TabIndex = 18;
-            this.SlackHookUrlTextBox.TextChanged += new System.EventHandler(this.slackHookUrlTextBox_TextChanged);
+            this.SlackHookUrlTextBox.TextChanged += new System.EventHandler(this.SlackHookUrlTextBox_TextChanged);
             // 
             // ReportForm
             // 

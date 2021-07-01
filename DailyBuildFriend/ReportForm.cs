@@ -56,7 +56,7 @@ namespace DailyBuildFriend
         private void SlackChannelNameTextBox_TextChanged(object sender, EventArgs e)
             => ViewReport.SlackChannel = SlackChannelNameTextBox.Text;
 
-        private void slackHookUrlTextBox_TextChanged(object sender, EventArgs e)
+        private void SlackHookUrlTextBox_TextChanged(object sender, EventArgs e)
             => ViewReport.SlackUrl = SlackHookUrlTextBox.Text;
 
         private void OkButton_Click(object sender, EventArgs e)

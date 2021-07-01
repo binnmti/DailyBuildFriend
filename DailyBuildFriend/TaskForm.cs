@@ -127,9 +127,9 @@ namespace DailyBuildFriend
 
         private void RunToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (var item in CommandListView.SelectedItems.Cast<ListViewItem>())
-            {
-            }
+            //foreach (var item in CommandListView.SelectedItems.Cast<ListViewItem>())
+            //{
+            //}
         }
 
         private bool doubleClickFlag;

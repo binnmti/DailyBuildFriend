@@ -140,7 +140,7 @@ namespace DailyBuildFriend
             }
         }
 
-        private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private void SaveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveFile(saveFileDialog1.FileName);
         }
@@ -151,7 +151,7 @@ namespace DailyBuildFriend
             openFileDialog1.ShowDialog();
         }
 
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private void OpenFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             LoadFile(openFileDialog1.FileName);
         }
@@ -312,7 +312,7 @@ namespace DailyBuildFriend
         private async void RunButton_Click(object sender, EventArgs e)
             => await RunDailyBuildAsync(RunType.Click);
 
-        private async void timer1_Tick(object sender, EventArgs e)
+        private async void Timer1_Tick(object sender, EventArgs e)
         {
             //実行中
             if (!RunButton.Enabled)
