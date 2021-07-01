@@ -7,9 +7,10 @@ namespace DailyBuildFriend
     public partial class CommandForm : Form
     {
         internal ViewCommand Command { get; set; } = new ViewCommand();
-        internal CommandForm(ViewCommand command)
+        internal CommandForm(ViewCommand command, string start)
         {
             InitializeComponent();
+            if (Directory.Exists(start)) openFileDialog1.InitialDirectory = start;
 
             CommandTextBox.Text = command.Name;
             Param1Label.Text = command.Param1Description;

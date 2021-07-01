@@ -223,8 +223,11 @@ namespace DailyBuildFriend
 
         private void NameSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(FileName);
-            saveFileDialog1.FileName = Path.GetFileName(FileName);
+            if (File.Exists(FileName))
+            {
+                saveFileDialog1.InitialDirectory = Path.GetDirectoryName(FileName);
+                saveFileDialog1.FileName = Path.GetFileName(FileName);
+            }
             saveFileDialog1.ShowDialog();
         }
 

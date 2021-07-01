@@ -40,7 +40,7 @@ namespace DailyBuildFriend
         private void AddCommand(ViewCommand command)
         {
             command.Check = true;
-            var form = new CommandForm(command);
+            var form = new CommandForm(command, ProjectPathTextBox.Text);
             if (form.ShowDialog() != DialogResult.OK) return;
 
             command = form.Command;
@@ -54,7 +54,7 @@ namespace DailyBuildFriend
 
             var index = CommandListView.SelectedItems.Cast<ListViewItem>().Single().Index;
             var command = ViewTask.ViewCommands[index];
-            var form = new CommandForm(command);
+            var form = new CommandForm(command, ProjectPathTextBox.Text);
             if (form.ShowDialog() != DialogResult.OK) return;
 
             command = form.Command;
