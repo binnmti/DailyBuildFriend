@@ -40,13 +40,13 @@ namespace DailyBuildFriend.ViewModel
              };
 
 
-        internal static async System.Threading.Tasks.Task SendAsync(ViewReport viewReport)
+        internal static async System.Threading.Tasks.Task SendAsync(this ViewReport viewReport, string subject, string message)
         {
-            SendMail(viewReport);
-            await SendSlackAsync(viewReport);
+            SendMail(viewReport, subject, message);
+            await SendSlackAsync(viewReport, message);
         }
 
-        private static void SendMail(ViewReport viewReport)
+        private static void SendMail(ViewReport viewReport, string subject, string message)
         {
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, false);
@@ -58,8 +58,8 @@ namespace DailyBuildFriend.ViewModel
                 var builder = new MimeKit.BodyBuilder();
                 mail.From.Add(new MimeKit.MailboxAddress("", "dailybuild@gmail.com"));
                 mail.To.Add(new MimeKit.MailboxAddress("", member.MailAddress));
-                mail.Subject = "デイリービルドフレンズ:成功連絡";
-                builder.TextBody = viewReport.SuccessMessage;
+                mail.Subject = subject;
+                builder.TextBody = message;
                 mail.Body = builder.ToMessageBody();
                 smtp.Send(mail);
             }
@@ -77,7 +77,7 @@ namespace DailyBuildFriend.ViewModel
 
         private static HttpClient HttpClient { get; set; } = new HttpClient();
 
-        private static async System.Threading.Tasks.Task SendSlackAsync(ViewReport viewReport)
+        private static async System.Threading.Tasks.Task SendSlackAsync(ViewReport viewReport, string message)
         {
             if (viewReport.SlackUrl == "") return;
 
@@ -85,7 +85,7 @@ namespace DailyBuildFriend.ViewModel
             {
                 channel = "#notification",
                 username = "DailyBuildAutomata",
-                text = viewReport.SuccessMessage,
+                text = message,
                 icon_emoji = ":books:",
             };
             var json = JsonSerializer.Serialize(slack);

@@ -44,7 +44,7 @@ namespace DailyBuildFriend
         }
 
         private async void SuccessTestButton_Click(object sender, EventArgs e)
-            => await ViewReportAccessor.SendAsync(ViewReport);
+            => await ViewReportAccessor.SendAsync(ViewReport,"成功テスト", ViewReport.SuccessMessage);
 
         private void SuccessMessageTextBox_TextChanged(object sender, EventArgs e)
             => ViewReport.SuccessMessage = SuccessMessageTextBox.Text;

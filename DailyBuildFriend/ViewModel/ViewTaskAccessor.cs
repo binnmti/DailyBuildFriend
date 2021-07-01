@@ -60,6 +60,9 @@ namespace DailyBuildFriend.ViewModel
             task.Result = task.GetResult();
         }
 
+        internal static string GetFileName(this ViewTask task, string name)
+            => Path.Combine(task.LogPath, task.FileName, task.FileName + name);
+
         private static string GetGitCommitId(this ViewTask task, string branch)
             => Directory.Exists(task.ProjectPath) ? ProcessUtility.ProcessStart("git", task.ProjectPath, $"log -n 1 --format=%h {branch}").Replace("\n", "") : "-";
 
@@ -75,7 +78,5 @@ namespace DailyBuildFriend.ViewModel
             return File.Exists(fileName) ? File.GetLastWriteTime(fileName).ToString() : "-";
         }
 
-        private static string GetFileName(this ViewTask task, string name)
-            => Path.Combine(task.LogPath, task.FileName, task.FileName + name);
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 
 namespace DailyBuildFriend.ViewModel
@@ -32,7 +33,7 @@ namespace DailyBuildFriend.ViewModel
         }
 
         //TODO:RunFormが引数なのはちょっと微妙だが、直接渡さないとデータをファイルに書き出してFormで読むなどの処理が必要。そういう仕組みを作ったら移行する
-        internal static void Run(this ViewDailyBuild viewDailyBuild, RunForm runForm, CancellationToken token, RunType runType, string forceBuild)
+        internal static async System.Threading.Tasks.Task RunAsync(this ViewDailyBuild viewDailyBuild, RunForm runForm, CancellationToken token, RunType runType, string forceBuild)
         {
             var tasks = runType switch
             {
@@ -118,6 +119,77 @@ namespace DailyBuildFriend.ViewModel
                 //TODO:ここでファイルアクセス出来ない場合はどうするか
                 data.WriteCsvFile(Path.Combine(task.LogPath, task.FileName, task.FileName + "Result.csv"), task.TaskName);
                 WriteHtml(task);
+            }
+            if (viewDailyBuild.ViewReport.Check && viewDailyBuild.ViewTasks.Any(x => x.Report.Checked))
+            {
+                await SendReport(viewDailyBuild.ViewTasks, viewDailyBuild.ViewReport);
+            }
+        }
+
+        private static async System.Threading.Tasks.Task SendReport(List<ViewTask> tasks, ViewReport report)
+        {
+            var sb = new StringBuilder();
+            string nowState = "";
+            string preState = "";
+            int preErrorCounter = 0;
+            int nowErrorCounter = 0;
+            foreach (var task in tasks.Where(x => x.Report.Checked))
+            {
+                var lines = File.ReadAllLines(task.GetFileName("Result.csv"));
+                if (lines.Length < 2) continue;
+                //TODO:直値なので、ここは後から見直す
+                nowState = lines[1].Split(',')[1];
+                nowErrorCounter = int.TryParse(lines[1].Split(',')[2], out var error) ? error : 0;
+                //成功時は何の情報もいらないが、成功以外の場合は何処で失敗したかを知りたい。
+                if(nowState != "成功")
+                {
+                    sb.AppendLine($"//--------------------------------------------------------------------------");
+                    sb.AppendLine($"タスク名:{task.TaskName}:リビジョン:{task.LocalRevision}");
+                    sb.AppendLine($"エラー数:{nowErrorCounter}:全時間:{DateTime.Parse(lines[1].Split(',')[7]):yy/MM/dd HH:mm}");
+                }
+
+                if (lines.Length < 3) continue;
+                preState = lines[2].Split(',')[1];
+                preErrorCounter = int.TryParse(lines[2].Split(',')[2], out error) ? error : 0;
+            }
+
+            if (nowState == "中断")
+            {
+                //TODO:中断は管理者のみで良い
+                await report.SendAsync("デイリービルドフレンズ:中断連絡", report.FailureMessage + sb.ToString());
+                //スケジュールを止める
+            }
+            else if (nowState == "成功")
+            {
+                if (preState != "成功")
+                {
+                    await report.SendAsync("デイリービルドフレンズ:成功連絡", report.SuccessMessage);
+                }
+                //TODO:通常連絡は、中身がないので、相手によってはノイズ
+                else if (preState == "成功")
+                {
+                    await report.SendAsync("デイリービルドフレンズ:通常連絡", report.SuccessMessage);
+                }
+            }
+            //失敗
+            else
+            {
+                if (preState == "成功")
+                {
+                    await report.SendAsync("デイリービルドフレンズ:失敗連絡", report.FailureMessage + sb.ToString());
+                }
+                else
+                {
+                    if (nowErrorCounter != preErrorCounter)
+                    {
+                        await report.SendAsync("デイリービルドフレンズ:連続失敗連絡", report.FailureMessage + sb.ToString());
+                    }
+                    else
+                    {
+                        //TODO:同じ失敗なので、相手によってはノイズ
+                        await report.SendAsync("デイリービルドフレンズ:再度失敗連絡", report.FailureMessage + sb.ToString());
+                    }
+                }
             }
         }
 
@@ -227,6 +299,5 @@ namespace DailyBuildFriend.ViewModel
             writer.WriteLine("</body>");
             writer.WriteLine("</html>");
         }
-
     }
 }

@@ -294,7 +294,7 @@ namespace DailyBuildFriend
             else if (ReBuildRadioButton.Checked) forceBuild = "リビルド";
 
             //TODO:UIから強制ビルドしてい可能
-            await Task.Run(() => { ViewDailyBuild.Run(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
+            await Task.Run(async () => { await ViewDailyBuild.RunAsync(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
                 .ContinueWith(t =>
                 {
                     void CloseRunForm()
@@ -311,7 +311,8 @@ namespace DailyBuildFriend
                     }
                     CloseRunForm();
                     _tokenSource.Dispose();
-                });
+                    //TODO:Invokeいらない
+                }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private async void RunButton_Click(object sender, EventArgs e)
