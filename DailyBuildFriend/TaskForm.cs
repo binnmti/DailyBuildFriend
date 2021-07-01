@@ -13,6 +13,7 @@ namespace DailyBuildFriend
         internal TaskForm(ViewTask task)
         {
             InitializeComponent();
+
             TaskNameTextBox.Text = task.TaskName;
             FileNameTextBox.Text = task.FileName;
             ProjectPathTextBox.Text = task.ProjectPath;

@@ -13,6 +13,7 @@ namespace DailyBuildFriend.ViewModel
         internal static string ToJson(this ViewDailyBuild viewDailyBuild, bool indent)
             => DailyBuildAccessor.ToJson(new DailyBuild()
             {
+                Schedule = viewDailyBuild.ViewSchedule.ToSchedule(),
                 Option = viewDailyBuild.ViewOption.ToOption(),
                 Report = viewDailyBuild.ViewReport.ToReport(),
                 Tasks = viewDailyBuild.ViewTasks.Select(x => x.ToTask()).ToList(),
@@ -26,6 +27,7 @@ namespace DailyBuildFriend.ViewModel
                 ViewTasks = dailybuild.Tasks.Select(x => x.ToViewTask()).ToList(),
                 ViewOption = dailybuild.Option.ToViewOption(),
                 ViewReport = dailybuild.Report.ToViewReport(),
+                ViewSchedule = dailybuild.Schedule.ToViewSchedule(),
             };
         }
 

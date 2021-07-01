@@ -8,12 +8,14 @@ namespace DailyBuildFriend.ViewModel
             => new Option()
             {
                 Devenv = option.Devenv,
+                MSBuild = option.MSBuild,
             };
 
         internal static ViewOption ToViewOption(this Option option)
             => new ViewOption()
             {
                 Devenv = option.Devenv,
+                MSBuild = option.MSBuild,
             };
     }
 }

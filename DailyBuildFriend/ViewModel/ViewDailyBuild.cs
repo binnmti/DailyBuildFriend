@@ -7,5 +7,6 @@ namespace DailyBuildFriend.ViewModel
         public List<ViewTask> ViewTasks { get; set; } = new List<ViewTask>();
         public ViewOption ViewOption { get; set; } = new ViewOption();
         public ViewReport ViewReport { get; set; } = new ViewReport();
+        public ViewSchedule ViewSchedule { get; set; } = new ViewSchedule();
     }
 }

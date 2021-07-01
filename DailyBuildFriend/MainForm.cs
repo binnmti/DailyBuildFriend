@@ -95,6 +95,7 @@ namespace DailyBuildFriend
                 ViewDailyBuild.ViewTasks.RemoveAt(item.Index);
                 TaskListView.Items.Remove(item);
             }
+            Text = GetTitle();
         }
 
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -121,6 +122,11 @@ namespace DailyBuildFriend
             ViewDailyBuild = ViewDailyBuildAccessor.ToViewDailyBuild(File.ReadAllText(fileName));
             ViewDailyBuild.ViewTasks.ForEach(x => x.Update());
             ViewDailyBuild.ViewTasks.ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
+            ReportCheckBox.Checked = ViewDailyBuild.ViewReport.Check;
+            ScheduleCheckBox.Checked = ViewDailyBuild.ViewSchedule.Check;
+            IntervalNumericUpDown.Value = ViewDailyBuild.ViewSchedule.Interval;
+            TimerTextBox.Text = ViewDailyBuild.ViewSchedule.Timer.ToLongTimeString();
+
             FileName = fileName;
             JsonString = ViewDailyBuild.ToJson(false);
             Text = GetTitle();
@@ -347,8 +353,10 @@ namespace DailyBuildFriend
 
         private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var optionForm = new OptionForm(ViewDailyBuild.ViewOption);
-            optionForm.ShowDialog();
+            var form = new OptionForm(ViewDailyBuild.ViewOption);
+            if (form.ShowDialog() != DialogResult.OK) return;
+            ViewDailyBuild.ViewOption = form.ViewOption;
+            Text = GetTitle();
         }
 
         private void LogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -366,17 +374,34 @@ namespace DailyBuildFriend
 
         private void ScheduleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            ViewDailyBuild.ViewSchedule.Check = ScheduleCheckBox.Checked;
+            Text = GetTitle();
         }
 
         private void IntervalNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             IntervalTimeCounter = 0;
+            ViewDailyBuild.ViewSchedule.Interval = (int)IntervalNumericUpDown.Value;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ReportCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ViewDailyBuild.ViewReport.Check = ReportCheckBox.Checked;
+            Text = GetTitle();
+        }
+
+        private void ReportButton_Click(object sender, EventArgs e)
         {
             var form = new ReportForm(ViewDailyBuild.ViewReport);
-            form.ShowDialog();
+            if (form.ShowDialog() != DialogResult.OK) return;
+            ViewDailyBuild.ViewReport = form.ViewReport;
+            Text = GetTitle();
+        }
+
+        private void TimerTextBox_TextChanged(object sender, EventArgs e)
+        {
+            ViewDailyBuild.ViewSchedule.Timer = DateTime.TryParse(TimerTextBox.Text, out var result) ? result : default;
+            Text = GetTitle();
         }
     }
 }

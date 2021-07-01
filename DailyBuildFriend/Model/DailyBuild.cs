@@ -7,5 +7,6 @@ namespace DailyBuildFriend.Model
         public List<Task> Tasks { get; set; } = new List<Task>();
         public Option Option { get; set; } = new Option();
         public Report Report { get; set; } = new Report();
+        public Schedule Schedule { get; set; } = new Schedule();
     }
 }

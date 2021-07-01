@@ -98,6 +98,7 @@
     <Compile Include="Model\ReportMember.cs" />
     <Compile Include="Model\DailyBuildAccessor.cs" />
     <Compile Include="Model\Option.cs" />
+    <Compile Include="Model\Schedule.cs" />
     <Compile Include="OptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +121,7 @@
     </Compile>
     <Compile Include="ViewModel\ViewDailyBuild.cs" />
     <Compile Include="ViewModel\ViewDailyBuildAccessor.cs" />
+    <Compile Include="ViewModel\ViewScheduleAccessor.cs" />
     <Compile Include="ViewModel\ViewReportMember.cs" />
     <Compile Include="ViewModel\ViewReport.cs" />
     <Compile Include="ViewModel\RunResultSerivce.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="ViewModel\ViewOptionAccessor.cs" />
     <Compile Include="ViewModel\ViewOption.cs" />
     <Compile Include="ViewModel\ViewReportAccessor.cs" />
+    <Compile Include="ViewModel\ViewSchedule.cs" />
     <Compile Include="ViewModel\ViewTaskAccessor.cs" />
     <Compile Include="TaskForm.cs">
       <SubType>Form</SubType>

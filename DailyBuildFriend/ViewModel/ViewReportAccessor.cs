@@ -11,6 +11,7 @@ namespace DailyBuildFriend.ViewModel
         internal static ViewReport ToViewReport(this Report report)
          => new ViewReport()
             {
+                Check = report.Check,
                 FailureMessage = report.FailureMessage,
                 SuccessMessage = report.SuccessMessage,
                 SlackChannel = report.SlackChannel,
@@ -23,9 +24,11 @@ namespace DailyBuildFriend.ViewModel
         internal static Report ToReport(this ViewReport report)
              => new Report()
              {
+                 Check = report.Check,
                  FailureMessage = report.FailureMessage,
                  SuccessMessage = report.SuccessMessage,
                  SlackChannel = report.SlackChannel,
+                 SlackUrl = report.SlackUrl,
                  ReportMembers = report.ViewReportMembers
                             .Select(x => new ReportMember()
                             {

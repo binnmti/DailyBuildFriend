@@ -6,6 +6,8 @@ namespace DailyBuildFriend.ViewModel
 {
     public class ViewOption
     {
+        internal ViewOption Clone() => (ViewOption)MemberwiseClone();
+
         [Description(@"Visual Studio devenv.exe C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.exe")]
         [Category("ファイル")]
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
