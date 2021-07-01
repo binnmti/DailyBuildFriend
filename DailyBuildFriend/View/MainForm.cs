@@ -17,7 +17,6 @@ namespace DailyBuildFriend.View
         private string JsonString = "";
         private int CheckTimeCounter = 0;
         private int IntervalTimeCounter = 0;
-
         private ViewDailyBuild ViewDailyBuild = new ViewDailyBuild();
 
         public MainForm()
@@ -286,7 +285,9 @@ namespace DailyBuildFriend.View
             FormActive();
         }
 
+#nullable enable
         private static CancellationTokenSource? _tokenSource = null;
+#nullable disable
         public static void StopRunForm() => _tokenSource?.Cancel();
         private async Task RunDailyBuildAsync(RunType runType)
         {

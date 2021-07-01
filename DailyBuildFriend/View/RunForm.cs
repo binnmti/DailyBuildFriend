@@ -12,7 +12,7 @@ namespace DailyBuildFriend.View
         private int TimeOut { get; set; }
         private string CommandState { get; set; } = "";
         private string Revision { get; set; } = "";
-        private DateTime Start = new DateTime();
+        private readonly DateTime Start = new DateTime();
 
         public RunForm()
         {

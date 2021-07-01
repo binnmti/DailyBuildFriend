@@ -69,9 +69,13 @@ namespace DailyBuildFriend.ViewModel.Accessor
 
         public class SlackWebhook
         {
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名スタイル", Justification = "Slackの仕様")]
             public string channel { get; set; } = "";
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名スタイル", Justification = "Slackの仕様")]
             public string username { get; set; } = "";
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名スタイル", Justification = "Slackの仕様")]
             public string text { get; set; } = "";
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名スタイル", Justification = "Slackの仕様")]
             public string icon_emoji { get; set; } = "";
         }
 
