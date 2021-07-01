@@ -5,17 +5,21 @@ namespace DailyBuildFriend
 {
     public partial class RunForm : Form
     {
-        public RunForm()
-        {
-            InitializeComponent();
-        }
-
         private string Title { get; set; } = "";
         private string Message1 { get; set; } = "";
         private string Message2 { get; set; } = "";
         private string TaskState { get; set; } = "";
+        private int TimeOut { get; set; }
         private string CommandState { get; set; } = "";
         private string Revision { get; set; } = "";
+        private DateTime Start = new DateTime();
+
+        public RunForm()
+        {
+            InitializeComponent();
+            Start = DateTime.Now;
+            SetTime();
+        }
 
         private void ShowMessage()
         {
@@ -28,6 +32,7 @@ namespace DailyBuildFriend
                 TaskLabel.Text = TaskState;
                 RevisionLabel.Text = Revision;
                 Text = Title;
+                TimeOutTextBox.Text = TimeOut + "分";
             }
         }
 
@@ -43,20 +48,34 @@ namespace DailyBuildFriend
             ShowMessage();
         }
 
-        public void SetMessage(string title, string msg1, string msg2, string revision, string co)
+        public void SetMessage(string title, string msg1, string msg2, int timeOut, string revision, string co)
         {
             Title = title;
             Message1 = msg1;
             Message2 = msg2;
-            CommandState = "コマンド進行状況: " + co;
+            TimeOut = timeOut;
             Revision = (revision == "-1") ? "-" : "リビジョン:" + revision;
+            CommandState = "コマンド進行状況: " + co;
+
             ShowMessage();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1Click(object sender, EventArgs e)
         {
             SuspensionButton.Enabled = false;
             MainForm.StopRunForm();
+        }
+
+        private void SetTime() => TimeTextBox.Text = new DateTime((DateTime.Now - Start).Ticks).ToLongTimeString();
+        private void Timer1Tick(object sender, EventArgs e)
+        {
+            SetTime();
+            //タイムアウト
+            if(TimeOut > 0 && (DateTime.Now - Start).Minutes == TimeOut)
+            {
+                SuspensionButton.Enabled = false;
+                MainForm.StopRunForm();
+            }
         }
     }
 }

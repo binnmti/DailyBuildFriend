@@ -43,7 +43,7 @@ namespace DailyBuildFriend.ViewModel
                 _ => viewDailyBuild.ViewTasks.Where(x => x.Checked),
                 //TODO:OnlyをやろうとするならSelectedが良い。
             };
-            foreach (var task in tasks)
+            foreach (var (task,index) in tasks.Select((x,i) => (x,i)))
             {
                 var data = new RunResultSerivce.ResultData();
 
@@ -63,9 +63,12 @@ namespace DailyBuildFriend.ViewModel
                     data.ReBuild = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen)?.Param2 == "リビルド";
                 }
                 FileUtility.Write(logFileName, false, "デイリービルド開始", true);
-                foreach (var command in task.ViewCommands.Where(x => x.Check))
+                runForm.SetTaskState($"{index + 1}/{tasks.Count()}");
+
+                var commands = task.ViewCommands.Where(x => x.Check);
+                foreach (var (command, cIndex) in commands.Select((x, i) => (x, i)))
                 {
-                    runForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.ServerRevision, "1");
+                    runForm.SetMessage($"{task.TaskName}実行中", $"{task.TaskName}:{command.Name}中", $"内容:{command.Summary}", task.TimeOut.Time, task.ServerRevision, $"{cIndex + 1}/{commands.Count()}");
                     try
                     {
                         FileUtility.Write(logFileName, true, $"{command.Name}開始", true);
