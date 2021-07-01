@@ -1,5 +1,6 @@
 ﻿using DailyBuildFriend.Model;
 using DailyBuildFriend.Utility;
+using DailyBuildFriend.View;
 using System;
 using System.IO;
 using System.Linq;

@@ -1,7 +1,7 @@
 ﻿using DailyBuildFriend.ViewModel;
 using System.Windows.Forms;
 
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     public partial class OptionForm : Form
     {

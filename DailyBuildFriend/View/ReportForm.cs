@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     public partial class ReportForm : Form
     {

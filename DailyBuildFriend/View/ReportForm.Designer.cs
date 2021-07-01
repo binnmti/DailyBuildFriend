@@ -1,5 +1,5 @@
 ﻿
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     partial class ReportForm
     {
@@ -29,6 +29,7 @@ namespace DailyBuildFriend
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportForm));
             this.UserNameTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MemberListView = new System.Windows.Forms.ListView();
@@ -54,7 +55,7 @@ namespace DailyBuildFriend
             // UserNameTextBox
             // 
             this.UserNameTextBox.Location = new System.Drawing.Point(131, 23);
-            this.UserNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.UserNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.UserNameTextBox.Name = "UserNameTextBox";
             this.UserNameTextBox.Size = new System.Drawing.Size(271, 25);
             this.UserNameTextBox.TabIndex = 0;
@@ -80,7 +81,7 @@ namespace DailyBuildFriend
             this.MemberListView.HideSelection = false;
             this.MemberListView.LabelEdit = true;
             this.MemberListView.Location = new System.Drawing.Point(8, 95);
-            this.MemberListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MemberListView.Margin = new System.Windows.Forms.Padding(2);
             this.MemberListView.MultiSelect = false;
             this.MemberListView.Name = "MemberListView";
             this.MemberListView.Size = new System.Drawing.Size(825, 192);
@@ -100,7 +101,7 @@ namespace DailyBuildFriend
             // SuccessMessageTextBox
             // 
             this.SuccessMessageTextBox.Location = new System.Drawing.Point(11, 494);
-            this.SuccessMessageTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SuccessMessageTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SuccessMessageTextBox.Multiline = true;
             this.SuccessMessageTextBox.Name = "SuccessMessageTextBox";
             this.SuccessMessageTextBox.Size = new System.Drawing.Size(416, 118);
@@ -111,7 +112,7 @@ namespace DailyBuildFriend
             // FailureMessageTextBox
             // 
             this.FailureMessageTextBox.Location = new System.Drawing.Point(438, 494);
-            this.FailureMessageTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FailureMessageTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.FailureMessageTextBox.Multiline = true;
             this.FailureMessageTextBox.Name = "FailureMessageTextBox";
             this.FailureMessageTextBox.Size = new System.Drawing.Size(395, 118);
@@ -142,7 +143,7 @@ namespace DailyBuildFriend
             // SuccessTestButton
             // 
             this.SuccessTestButton.Location = new System.Drawing.Point(303, 620);
-            this.SuccessTestButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SuccessTestButton.Margin = new System.Windows.Forms.Padding(2);
             this.SuccessTestButton.Name = "SuccessTestButton";
             this.SuccessTestButton.Size = new System.Drawing.Size(122, 35);
             this.SuccessTestButton.TabIndex = 7;
@@ -153,7 +154,7 @@ namespace DailyBuildFriend
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(708, 620);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(124, 35);
             this.button2.TabIndex = 8;
@@ -164,7 +165,7 @@ namespace DailyBuildFriend
             // 
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OkButton.Location = new System.Drawing.Point(626, 674);
-            this.OkButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.OkButton.Margin = new System.Windows.Forms.Padding(2);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(95, 35);
             this.OkButton.TabIndex = 9;
@@ -176,7 +177,7 @@ namespace DailyBuildFriend
             // 
             this.DoCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.DoCancelButton.Location = new System.Drawing.Point(736, 674);
-            this.DoCancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DoCancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.DoCancelButton.Name = "DoCancelButton";
             this.DoCancelButton.Size = new System.Drawing.Size(95, 35);
             this.DoCancelButton.TabIndex = 10;
@@ -186,7 +187,7 @@ namespace DailyBuildFriend
             // AddUserButton
             // 
             this.AddUserButton.Location = new System.Drawing.Point(415, 46);
-            this.AddUserButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddUserButton.Margin = new System.Windows.Forms.Padding(2);
             this.AddUserButton.Name = "AddUserButton";
             this.AddUserButton.Size = new System.Drawing.Size(122, 35);
             this.AddUserButton.TabIndex = 11;
@@ -207,7 +208,7 @@ namespace DailyBuildFriend
             // PasswordTextBox
             // 
             this.PasswordTextBox.Location = new System.Drawing.Point(131, 53);
-            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.Size = new System.Drawing.Size(271, 25);
             this.PasswordTextBox.TabIndex = 12;
@@ -226,7 +227,7 @@ namespace DailyBuildFriend
             // SlackChannelNameTextBox
             // 
             this.SlackChannelNameTextBox.Location = new System.Drawing.Point(11, 403);
-            this.SlackChannelNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SlackChannelNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SlackChannelNameTextBox.Name = "SlackChannelNameTextBox";
             this.SlackChannelNameTextBox.Size = new System.Drawing.Size(805, 25);
             this.SlackChannelNameTextBox.TabIndex = 16;
@@ -245,7 +246,7 @@ namespace DailyBuildFriend
             // SlackHookUrlTextBox
             // 
             this.SlackHookUrlTextBox.Location = new System.Drawing.Point(11, 341);
-            this.SlackHookUrlTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SlackHookUrlTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SlackHookUrlTextBox.Name = "SlackHookUrlTextBox";
             this.SlackHookUrlTextBox.Size = new System.Drawing.Size(805, 25);
             this.SlackHookUrlTextBox.TabIndex = 18;
@@ -276,7 +277,8 @@ namespace DailyBuildFriend
             this.Controls.Add(this.MemberListView);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.UserNameTextBox);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ReportForm";
             this.Text = "ReportForm";
             this.ResumeLayout(false);

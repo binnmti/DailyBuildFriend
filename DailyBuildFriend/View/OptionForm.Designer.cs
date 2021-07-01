@@ -1,5 +1,5 @@
 ﻿
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     partial class OptionForm
     {
@@ -29,6 +29,7 @@ namespace DailyBuildFriend
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionForm));
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.OKButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -37,17 +38,19 @@ namespace DailyBuildFriend
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(1766, 1016);
+            this.propertyGrid1.Size = new System.Drawing.Size(1104, 610);
             this.propertyGrid1.TabIndex = 0;
             // 
             // OKButton
             // 
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKButton.Location = new System.Drawing.Point(1654, 948);
+            this.OKButton.Location = new System.Drawing.Point(1034, 569);
+            this.OKButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(100, 42);
+            this.OKButton.Size = new System.Drawing.Size(62, 25);
             this.OKButton.TabIndex = 1;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
@@ -56,11 +59,13 @@ namespace DailyBuildFriend
             // OptionForm
             // 
             this.AcceptButton = this.OKButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1766, 1016);
+            this.ClientSize = new System.Drawing.Size(1104, 610);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.propertyGrid1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "OptionForm";
             this.Text = "OptionForm";
             this.ResumeLayout(false);

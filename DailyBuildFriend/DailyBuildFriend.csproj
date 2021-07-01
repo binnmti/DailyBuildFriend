@@ -105,10 +105,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandForm.cs">
+    <Compile Include="View\CommandForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommandForm.Designer.cs">
+    <Compile Include="View\CommandForm.Designer.cs">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\DailyBuild.cs" />
@@ -116,23 +116,23 @@
     <Compile Include="Model\ReportMember.cs" />
     <Compile Include="Model\Option.cs" />
     <Compile Include="Model\Schedule.cs" />
-    <Compile Include="OptionForm.cs">
+    <Compile Include="View\OptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionForm.Designer.cs">
+    <Compile Include="View\OptionForm.Designer.cs">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ReportForm.cs">
+    <Compile Include="View\ReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReportForm.Designer.cs">
+    <Compile Include="View\ReportForm.Designer.cs">
       <DependentUpon>ReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utility\ProcessUtility.cs" />
-    <Compile Include="RunForm.cs">
+    <Compile Include="View\RunForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RunForm.Designer.cs">
+    <Compile Include="View\RunForm.Designer.cs">
       <DependentUpon>RunForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ViewDailyBuild.cs" />
@@ -149,16 +149,16 @@
     <Compile Include="ViewModel\Accessor\ViewReportAccessor.cs" />
     <Compile Include="ViewModel\ViewSchedule.cs" />
     <Compile Include="ViewModel\Accessor\ViewTaskAccessor.cs" />
-    <Compile Include="TaskForm.cs">
+    <Compile Include="View\TaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TaskForm.Designer.cs">
+    <Compile Include="View\TaskForm.Designer.cs">
       <DependentUpon>TaskForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="View\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IsExternalInit.cs" />
@@ -170,22 +170,22 @@
     <Compile Include="ViewModel\ViewCommand.cs" />
     <Compile Include="ViewModel\Accessor\ViewCommandAccessor.cs" />
     <Compile Include="ViewModel\ViewTask.cs" />
-    <EmbeddedResource Include="CommandForm.resx">
+    <EmbeddedResource Include="View\CommandForm.resx">
       <DependentUpon>CommandForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionForm.resx">
+    <EmbeddedResource Include="View\OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReportForm.resx">
+    <EmbeddedResource Include="View\ReportForm.resx">
       <DependentUpon>ReportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RunForm.resx">
+    <EmbeddedResource Include="View\RunForm.resx">
       <DependentUpon>RunForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaskForm.resx">
+    <EmbeddedResource Include="View\TaskForm.resx">
       <DependentUpon>TaskForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

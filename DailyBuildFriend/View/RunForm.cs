@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     public partial class RunForm : Form
     {

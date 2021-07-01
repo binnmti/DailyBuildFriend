@@ -1,5 +1,5 @@
 ﻿
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     partial class RunForm
     {

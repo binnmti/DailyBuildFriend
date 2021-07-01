@@ -3,7 +3,7 @@ using DailyBuildFriend.ViewModel.Accessor;
 using System.IO;
 using System.Windows.Forms;
 
-namespace DailyBuildFriend
+namespace DailyBuildFriend.View
 {
     public partial class CommandForm : Form
     {
