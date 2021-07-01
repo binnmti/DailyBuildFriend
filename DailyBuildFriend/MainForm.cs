@@ -1,7 +1,6 @@
 ﻿using DailyBuildFriend.Properties;
 using DailyBuildFriend.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -63,7 +62,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            ViewTaskAccessor.Update(task);
+            task.Update();
             ViewDailyBuild.ViewTasks.Add(task);
             TaskListView.Items.Add(ToListViewItem(task));
             Text = GetTitle();
@@ -78,7 +77,7 @@ namespace DailyBuildFriend
             var form = new TaskForm(task);
             if (form.ShowDialog() != DialogResult.OK) return;
 
-            ViewTaskAccessor.Update(task);
+            task.Update();
             ViewDailyBuild.ViewTasks[index] = task;
             TaskListView.Items[index] = ToListViewItem(task);
             Text = GetTitle();
@@ -118,11 +117,9 @@ namespace DailyBuildFriend
 
         private void LoadFile(string fileName)
         {
-            //TODO:一旦ロード切り
-            //ViewDailyBuild = ViewDailyBuildAccessor.ToViewDailyBuild(File.ReadAllText(fileName));
 
             //TODO:ロードが出来てもデータとして正しいかは別なのでバリデーションが必要。
-            //ViewTaskAccessor.SetJson(File.ReadAllText(fileName));
+            ViewDailyBuild = ViewDailyBuildAccessor.ToViewDailyBuild(File.ReadAllText(fileName));
             ViewDailyBuild.ViewTasks.ForEach(x => TaskListView.Items.Add(ToListViewItem(x)));
             FileName = fileName;
             JsonString = ViewDailyBuild.ToJson(false);
@@ -166,19 +163,19 @@ namespace DailyBuildFriend
         {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (files.Length <= 0) return;
-            AddTask(new ViewTask
-            {
-                FileName = Path.GetFileNameWithoutExtension(files[0]),
-                ProjectPath = files[0],
-                LogPath = files[0],
-            });
+            //ドラッグを抜けないとアイコンが変わらない
+            BeginInvoke((MethodInvoker)(() => {
+                AddTask(new ViewTask
+                {
+                    FileName = Path.GetFileNameWithoutExtension(files[0]),
+                    ProjectPath = files[0],
+                    LogPath = files[0],
+                });
+            }));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
-            //if (File.Exists(fileName))  ViewOptionAccessor.Load(fileName);
-
             if (!File.Exists(Settings.Default.OpenFileName)) return;
             LoadFile(Settings.Default.OpenFileName);
         }
@@ -187,9 +184,6 @@ namespace DailyBuildFriend
         {
             Settings.Default.OpenFileName = FileName;
             Settings.Default.Save();
-
-            string fileName = Path.Combine(Application.StartupPath, Path.GetFileNameWithoutExtension(Application.ExecutablePath) + "option.json");
-            //ViewOptionAccessor.Save(fileName);
         }
 
         private bool doubleClickFlag;
@@ -312,7 +306,6 @@ namespace DailyBuildFriend
                     CloseRunForm();
                     _tokenSource.Dispose();
                 });
-
         }
 
         private async void RunButton_Click(object sender, EventArgs e)
@@ -338,8 +331,6 @@ namespace DailyBuildFriend
                 int iTimer = (int)IntervalNumericUpDown.Value;
                 if (IntervalTimeCounter == (60 * iTimer))
                 {
-
-
                     await RunDailyBuildAsync(RunType.Timer);
                     IntervalTimeCounter = 0;
                 }

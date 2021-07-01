@@ -57,13 +57,12 @@ namespace DailyBuildFriend.ViewModel
             return "";
         }
 
-        internal static ViewTask Update(this ViewTask task)
+        internal static void Update(this ViewTask task)
         {
             task.UpdateDate = GetUpdateDate(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.csv"));
             task.LocalRevision = GetGitCommitId(task.ProjectPath, "");
             task.ServerRevision = GetGitCommitId(task.ProjectPath, "origin");
             task.Result = GetResult(Path.Combine(task.ProjectPath, task.FileName, task.FileName + "Result.csv"));
-            return task;
         }
 
         private static string GetGitCommitId(string projectPath, string branch)
