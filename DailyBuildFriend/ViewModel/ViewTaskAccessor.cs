@@ -48,7 +48,7 @@ namespace DailyBuildFriend.ViewModel
             if (string.IsNullOrEmpty(task.TaskName)) return "名前がありません";
             if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
             if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
-            if (!Directory.Exists(task.LogPath)) return "ログパスが存在しません";
+            if (!Directory.Exists(task.LogPath)) Directory.CreateDirectory(task.LogPath);
             return "";
         }
 
@@ -76,6 +76,6 @@ namespace DailyBuildFriend.ViewModel
         }
 
         private static string GetFileName(this ViewTask task, string name)
-            => Path.Combine(task.ProjectPath, task.FileName, task.FileName + name);
+            => Path.Combine(task.LogPath, task.FileName, task.FileName + name);
     }
 }

@@ -49,7 +49,7 @@ namespace DailyBuildFriend.ViewModel
                 string logPathName = Path.Combine(task.LogPath, task.FileName);
                 string logFileName = Path.Combine(logPathName, task.FileName + "Result.log");
                 //TODO:念のためやっている。バリデーションの中で必ずやることにすればいらない
-                if (!Directory.Exists(Path.GetDirectoryName(logPathName))) Directory.CreateDirectory(Path.GetDirectoryName(logPathName));
+                if (!Directory.Exists(logPathName)) Directory.CreateDirectory(logPathName);
 
                 data.StartTime = DateTime.Now;
                 data.Revision = task.LocalRevision;
