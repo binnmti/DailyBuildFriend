@@ -207,6 +207,5 @@ namespace DailyBuildFriend.View
 
         private void VsOpenToolStripMenuItem_Click(object sender, EventArgs e)
             => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioOpen, "", ""));
-
     }
 }
