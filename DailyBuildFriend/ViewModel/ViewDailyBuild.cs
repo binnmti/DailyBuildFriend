@@ -2,7 +2,7 @@
 
 namespace DailyBuildFriend.ViewModel
 {
-    internal class ViewDailyBuild
+    internal record ViewDailyBuild
     {
         public List<ViewTask> ViewTasks { get; set; } = new List<ViewTask>();
         public ViewOption ViewOption { get; set; } = new ViewOption();

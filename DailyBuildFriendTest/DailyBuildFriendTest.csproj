@@ -8,8 +8,8 @@
     <ProjectGuid>{BFD43E38-427D-4B8B-8E33-72D0D570E2C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTestDailyBuildFriend</RootNamespace>
-    <AssemblyName>UnitTestDailyBuildFriend</AssemblyName>
+    <RootNamespace>DailyBuildFriendTest</RootNamespace>
+    <AssemblyName>DailyBuildFriendTest</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainingAssertion.MSTest.cs" />
+    <Compile Include="ViewDailyBuildTest.cs" />
+    <Compile Include="ViewCommandkTest.cs" />
     <Compile Include="ViewTaskTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

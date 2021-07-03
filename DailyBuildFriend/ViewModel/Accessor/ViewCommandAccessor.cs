@@ -55,9 +55,9 @@ namespace DailyBuildFriend.ViewModel.Accessor
             {
                 case CommandType.CloneGit:
                     if (string.IsNullOrEmpty(command.Param1)) msg = "URLが未入力です";
-                    if (string.IsNullOrEmpty(command.Param2)) msg = "パスが未入力です";
-                    if (!Uri.IsWellFormedUriString(command.Param1, UriKind.Absolute)) msg = "URLが無効です";
-                    if (!Directory.Exists(command.Param2)) msg = "パスが存在しません";
+                    else if (!Uri.IsWellFormedUriString(command.Param1, UriKind.Absolute)) msg = "URLが無効です";
+                    else if (string.IsNullOrEmpty(command.Param2)) msg = "パスが未入力です";
+                    else if (!Directory.Exists(command.Param2)) msg = "パスが存在しません";
                     break;
 
                 case CommandType.PullGit:

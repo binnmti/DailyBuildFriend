@@ -2,7 +2,7 @@
 using DailyBuildFriend.ViewModel.Accessor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestDailyBuildFriend
+namespace DailyBuildFriendTest
 {
     [TestClass]
     public class ViewTaskTest
@@ -20,6 +20,27 @@ namespace UnitTestDailyBuildFriend
         }
 
         [TestMethod]
+        public void タスク名前なし()
+        {
+            var task = new ViewTask()
+            {
+                TaskName = "",
+            };
+            task.Validation().Is("名前がありません");
+        }
+
+        [TestMethod]
+        public void タスクファイル名に日本語()
+        {
+            var task = new ViewTask()
+            {
+                TaskName = "タスク",
+                FileName = "あいうえお"
+            };
+            task.Validation().Is("ファイル名に日本語は使えません");
+        }
+
+        [TestMethod]
         public void タスクパス間違い()
         {
             var task = new ViewTask()
@@ -28,7 +49,7 @@ namespace UnitTestDailyBuildFriend
                 FileName = "File",
                 ProjectPath = @"C:\DailyBuildFriend"
             };
-            task.Validation().IsNot();
+            task.Validation().Is("プロジェクトパスが存在しません");
         }
     }
 }

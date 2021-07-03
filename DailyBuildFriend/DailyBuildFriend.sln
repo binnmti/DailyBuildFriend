@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyBuildFriend", "DailyBuildFriend.csproj", "{A9AC1345-55D1-4A54-9216-30CF6FC1927C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestDailyBuildFriend", "..\UnitTestProject1\UnitTestDailyBuildFriend.csproj", "{BFD43E38-427D-4B8B-8E33-72D0D570E2C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyBuildFriendTest", "..\DailyBuildFriendTest\DailyBuildFriendTest.csproj", "{BFD43E38-427D-4B8B-8E33-72D0D570E2C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

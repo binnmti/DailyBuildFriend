@@ -50,8 +50,10 @@ namespace DailyBuildFriend.ViewModel.Accessor
         {
             //TODO:タスク名の重複チェックをしたいが、この作りでは情報が足りてない
             if (string.IsNullOrEmpty(task.TaskName)) return "名前がありません";
-            if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
-            if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
+            else if (Regex.IsMatch(task.FileName, @"[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+")) return "ファイル名に日本語は使えません";
+            else if (!Directory.Exists(task.ProjectPath)) return "プロジェクトパスが存在しません";
+
+            //TODO:これはValidationではないので、専用の処理を作ってそっちに移行
             if (task.LogPath != "" && !Directory.Exists(task.LogPath)) Directory.CreateDirectory(task.LogPath);
             return "";
         }

@@ -4,7 +4,9 @@ using DailyBuildFriend.View;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading;
 
 namespace DailyBuildFriend.ViewModel.Accessor
@@ -18,7 +20,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 Option = viewDailyBuild.ViewOption.ToOption(),
                 Report = viewDailyBuild.ViewReport.ToReport(),
                 Tasks = viewDailyBuild.ViewTasks.Select(x => x.ToTask()).ToList(),
-            }, new JsonSerializerOptions { WriteIndented = indent });
+            }, new JsonSerializerOptions { WriteIndented = indent, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) });
 
         internal static ViewDailyBuild ToViewDailyBuild(string json)
         {
