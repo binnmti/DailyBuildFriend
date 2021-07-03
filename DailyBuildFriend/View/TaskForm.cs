@@ -182,13 +182,13 @@ namespace DailyBuildFriend.View
         }
 
         private void GitPullToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.PullGit, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.PullGit, "", ""));
 
         private void GitCheckOutCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.CheckoutGit, ViewTask.ProjectPath, ""));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CheckoutGit, "", ""));
 
         private void GitCloneCToolStripMenuItem_Click(object sender, EventArgs e)
-            => AddCommand(ViewCommandAccessor.Create(CommandType.CloneGit, "", ViewTask.ProjectPath));
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CloneGit, "", ""));
 
         private void VSBuildToolStripMenuItem_Click(object sender, EventArgs e)
             => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioBuild, "", ""));
@@ -207,5 +207,8 @@ namespace DailyBuildFriend.View
 
         private void VsOpenToolStripMenuItem_Click(object sender, EventArgs e)
             => AddCommand(ViewCommandAccessor.Create(CommandType.VisualStudioOpen, "", ""));
+
+        private void FileCopyToolStripMenuItem_Click(object sender, EventArgs e)
+            => AddCommand(ViewCommandAccessor.Create(CommandType.CopyFile, ViewTask.ProjectPath, ""));
     }
 }

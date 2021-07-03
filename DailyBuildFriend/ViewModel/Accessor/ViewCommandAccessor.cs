@@ -10,15 +10,15 @@ namespace DailyBuildFriend.ViewModel.Accessor
     {
         private static readonly Dictionary<CommandType, ViewCommand> Data = new Dictionary<CommandType, ViewCommand>()
         {
-            { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Description = "Gitのパスを入力してください", Param2Disabled = true  } },
-            { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Description = "Gitのパスを入力してください", Param2Disabled = true  } },
-            { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
+            { CommandType.PullGit, new ViewCommand() { Name = "Gitプル" , Param1Disabled = true, Param2Disabled = true  } },
+            { CommandType.CheckoutGit, new ViewCommand() { Name = "Gitチェックアウト" , Param1Disabled = true, Param2Disabled = true  } },
+            { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Disabled = true } },
             { CommandType.VisualStudioOpen, new ViewCommand() { Name = "VS起動" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "リビルド" }  },
             { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "ソリューション構成(Debug,Releaseなど)を入力してください", Param1 = "Release", Param2Disabled = true }  },
             { CommandType.VisualStudioTest, new ViewCommand() { Name = "VSテスト" , Param1Description = "dllファイルを選択して下さい", Param2Disabled = true } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Disabled = true } },
-            { CommandType.CopyFile, new ViewCommand() { Name = "メール送信" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
-            { CommandType.SendMail, new ViewCommand() { Name = "コピーファイル" , Param1Description = "",  Param2Disabled = true } },
+            { CommandType.CopyFile, new ViewCommand() { Name = "コピーファイル" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
+            { CommandType.SendMail, new ViewCommand() { Name = "メール送信" , Param1Description = "",  Param2Disabled = true } },
             { CommandType.SendSlack, new ViewCommand() { Name = "Slack送信" , Param1Description = "",  Param2Disabled = true } },
         };
 
@@ -45,6 +45,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 Param2 = string.IsNullOrEmpty(param2) ? Data[type].Param2 : param2,
                 Param1Description = Data[type].Param1Description,
                 Param2Description = Data[type].Param2Description,
+                Param1Disabled = Data[type].Param1Disabled,
                 Param2Disabled = Data[type].Param2Disabled,
             };
 
@@ -56,8 +57,6 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 case CommandType.CloneGit:
                     if (string.IsNullOrEmpty(command.Param1)) msg = "URLが未入力です";
                     else if (!Uri.IsWellFormedUriString(command.Param1, UriKind.Absolute)) msg = "URLが無効です";
-                    else if (string.IsNullOrEmpty(command.Param2)) msg = "パスが未入力です";
-                    else if (!Directory.Exists(command.Param2)) msg = "パスが存在しません";
                     break;
 
                 case CommandType.VisualStudioTest:

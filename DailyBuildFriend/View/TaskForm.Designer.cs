@@ -77,6 +77,7 @@ namespace DailyBuildFriend.View
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.FileCopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -97,7 +98,7 @@ namespace DailyBuildFriend.View
             // TaskNameTextBox
             // 
             this.TaskNameTextBox.Location = new System.Drawing.Point(248, 13);
-            this.TaskNameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TaskNameTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.TaskNameTextBox.Name = "TaskNameTextBox";
             this.TaskNameTextBox.Size = new System.Drawing.Size(970, 37);
             this.TaskNameTextBox.TabIndex = 1;
@@ -106,7 +107,7 @@ namespace DailyBuildFriend.View
             // FileNameTextBox
             // 
             this.FileNameTextBox.Location = new System.Drawing.Point(248, 67);
-            this.FileNameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.FileNameTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.FileNameTextBox.Name = "FileNameTextBox";
             this.FileNameTextBox.Size = new System.Drawing.Size(970, 37);
             this.FileNameTextBox.TabIndex = 3;
@@ -125,7 +126,7 @@ namespace DailyBuildFriend.View
             // ProjectPathTextBox
             // 
             this.ProjectPathTextBox.Location = new System.Drawing.Point(248, 120);
-            this.ProjectPathTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ProjectPathTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.ProjectPathTextBox.Name = "ProjectPathTextBox";
             this.ProjectPathTextBox.Size = new System.Drawing.Size(970, 37);
             this.ProjectPathTextBox.TabIndex = 5;
@@ -147,7 +148,7 @@ namespace DailyBuildFriend.View
             this.panel1.Controls.Add(this.OkButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 955);
-            this.panel1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1240, 92);
             this.panel1.TabIndex = 6;
@@ -156,7 +157,7 @@ namespace DailyBuildFriend.View
             // 
             this.CancelingButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelingButton.Location = new System.Drawing.Point(1058, 27);
-            this.CancelingButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.CancelingButton.Margin = new System.Windows.Forms.Padding(5);
             this.CancelingButton.Name = "CancelingButton";
             this.CancelingButton.Size = new System.Drawing.Size(170, 57);
             this.CancelingButton.TabIndex = 1;
@@ -167,7 +168,7 @@ namespace DailyBuildFriend.View
             // 
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OkButton.Location = new System.Drawing.Point(891, 27);
-            this.OkButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.OkButton.Margin = new System.Windows.Forms.Padding(5);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(157, 57);
             this.OkButton.TabIndex = 0;
@@ -186,7 +187,7 @@ namespace DailyBuildFriend.View
             this.CommandListView.GridLines = true;
             this.CommandListView.HideSelection = false;
             this.CommandListView.Location = new System.Drawing.Point(0, 344);
-            this.CommandListView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.CommandListView.Margin = new System.Windows.Forms.Padding(5);
             this.CommandListView.MultiSelect = false;
             this.CommandListView.Name = "CommandListView";
             this.CommandListView.Size = new System.Drawing.Size(1240, 611);
@@ -219,7 +220,7 @@ namespace DailyBuildFriend.View
             this.UpToolStripMenuItem,
             this.DownToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(239, 202);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 235);
             // 
             // 追加AToolStripMenuItem
             // 
@@ -233,10 +234,11 @@ namespace DailyBuildFriend.View
             this.VsTestToolStripMenuItem,
             this.toolStripSeparator2,
             this.BatRunToolStripMenuItem,
+            this.FileCopyToolStripMenuItem,
             this.MailSendToolStripMenuItem,
             this.SlackSendToolStripMenuItem});
             this.追加AToolStripMenuItem.Name = "追加AToolStripMenuItem";
-            this.追加AToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.追加AToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.追加AToolStripMenuItem.Text = "追加(&A)";
             // 
             // GitPullToolStripMenuItem
@@ -248,7 +250,6 @@ namespace DailyBuildFriend.View
             // 
             // GitCheckOutCToolStripMenuItem
             // 
-            this.GitCheckOutCToolStripMenuItem.Enabled = false;
             this.GitCheckOutCToolStripMenuItem.Name = "GitCheckOutCToolStripMenuItem";
             this.GitCheckOutCToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.GitCheckOutCToolStripMenuItem.Text = "gitチェックアウト(&C)";
@@ -256,7 +257,6 @@ namespace DailyBuildFriend.View
             // 
             // GitCloneCToolStripMenuItem
             // 
-            this.GitCloneCToolStripMenuItem.Enabled = false;
             this.GitCloneCToolStripMenuItem.Name = "GitCloneCToolStripMenuItem";
             this.GitCloneCToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.GitCloneCToolStripMenuItem.Text = "gitクローン(&K)";
@@ -295,7 +295,6 @@ namespace DailyBuildFriend.View
             // 
             // BatRunToolStripMenuItem
             // 
-            this.BatRunToolStripMenuItem.Enabled = false;
             this.BatRunToolStripMenuItem.Name = "BatRunToolStripMenuItem";
             this.BatRunToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.BatRunToolStripMenuItem.Text = "バッチ実行(&B)";
@@ -321,7 +320,7 @@ namespace DailyBuildFriend.View
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.EditToolStripMenuItem.Text = "編集(&E)";
             this.EditToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
@@ -329,7 +328,7 @@ namespace DailyBuildFriend.View
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
             this.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.DeleteToolStripMenuItem.Text = "削除(&D)";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
@@ -337,20 +336,20 @@ namespace DailyBuildFriend.View
             // 
             this.RunToolStripMenuItem.Name = "RunToolStripMenuItem";
             this.RunToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.RunToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.RunToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.RunToolStripMenuItem.Text = "起動(&R)";
             this.RunToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(237, 6);
             // 
             // UpToolStripMenuItem
             // 
             this.UpToolStripMenuItem.Name = "UpToolStripMenuItem";
             this.UpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.UpToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.UpToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.UpToolStripMenuItem.Text = "上へ(&U)";
             this.UpToolStripMenuItem.Click += new System.EventHandler(this.UpToolStripMenuItem_Click);
             // 
@@ -358,7 +357,7 @@ namespace DailyBuildFriend.View
             // 
             this.DownToolStripMenuItem.Name = "DownToolStripMenuItem";
             this.DownToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.DownToolStripMenuItem.Size = new System.Drawing.Size(238, 32);
+            this.DownToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.DownToolStripMenuItem.Text = "下へ(&D)";
             this.DownToolStripMenuItem.Click += new System.EventHandler(this.DownToolStripMenuItem_Click);
             // 
@@ -381,7 +380,7 @@ namespace DailyBuildFriend.View
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.panel2.Margin = new System.Windows.Forms.Padding(5);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1240, 310);
             this.panel2.TabIndex = 8;
@@ -399,7 +398,7 @@ namespace DailyBuildFriend.View
             // TimeOutTimeNumericUpDown
             // 
             this.TimeOutTimeNumericUpDown.Location = new System.Drawing.Point(974, 232);
-            this.TimeOutTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TimeOutTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(5);
             this.TimeOutTimeNumericUpDown.Name = "TimeOutTimeNumericUpDown";
             this.TimeOutTimeNumericUpDown.Size = new System.Drawing.Size(192, 37);
             this.TimeOutTimeNumericUpDown.TabIndex = 13;
@@ -409,7 +408,7 @@ namespace DailyBuildFriend.View
             // 
             this.TimeoutCheckBox.AutoSize = true;
             this.TimeoutCheckBox.Location = new System.Drawing.Point(768, 233);
-            this.TimeoutCheckBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TimeoutCheckBox.Margin = new System.Windows.Forms.Padding(5);
             this.TimeoutCheckBox.Name = "TimeoutCheckBox";
             this.TimeoutCheckBox.Size = new System.Drawing.Size(172, 34);
             this.TimeoutCheckBox.TabIndex = 12;
@@ -421,7 +420,7 @@ namespace DailyBuildFriend.View
             // 
             this.ReportCheckBox.AutoSize = true;
             this.ReportCheckBox.Location = new System.Drawing.Point(608, 233);
-            this.ReportCheckBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ReportCheckBox.Margin = new System.Windows.Forms.Padding(5);
             this.ReportCheckBox.Name = "ReportCheckBox";
             this.ReportCheckBox.Size = new System.Drawing.Size(131, 34);
             this.ReportCheckBox.TabIndex = 11;
@@ -433,7 +432,7 @@ namespace DailyBuildFriend.View
             // 
             this.IntervalCheckBox.AutoSize = true;
             this.IntervalCheckBox.Location = new System.Drawing.Point(406, 233);
-            this.IntervalCheckBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.IntervalCheckBox.Margin = new System.Windows.Forms.Padding(5);
             this.IntervalCheckBox.Name = "IntervalCheckBox";
             this.IntervalCheckBox.Size = new System.Drawing.Size(177, 34);
             this.IntervalCheckBox.TabIndex = 10;
@@ -445,7 +444,7 @@ namespace DailyBuildFriend.View
             // 
             this.TimerCheckBox.AutoSize = true;
             this.TimerCheckBox.Location = new System.Drawing.Point(251, 233);
-            this.TimerCheckBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TimerCheckBox.Margin = new System.Windows.Forms.Padding(5);
             this.TimerCheckBox.Name = "TimerCheckBox";
             this.TimerCheckBox.Size = new System.Drawing.Size(129, 34);
             this.TimerCheckBox.TabIndex = 9;
@@ -457,7 +456,7 @@ namespace DailyBuildFriend.View
             // 
             this.AllCheckBox.AutoSize = true;
             this.AllCheckBox.Location = new System.Drawing.Point(19, 263);
-            this.AllCheckBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.AllCheckBox.Margin = new System.Windows.Forms.Padding(5);
             this.AllCheckBox.Name = "AllCheckBox";
             this.AllCheckBox.Size = new System.Drawing.Size(149, 34);
             this.AllCheckBox.TabIndex = 8;
@@ -468,7 +467,7 @@ namespace DailyBuildFriend.View
             // LogPathTextBox
             // 
             this.LogPathTextBox.Location = new System.Drawing.Point(248, 173);
-            this.LogPathTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.LogPathTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.LogPathTextBox.Name = "LogPathTextBox";
             this.LogPathTextBox.Size = new System.Drawing.Size(970, 37);
             this.LogPathTextBox.TabIndex = 7;
@@ -535,6 +534,13 @@ namespace DailyBuildFriend.View
             this.toolStripButton3.Text = "VSテスト";
             this.toolStripButton3.Click += new System.EventHandler(this.VsTestToolStripMenuItem_Click);
             // 
+            // FileCopyToolStripMenuItem
+            // 
+            this.FileCopyToolStripMenuItem.Name = "FileCopyToolStripMenuItem";
+            this.FileCopyToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.FileCopyToolStripMenuItem.Text = "ファイルコピー(&F)";
+            this.FileCopyToolStripMenuItem.Click += new System.EventHandler(this.FileCopyToolStripMenuItem_Click);
+            // 
             // TaskForm
             // 
             this.AcceptButton = this.OkButton;
@@ -548,7 +554,7 @@ namespace DailyBuildFriend.View
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
             this.Name = "TaskForm";
             this.Text = "タスク";
@@ -613,5 +619,6 @@ namespace DailyBuildFriend.View
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem UpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileCopyToolStripMenuItem;
     }
 }

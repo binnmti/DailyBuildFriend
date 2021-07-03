@@ -14,7 +14,7 @@ namespace DailyBuildFriendTest
             command.Name.Is("Gitプル");
             command.Param1.Is("");
             command.Param2.Is("");
-            command.Param1Description.Is("Gitのパスを入力してください");
+            command.Param1Description.Is("");
             command.Param2Description.Is("");
             command.Param2Disabled.Is(true);
         }
@@ -40,11 +40,6 @@ namespace DailyBuildFriendTest
             command.Param1 = "URLではないもの";
             command.Validation().Is("URLが無効です");
             command.Param1 = "http://googole.co.jp";
-            command.Param2 = "";
-            command.Validation().Is("パスが未入力です");
-            command.Param2 = @"C:\dailybuildTest";
-            command.Validation().Is("パスが存在しません");
-            command.Param2 = @"C:";
             command.Validation().Is();
         }
     }

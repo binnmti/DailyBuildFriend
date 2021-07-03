@@ -78,7 +78,15 @@ namespace DailyBuildFriend.ViewModel.Accessor
                         {
                             //TODO:GitPullは、強制リビジョン指定時に無視する必要がある。そういうコマンドにするか要設計
                             case CommandType.PullGit:
-                                ProcessUtility.ProcessStart("git", Path.GetDirectoryName(command.Param1), "pull");
+                                ProcessUtility.ProcessStart("git", task.ProjectPath, "pull");
+                                break;
+
+                            case CommandType.CheckoutGit:
+                                ProcessUtility.ProcessStart("git", task.ProjectPath, "checkout");
+                                break;
+
+                            case CommandType.CloneGit:
+                                ProcessUtility.ProcessStart("git", task.ProjectPath, $"clone {command.Param1}");
                                 break;
 
                             case CommandType.VisualStudioOpen:
@@ -106,6 +114,15 @@ namespace DailyBuildFriend.ViewModel.Accessor
                                     ProcessUtility.ProcessStart(viewDailyBuild.ViewOption.VsTest, Path.GetDirectoryName(command.Param1), arguments);
                                     data.TestErrorCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(trxFile, Path.Combine(logPathName, task.FileName + "Test.log"), "<Message>", command.Name, command.Param1);
                                 }
+                                break;
+
+                            case CommandType.RunBat:
+                                //TODO:一時ファイルを作ってpauseを抜く処理があると良い
+                                ProcessUtility.ProcessStart(command.Param1, Path.GetDirectoryName(command.Param1), $"");
+                                break;
+
+                            case CommandType.CopyFile:
+                                ProcessUtility.ProcessStart("robocopy", "", $"{command.Param1} {command.Param2} /MIR");
                                 break;
 
                                 //TODO:MSBuildは要確認

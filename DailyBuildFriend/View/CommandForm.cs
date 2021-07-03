@@ -18,6 +18,7 @@ namespace DailyBuildFriend.View
             Param2Label.Text = command.Param2Description;
             Param1TextBox.Text = command.Param1;
             Param2TextBox.Text = command.Param2;
+            Param1TextBox.Enabled = !command.Param1Disabled;
             Param2TextBox.Enabled = !command.Param2Disabled;
             Command = command.Clone();
         }
