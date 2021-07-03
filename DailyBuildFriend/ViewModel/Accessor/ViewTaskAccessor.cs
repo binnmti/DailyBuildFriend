@@ -41,7 +41,10 @@ namespace DailyBuildFriend.ViewModel.Accessor
             };
 
         internal static void OpenLog(this ViewTask task)
-            => Process.Start(Path.Combine(task.LogPath, "index.html"));
+        {
+            var fileName = Path.Combine(task.LogPath, "index.html");
+            if(File.Exists(fileName)) Process.Start(fileName);
+        }
 
         internal static void OpenProject(this ViewTask task)
             => Process.Start(task.ProjectPath);

@@ -88,13 +88,24 @@ namespace DailyBuildFriend.ViewModel.Accessor
                                 break;
 
                             case CommandType.VisualStudioBuild:
-                                var slnFile = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
-                                var logFile = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
-                                var rebuild = data.ReBuild ? "rebuild" : "build";
-                                var arguments = $"\"{slnFile}\" /{rebuild} {command.Param1} /out \"{logFile}\"";
-                                ProcessUtility.ProcessStart(viewDailyBuild.ViewOption.Devenv, Path.GetDirectoryName(slnFile), arguments);
-                                data.BuildWarningCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
-                                data.BuildErrorCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
+                                {
+                                    var slnFile = task.ViewCommands.SingleOrDefault(x => x.CommandType == CommandType.VisualStudioOpen).Param1;
+                                    var logFile = Path.Combine(logPathName, task.FileName + "ErrWarning.log");
+                                    var rebuild = data.ReBuild ? "rebuild" : "build";
+                                    var arguments = $"\"{slnFile}\" /{rebuild} {command.Param1} /out \"{logFile}\"";
+                                    ProcessUtility.ProcessStart(viewDailyBuild.ViewOption.Devenv, Path.GetDirectoryName(slnFile), arguments);
+                                    data.BuildWarningCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Warning.log"), " warning ", command.Name, command.Param1);
+                                    data.BuildErrorCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(logFile, Path.Combine(logPathName, task.FileName + "Error.log"), " error ", command.Name, command.Param1);
+                                }
+                                break;
+
+                            case CommandType.VisualStudioTest:
+                                {
+                                    var trxFile = Path.Combine(logPathName, task.FileName + "Test.trx");
+                                    var arguments = $"\"{command.Param1}\" /logger:trx;LogFileName=\"{trxFile}\"";
+                                    ProcessUtility.ProcessStart(viewDailyBuild.ViewOption.VsTest, Path.GetDirectoryName(command.Param1), arguments);
+                                    data.TestErrorCount += ViewDailyBuildRunResultSerivce.WriteFileFromKeyword(trxFile, Path.Combine(logPathName, task.FileName + "Test.log"), "<Message>", command.Name, command.Param1);
+                                }
                                 break;
 
                                 //TODO:MSBuildは要確認

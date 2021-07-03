@@ -170,7 +170,7 @@ namespace DailyBuildFriend.View
                 {
                     FileName = Path.GetFileNameWithoutExtension(files[0]),
                     ProjectPath = files[0],
-                    LogPath = files[0],
+                    LogPath = files[0] + @"\log",
                 });
             }));
         }

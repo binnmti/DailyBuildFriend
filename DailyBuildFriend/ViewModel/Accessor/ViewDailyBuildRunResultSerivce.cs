@@ -19,11 +19,25 @@ namespace DailyBuildFriend.ViewModel.Accessor
             internal string Break { get; set; } = "";
         }
 
+        private enum CsvColumn
+        {
+            Revision,
+            Result,
+            BuildError,
+            BuildWarning,
+            TestError,
+            Build,
+            StateDate,
+            EndDate,
+            Priod,
+            TaskName,
+        }
+
         internal static void WriteCsvFile(this ResultData data, string csvFileName, string taskName)
         {
             var sb = new StringBuilder();
             //TODO:編集者を入れたい
-            sb.AppendLine("リビジョン,結果,エラー,警告,テスト,リビルド,開始時間,終了時間,全時間," + taskName);
+            sb.AppendLine("リビジョン,結果,ビルドエラー,ビルド警告,テストエラー,リビルド,開始時間,終了時間,全時間," + taskName);
             sb.Append($"{data.Revision},");
             sb.Append(data.Break != "" ? "中断," : data.BuildErrorCount != 0 || data.TestErrorCount != 0 ? "失敗," : "成功,");
             sb.Append($"{data.BuildErrorCount},");
@@ -73,8 +87,9 @@ namespace DailyBuildFriend.ViewModel.Accessor
             writer.WriteLine("<td>名前</td>");
             writer.WriteLine("<td>最新結果時間</td>");
             writer.WriteLine("<td>最新リビジョン</td>");
-            writer.WriteLine("<td>エラー数</td>");
-            writer.WriteLine("<td>警告数</td>");
+            writer.WriteLine("<td>ビルドエラー数</td>");
+            writer.WriteLine("<td>テストエラー数</td>");
+            writer.WriteLine("<td>ビルド警告数</td>");
             writer.WriteLine("<td>ビルド情報</td>");
             writer.WriteLine("<td>最終成功時間</td>");
             //フォルダの中にあるcsvのファイル名を回す
@@ -96,12 +111,14 @@ namespace DailyBuildFriend.ViewModel.Accessor
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>ビルド中</font></td>");
                     }
                     //中断時
-                    else if (cols[1].Contains("中断"))
+                    else if (cols[(int)CsvColumn.Result].Contains("中断"))
                     {
-                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>{cols[7]}(中断)</font><a href='{logFile}'>（詳細）</a></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>{cols[(int)CsvColumn.EndDate]}(中断)</font><a href='{logFile}'>（詳細）</a></td>");
+                        writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
                         writer.WriteLine($"<td><font color='#C0C0C0' size='5'>-</font></td>");
@@ -110,13 +127,13 @@ namespace DailyBuildFriend.ViewModel.Accessor
                     //成功時
                     else
                     {
-                        var resultColor = cols[1].Contains("失敗") ? "FF0000" : "00FF00";
+                        var resultColor = cols[(int)CsvColumn.Result].Contains("失敗") ? "FF0000" : "00FF00";
                         //最新結果時間
-                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{DateTime.Parse(cols[7]):yy/MM/dd HH:mm}</font><a href='{logFile}'>（詳細）</a></td>");
+                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{DateTime.Parse(cols[(int)CsvColumn.EndDate]):yy/MM/dd HH:mm}</font><a href='{logFile}'>（詳細）</a></td>");
                         //リビジョン
-                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{cols[0]}</font></td>");
-                        //エラー
-                        int.TryParse(cols[2], out var error);
+                        writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{cols[(int)CsvColumn.Revision]}</font></td>");
+                        //ビルドエラー
+                        int.TryParse(cols[(int)CsvColumn.BuildError], out var error);
                         if (error == 0)
                         {
                             writer.WriteLine($"<td><font color='#{resultColor}' size='5'>0</font></td>");
@@ -126,8 +143,19 @@ namespace DailyBuildFriend.ViewModel.Accessor
                             var errorFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "error.log");
                             writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{error}</font><a href='{errorFile}'>（詳細）</a></td>");
                         }
+                        //テストエラー
+                        int.TryParse(cols[(int)CsvColumn.TestError], out var testError);
+                        if (testError == 0)
+                        {
+                            writer.WriteLine($"<td><font color='#{resultColor}' size='5'>0</font></td>");
+                        }
+                        else
+                        {
+                            var testErrorFile = Path.Combine(task.LogPath, task.FileName, task.FileName + "test.trx");
+                            writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{testError}</font><a href='{testErrorFile}'>（詳細）</a></td>");
+                        }
                         //警告
-                        int.TryParse(cols[3], out var warning);
+                        int.TryParse(cols[(int)CsvColumn.BuildWarning], out var warning);
                         if (warning == 0)
                         {
                             writer.WriteLine($"<td><font color='#{resultColor}' size='5'>0</font></td>");
@@ -138,8 +166,8 @@ namespace DailyBuildFriend.ViewModel.Accessor
                             writer.WriteLine($"<td><font color='#D0D000' size='5'>{warning}</font><a href='{warningFile}'>（詳細）</a></td>");
                         }
                         //ビルド情報
-                        string buildType = (cols[5] == "○") ? "リビルド" : "ビルド";
-                        DateTime.TryParse(cols[8], out var buildTime);
+                        string buildType = (cols[(int)CsvColumn.Build] == "○") ? "リビルド" : "ビルド";
+                        DateTime.TryParse(cols[(int)CsvColumn.Priod], out var buildTime);
                         int minute = (buildTime.Hour * 60 + buildTime.Minute != 0) ? (buildTime.Hour * 60 + buildTime.Minute) : 0;
                         writer.WriteLine($"<td><font color='#{resultColor}' size='5'>{buildType}約{minute}分</font></td>");
                     }
@@ -157,6 +185,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                 //情報未定義
                 else
                 {
+                    writer.WriteLine("<td>-</td>");
                     writer.WriteLine("<td>-</td>");
                     writer.WriteLine("<td>-</td>");
                     writer.WriteLine("<td>-</td>");
@@ -181,20 +210,20 @@ namespace DailyBuildFriend.ViewModel.Accessor
             {
                 var lines = File.ReadAllLines(task.ResultFileName);
                 if (lines.Length < 2) continue;
-                //TODO:直値は後から見直す
-                nowState = lines[1].Split(',')[1];
-                nowErrorCounter = int.TryParse(lines[1].Split(',')[2], out var error) ? error : 0;
+                nowState = lines[1].Split(',')[(int)CsvColumn.Result];
+                nowErrorCounter = int.TryParse(lines[1].Split(',')[(int)CsvColumn.BuildError], out var error) ? error : 0;
+                nowErrorCounter += int.TryParse(lines[1].Split(',')[(int)CsvColumn.TestError], out error) ? error : 0;
                 //成功時は何の情報もいらないが、成功以外の場合は何処で失敗したかを知りたい。
                 if (nowState != "成功")
                 {
                     sb.AppendLine($"//--------------------------------------------------------------------------");
                     sb.AppendLine($"タスク名:{task.TaskName}:リビジョン:{task.LocalRevision}");
-                    sb.AppendLine($"エラー数:{nowErrorCounter}:全時間:{DateTime.Parse(lines[1].Split(',')[7]):yy/MM/dd HH:mm}");
+                    sb.AppendLine($"エラー数:{nowErrorCounter}:全時間:{DateTime.Parse(lines[1].Split(',')[(int)CsvColumn.Priod]):yy/MM/dd HH:mm}");
                 }
-
                 if (lines.Length < 3) continue;
-                preState = lines[2].Split(',')[1];
-                preErrorCounter = int.TryParse(lines[2].Split(',')[2], out error) ? error : 0;
+                preState = lines[2].Split(',')[(int)CsvColumn.Result];
+                preErrorCounter = int.TryParse(lines[2].Split(',')[(int)CsvColumn.BuildError], out error) ? error : 0;
+                preErrorCounter += int.TryParse(lines[2].Split(',')[(int)CsvColumn.TestError], out error) ? error : 0;
             }
 
             string subject = "";

@@ -9,6 +9,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
             {
                 Devenv = option.Devenv,
                 MSBuild = option.MSBuild,
+                VsTest = option.VsTest,
             };
 
         internal static ViewOption ToViewOption(this Option option)
@@ -16,6 +17,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
             {
                 Devenv = option.Devenv,
                 MSBuild = option.MSBuild,
+                VsTest = option.VsTest,
             };
     }
 }

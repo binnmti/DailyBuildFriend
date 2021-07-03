@@ -15,7 +15,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
             { CommandType.CloneGit, new ViewCommand() { Name = "Gitクローン" , Param1Description = "GitHubなどのURLを入力して下さい", Param2Description = "Gitのパスを入力してください" } },
             { CommandType.VisualStudioOpen, new ViewCommand() { Name = "VS起動" , Param1Description = "slnファイルを選択して下さい", Param2Description = "ビルドかリビルド", Param2 = "リビルド" }  },
             { CommandType.VisualStudioBuild, new ViewCommand() { Name = "VSビルド" , Param1Description = "ソリューション構成(Debug,Releaseなど)を入力してください", Param1 = "Release", Param2Disabled = true }  },
-            { CommandType.VisualStudioTest, new ViewCommand() { Name = "VSテスト" , Param1Description = "csprojファイルを選択して下さい", Param2Disabled = true } },
+            { CommandType.VisualStudioTest, new ViewCommand() { Name = "VSテスト" , Param1Description = "dllファイルを選択して下さい", Param2Disabled = true } },
             { CommandType.RunBat, new ViewCommand() { Name = "バッチ実行" , Param1Description = "batファイルを選択して下さい", Param2Disabled = true } },
             { CommandType.CopyFile, new ViewCommand() { Name = "メール送信" , Param1Description = "コピー元を選択して下さい", Param2Description = "コピー先を選択して下さい" } },
             { CommandType.SendMail, new ViewCommand() { Name = "コピーファイル" , Param1Description = "",  Param2Disabled = true } },
@@ -58,6 +58,10 @@ namespace DailyBuildFriend.ViewModel.Accessor
                     else if (!Uri.IsWellFormedUriString(command.Param1, UriKind.Absolute)) msg = "URLが無効です";
                     else if (string.IsNullOrEmpty(command.Param2)) msg = "パスが未入力です";
                     else if (!Directory.Exists(command.Param2)) msg = "パスが存在しません";
+                    break;
+
+                case CommandType.VisualStudioTest:
+                    if (File.Exists(command.Param1)) msg = "dllファイルが存在しません";
                     break;
 
                 case CommandType.PullGit:
