@@ -279,6 +279,8 @@ namespace DailyBuildFriend.View
 
         private void EndDailyBuild()
         {
+            IntervalTimeCounter = 0;
+            CheckTimeCounter = 0;
             RunButton.Enabled = true;
             NormalRadioButton.Checked = true;
             UpdateListView();
@@ -374,6 +376,7 @@ namespace DailyBuildFriend.View
         private void ScheduleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             ViewDailyBuild.ViewSchedule.Checked = ScheduleCheckBox.Checked;
+            if (IntervalNumericUpDown.Value < 1) IntervalNumericUpDown.Value = 600;
             Text = GetTitle();
         }
 
