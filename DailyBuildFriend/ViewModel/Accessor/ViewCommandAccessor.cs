@@ -60,11 +60,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
                     break;
 
                 case CommandType.VisualStudioTest:
-                    if (File.Exists(command.Param1)) msg = "dllファイルが存在しません";
-                    break;
-
-                case CommandType.PullGit:
-                    if (File.Exists(command.Param1)) msg = "slnファイルが存在しません";
+                    if (!File.Exists(command.Param1)) msg = "dllファイルが存在しません";
                     break;
             }
             return msg;
