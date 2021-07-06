@@ -296,7 +296,7 @@ namespace DailyBuildFriend.View
             string forceBuild = "";
             if (BuildRadioButton.Checked) forceBuild = "ビルド";
             else if (ReBuildRadioButton.Checked) forceBuild = "リビルド";
-            using var runForm = new RunForm();
+            var runForm = new RunForm();
             runForm.Show();
             _tokenSource = new CancellationTokenSource();
             await Task.Run(async () => { await ViewDailyBuild.RunAsync(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token);
