@@ -281,7 +281,6 @@ namespace DailyBuildFriend.View
         {
             IntervalTimeCounter = 0;
             CheckTimeCounter = 0;
-            RunButton.Enabled = true;
             NormalRadioButton.Checked = true;
             UpdateListView();
             FormActive();
@@ -294,22 +293,17 @@ namespace DailyBuildFriend.View
         private async Task RunDailyBuildAsync(RunType runType)
         {
             RunButton.Enabled = false;
-
-            using var runForm = new RunForm();
-            runForm.Show();
-            _tokenSource = new CancellationTokenSource();
-
             string forceBuild = "";
             if (BuildRadioButton.Checked) forceBuild = "ビルド";
             else if (ReBuildRadioButton.Checked) forceBuild = "リビルド";
-
-            await Task.Run(async () => { await ViewDailyBuild.RunAsync(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token)
-                .ContinueWith(t =>
-                {
-                    runForm.Close();
-                    EndDailyBuild();
-                    _tokenSource.Dispose();
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+            using var runForm = new RunForm();
+            runForm.Show();
+            _tokenSource = new CancellationTokenSource();
+            await Task.Run(async () => { await ViewDailyBuild.RunAsync(runForm, _tokenSource.Token, runType, forceBuild); }, _tokenSource.Token);
+            _tokenSource.Dispose();
+            runForm.Close();
+            EndDailyBuild();
+            RunButton.Enabled = true;
         }
 
         private async void RunButton_Click(object sender, EventArgs e)
