@@ -1,0 +1,5 @@
+Command
+https://running-cs.hatenablog.com/entry/2016/09/03/211015
+
+INotifyPropertyChanged
+https://qiita.com/soi/items/d0c83a0cc3a4b23237ef

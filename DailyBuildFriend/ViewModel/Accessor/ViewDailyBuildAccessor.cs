@@ -35,6 +35,7 @@ namespace DailyBuildFriend.ViewModel.Accessor
         }
 
         //TODO:RunFormが引数なのはちょっと微妙だが、直接渡さないとデータをファイルに書き出してFormで読むなどの処理が必要。そういう仕組みを作ったら移行する
+        //Actionとかを渡してコールバックすれば良い。
         internal static async System.Threading.Tasks.Task RunAsync(this ViewDailyBuild viewDailyBuild, RunForm runForm, CancellationToken token, RunType runType, string forceBuild)
         {
             var tasks = runType switch
